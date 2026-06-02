@@ -16,6 +16,20 @@ This repository starts with the `Engineering Scaffold v0` baseline:
 ```bash
 npm run dev
 npm run build
+npm run lint
+npm run format
+npm run format:check
 npm run start
 npm run typecheck
+```
+
+## Quality Gate
+
+Foundation work should pass these commands before review:
+
+```bash
+npm run lint
+npm run format:check
+npm run typecheck
+git diff --check
 ```
