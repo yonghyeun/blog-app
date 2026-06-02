@@ -2,18 +2,16 @@
 
 ## Status
 
-- Owner umbrella: #34
-- Shape owner: #35
-- Requirement content owner: #34 Leaf 2
-- Current state: document path and format fixed; requirement content pending.
+- Current revision: document path and format fixed; requirement content pending.
+- Traceability: use the commit that changes this file as the dependency surface.
 
 ## Purpose
 
 This document is the repo-tracked product requirements source of truth for
 vertical slice v1.
 
-It exists so design and implementation issues can reference one stable document
-instead of restating requirements in each issue body.
+It exists so design and implementation work can reference one stable document
+instead of restating requirements across separate tracking surfaces.
 
 ## Document Path
 
@@ -23,19 +21,19 @@ docs/product/vertical-slice-v1-requirements.md
 
 ## Reference Rules
 
-- #34 owns cross-leaf sequencing and requirement-definition tracking.
-- #35 owns only this document path, structure, and reference rules.
-- #34 Leaf 2 owns filling the actual minimum feature requirements.
-- Design umbrellas should reference this document after Leaf 2 fills the
-  requirement sections.
-- Implementation issues should reference this document instead of redefining
-  product requirements in each issue body.
-- Requirement changes after implementation starts should be recorded in #34 or a
-  superseding product requirement issue before code changes.
+- This file is the repo artifact for vertical slice v1 product requirements.
+- The current committed file contents define the requirement state.
+- Downstream work should depend on this file path plus the commit SHA that
+  introduced the relevant requirement revision.
+- Tracking surfaces may link to this file, but this file should not depend on
+  remote tracking surfaces for ownership or validity.
+- Requirement changes after implementation starts should update this file in a
+  reviewable commit before dependent code changes.
 
 ## Requirement Sections
 
-Leaf 2 should fill the sections below with pass/fail language.
+Future requirement revisions should fill the sections below with pass/fail
+language.
 
 ### User Goal
 
@@ -82,7 +80,7 @@ Each criterion should be observable and pass/fail.
 
 Pending.
 
-## Out Of Scope For This Shape Leaf
+## Out Of Scope For This Shape Revision
 
 - Post list requirement content
 - Post detail requirement content
