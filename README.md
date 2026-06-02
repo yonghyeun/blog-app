@@ -36,7 +36,14 @@ npm test
 git diff --check
 ```
 
+## Operations
+
+- [Issue System Contract](./docs/operations/issue-system.md)
+- [Operations Index](./docs/operations/README.md)
+- [Agent Routing](./AGENTS.md)
+
 ## Architecture
 
 - [Foundation Architecture Contract](./docs/architecture/foundation-architecture.md)
 - [TDD And Test Surface Contract](./docs/architecture/tdd-test-surface.md)
+- [Architecture Index](./docs/architecture/README.md)
