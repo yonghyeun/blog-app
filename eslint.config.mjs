@@ -5,5 +5,13 @@ import nextTypeScript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextCoreWebVitals,
   ...nextTypeScript,
-  globalIgnores([".next/**", "build/**", "dist/**", "node_modules/**", "out/**", "*.tsbuildinfo"]),
+  globalIgnores([
+    ".next/**",
+    "build/**",
+    "dist/**",
+    "node_modules/**",
+    "out/**",
+    "storybook-static/**",
+    "*.tsbuildinfo",
+  ]),
 ]);

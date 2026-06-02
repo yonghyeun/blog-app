@@ -6,3 +6,4 @@ Repo-local contracts for the blog app foundation.
 
 - [Foundation Architecture Contract](./foundation-architecture.md)
 - [TDD And Test Surface Contract](./tdd-test-surface.md)
+- [Storybook UI Surface Contract](./storybook-ui-surface.md)
