@@ -237,6 +237,155 @@ It should name:
 - tradeoffs
 - downstream effects
 
+## Issue Relationships
+
+Issue relationships keep work traceable across slices.
+
+Use relationships when one issue is not enough to represent ownership,
+sequencing, or shared context.
+
+### Umbrella Ownership
+
+An umbrella issue owns the shared control plane for a multi-leaf outcome.
+
+The umbrella is responsible for:
+
+- why the work group exists
+- the ordered leaf sequence
+- cross-leaf context
+- phase tracking
+- shared decisions
+- downstream handoff notes
+- closeout status
+
+An umbrella should stay open while active leaf work remains.
+
+Do not duplicate downstream context into every leaf. Put shared context on the
+umbrella tracking surface, then let leaves reference the umbrella.
+
+### Leaf Ownership
+
+A leaf issue owns one bounded outcome.
+
+The leaf is responsible for:
+
+- one implementation or documentation result
+- its own scope and non-scope
+- its own acceptance criteria
+- its direct dependencies
+- its PR and verification result
+
+A leaf should not decide future leaf semantics unless the umbrella explicitly
+delegates that decision.
+
+### Sub-Issue Registration
+
+Register an issue as a sub-issue when it is a required child of an umbrella.
+
+Use a sub-issue when:
+
+- the parent owns sequencing
+- the child owns a bounded deliverable
+- closing the child should advance the parent progress
+- the child depends on shared parent context
+
+Do not use a sub-issue when:
+
+- issues are only loosely related
+- the child can be completed independently
+- the relationship is informational only
+
+When GitHub sub-issues are available, attach the child to the umbrella. If the UI
+or API is unavailable, record the relationship in both issue bodies or comments.
+
+Preferred notation:
+
+```text
+Parent: #18
+Sub-issue of: #18
+```
+
+### Related Issues
+
+Use `Related:` when issues share context but do not block each other.
+
+Examples:
+
+```text
+Related: #1
+Related: #2 because vertical slices use this operating contract.
+```
+
+Related issues do not imply execution order.
+
+### Dependency Notation
+
+Use dependency notation when order matters.
+
+Preferred terms:
+
+| Term             | Meaning                                            |
+| ---------------- | -------------------------------------------------- |
+| `Depends on: #N` | This issue should not finish before `#N` finishes. |
+| `Blocked by: #N` | This issue cannot proceed until `#N` is resolved.  |
+| `Blocks: #N`     | This issue must finish before `#N` can proceed.    |
+
+Use `Depends on` for planned sequencing. Use `Blocked by` only when work is
+actually stuck.
+
+Examples:
+
+```text
+Depends on: #19
+Blocked by: #21 label taxonomy decision
+Blocks: #22 issue template implementation
+```
+
+When a dependency changes during execution, update the issue comment or umbrella
+tracking surface. Do not leave stale dependency notes in the issue body without a
+newer comment explaining the change.
+
+### Umbrella Tracking Comment
+
+An umbrella tracking comment should be the current execution surface.
+
+Use it to track:
+
+- leaf order
+- leaf status
+- summary
+- bounded scope
+- non-scope
+- acceptance criteria summary
+- dependency changes
+- closeout actions
+
+Preferred shape:
+
+```md
+## #<umbrella> Leaf Sequence
+
+### 운영 원칙
+
+- 구현은 leaf issue 단위로 순차 진행.
+- cross-leaf context와 진행 순서는 umbrella tracking surface에 남김.
+
+### Leaf 순서
+
+- [ ] Leaf 1: `<title>`
+  - Summary: ...
+  - Bounded: ...
+  - Not bounded: ...
+  - AC: ...
+
+### Closeout Action
+
+- [ ] ...
+```
+
+The tracking comment may be edited or superseded by a newer comment. If it is
+superseded, the newer comment should clearly say so.
+
 ## Body Quality Requirements
 
 An issue body is intake-ready when an unfamiliar implementer can execute it without
@@ -315,8 +464,6 @@ This contract intentionally does not define:
 
 - final label taxonomy
 - GitHub issue template shape
-- exact sub-issue registration procedure
-- exact related/dependency notation
 - PR body convention
 
 Those are owned by later #18 leaves.
