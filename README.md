@@ -20,6 +20,7 @@ npm run lint
 npm run format
 npm run format:check
 npm run start
+npm test
 npm run typecheck
 ```
 
@@ -31,9 +32,11 @@ Foundation work should pass these commands before review:
 npm run lint
 npm run format:check
 npm run typecheck
+npm test
 git diff --check
 ```
 
 ## Architecture
 
 - [Foundation Architecture Contract](./docs/architecture/foundation-architecture.md)
+- [TDD And Test Surface Contract](./docs/architecture/tdd-test-surface.md)
