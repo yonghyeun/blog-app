@@ -7,6 +7,7 @@ body:
       value: |
         Leaf issue는 하나의 bounded outcome만 소유합니다.
         구현은 issue intake가 통과한 뒤 시작합니다.
+        bug, refactor, docs, test 작업도 별도 전용 form이 생기기 전까지 이 form을 사용합니다.
 
   - type: input
     id: intended-labels
