@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
@@ -17,6 +20,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.7",
+    "jiti": "^2.7.0",
+    "prettier": "^3.8.3",
     "typescript": "^5"
   },
   "overrides": {
