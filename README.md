@@ -42,6 +42,10 @@ git diff --check
 - [Operations Index](./docs/operations/README.md)
 - [Agent Routing](./AGENTS.md)
 
+## Product
+
+- [Vertical Slice v1 Requirements](./docs/product/vertical-slice-v1-requirements.md)
+
 ## Architecture
 
 - [Foundation Architecture Contract](./docs/architecture/foundation-architecture.md)
