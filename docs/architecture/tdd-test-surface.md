@@ -59,6 +59,33 @@ Avoid:
 Fixture files are exceptional. Use them only for file-tree behavior, generated-output
 validation, or cases where inline data makes the test harder to read.
 
+## Test Names
+
+Write Vitest `describe` and `it` names in Korean.
+
+Reason:
+
+- the primary maintainer is a Korean-language user
+- test output should explain behavior without translating English test prose
+- failure messages should be readable during local TDD loops
+
+Rules:
+
+- `describe` names should state the module or behavior group in Korean
+- `it` names should state the expected behavior in Korean
+- keep imported symbol names and code identifiers unchanged
+- use English only when quoting an external API, package name, or literal value
+
+Example:
+
+```ts
+describe("프로젝트 요약", () => {
+  it("공유 프로젝트 기본 정보를 제공한다", () => {
+    // ...
+  });
+});
+```
+
 ## Surface Mapping
 
 | Surface    | Owns                                                       | Examples for this project                                         |
