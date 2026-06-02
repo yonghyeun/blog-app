@@ -8,3 +8,4 @@ Repo-local contracts for the blog app foundation.
 - [TDD And Test Surface Contract](./tdd-test-surface.md)
 - [Storybook UI Surface Contract](./storybook-ui-surface.md)
 - [Playwright E2E Surface Contract](./playwright-e2e-surface.md)
+- [CI Quality Gate Contract](./ci-quality-gate.md)
