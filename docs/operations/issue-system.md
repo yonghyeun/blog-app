@@ -386,6 +386,169 @@ Preferred shape:
 The tracking comment may be edited or superseded by a newer comment. If it is
 superseded, the newer comment should clearly say so.
 
+## Label Taxonomy
+
+Labels make issue intake scannable.
+
+Use a small fixed taxonomy. Avoid creating one-off labels for temporary wording.
+
+### Label Axes
+
+Every intake-ready issue should have labels from these axes:
+
+| Axis         | Required | Purpose                              |
+| ------------ | -------- | ------------------------------------ |
+| `type:*`     | Yes      | What kind of work this is.           |
+| `kind:*`     | Yes      | Which planning role the issue plays. |
+| `status:*`   | Yes      | Where the issue is in the lifecycle. |
+| `priority:*` | Yes      | How soon the work should happen.     |
+| `area:*`     | Yes      | Which repo surface owns the work.    |
+
+Use one label per axis unless the axis explicitly allows more.
+
+### Type Labels
+
+Type labels classify the work.
+
+Required: exactly one.
+
+| Label           | Meaning                                                  |
+| --------------- | -------------------------------------------------------- |
+| `type:feat`     | User-visible product capability                          |
+| `type:fix`      | Defect correction                                        |
+| `type:docs`     | Documentation-only change                                |
+| `type:test`     | Test-only or test-surface change                         |
+| `type:chore`    | Repository operations, workflow, tooling, or maintenance |
+| `type:refactor` | Structural change without intended behavior change       |
+| `type:design`   | Visual or interaction design work                        |
+| `type:infra`    | Deployment, CI, hosting, or environment work             |
+
+The type label should match the issue title prefix.
+
+### Kind Labels
+
+Kind labels identify the planning role of the issue.
+
+Required: exactly one.
+
+| Label                  | Meaning                                            |
+| ---------------------- | -------------------------------------------------- |
+| `kind:umbrella`        | Parent issue that owns sequencing and tracking.    |
+| `kind:leaf`            | Bounded executable issue under an umbrella or SoT. |
+| `kind:risk-resolution` | System upgrade issue created to reduce a risk.     |
+| `kind:decision`        | Issue that records a decision before execution.    |
+| `kind:spike`           | Time-boxed investigation before a decision.        |
+
+Use `kind:*` to answer "what role does this issue play in the work graph?"
+
+Examples:
+
+- #18 uses `kind:umbrella`.
+- #19, #20, and #21 use `kind:leaf`.
+- A slice-review system upgrade can use `kind:risk-resolution`.
+
+### Status Labels
+
+Status labels represent lifecycle state.
+
+Required: exactly one active status.
+
+| Label                | Meaning                                                 |
+| -------------------- | ------------------------------------------------------- |
+| `status:idea`        | Context is still forming. Not ready for implementation. |
+| `status:intake`      | Issue exists and is being shaped.                       |
+| `status:ready`       | Intake passed. Implementation may start.                |
+| `status:in-progress` | Work is actively being implemented.                     |
+| `status:blocked`     | Work cannot proceed until a dependency changes.         |
+| `status:review`      | PR or review is active.                                 |
+| `status:done`        | Work is complete and merged or otherwise closed out.    |
+
+Status transition:
+
+```text
+status:idea
+-> status:intake
+-> status:ready
+-> status:in-progress
+-> status:review
+-> status:done
+```
+
+Use `status:blocked` only while actual progress is blocked. When unblocked, move
+back to the previous active status or the next valid status.
+
+### Priority Labels
+
+Priority labels represent execution urgency.
+
+Required: exactly one.
+
+| Label         | Meaning                                                                |
+| ------------- | ---------------------------------------------------------------------- |
+| `priority:p0` | Must happen immediately to unblock the repo or prevent incorrect work. |
+| `priority:p1` | Should happen before the next major slice.                             |
+| `priority:p2` | Normal planned work.                                                   |
+| `priority:p3` | Useful but not currently sequencing-critical.                          |
+
+Assign priority by impact on the next slice, not by how interesting the work is.
+
+### Area Labels
+
+Area labels identify the repo surface.
+
+Required: one or more when work spans surfaces.
+
+| Label         | Meaning                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| `area:app`    | Next.js app routes or app-level behavior                         |
+| `area:shared` | Shared source modules or components                              |
+| `area:docs`   | Documentation                                                    |
+| `area:ops`    | Repo operating system, issue workflow, AGENTS.md, README routing |
+| `area:test`   | Unit, component, or e2e test surface                             |
+| `area:ci`     | GitHub Actions or quality gate                                   |
+| `area:design` | Visual design, interaction design, or design system              |
+
+### Informational vs State-Bearing
+
+State-bearing labels:
+
+- `status:*`
+
+Informational labels:
+
+- `type:*`
+- `kind:*`
+- `priority:*`
+- `area:*`
+
+Only `status:*` should change frequently during execution. Other labels should
+usually be stable after intake.
+
+### Required Labels At Intake
+
+An issue passes label intake when it has:
+
+- one `type:*`
+- one `kind:*`
+- one `status:*`
+- one `priority:*`
+- at least one `area:*`
+
+If labels do not exist yet in GitHub, record the intended labels in the issue body
+or intake comment:
+
+```text
+Intended labels:
+- type:chore
+- kind:leaf
+- status:ready
+- priority:p1
+- area:ops
+- area:docs
+```
+
+Actual GitHub label creation and migration may happen in a later operations task.
+
 ## Body Quality Requirements
 
 An issue body is intake-ready when an unfamiliar implementer can execute it without
@@ -462,7 +625,6 @@ If any item fails, update or split the issue before editing repository files.
 
 This contract intentionally does not define:
 
-- final label taxonomy
 - GitHub issue template shape
 - PR body convention
 
