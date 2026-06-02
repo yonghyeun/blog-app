@@ -1,0 +1,59 @@
+# Agent Routing
+
+This file routes agents to the repo contracts they must read before changing the
+repository.
+
+## Default Workflow
+
+For any non-trivial change, follow this lifecycle:
+
+```text
+Context Build
+-> Issue First
+-> Issue Intake
+-> Implementation
+-> PR
+-> Slice Review
+-> Risk Resolution / System Upgrade
+-> Next Issue
+```
+
+Do not start implementation before the source issue passes intake.
+
+## Required Reading
+
+Before creating or executing issues:
+
+- Read `docs/operations/issue-system.md`.
+
+Before architecture-sensitive work:
+
+- Read `docs/architecture/README.md`.
+- Then read the specific architecture contract for the touched surface.
+
+Before PR or review:
+
+- Read the `Quality Gate` section in `README.md`.
+- Run the listed checks unless the issue scope explicitly says otherwise.
+
+## Issue Work
+
+When creating or executing issue work:
+
+- Prefer Korean for issue title summaries and user-facing issue body prose.
+- Keep the English title prefix such as `chore:`, `feat:`, or `fix:`.
+- Use intended labels from `docs/operations/issue-system.md`.
+- Keep umbrella context on the umbrella tracking surface.
+- Keep leaf work bounded to one executable outcome.
+- Record dependency changes in the issue or umbrella tracking comment.
+
+## Slice Review
+
+After a slice or leaf completes, check whether the work exposed a repeated
+engineering risk.
+
+Create or propose a risk-resolution issue when the bottleneck would make the next
+slice slower, riskier, or harder to trace.
+
+Do not convert every annoyance into system work. Promote only the highest-leverage
+recurring bottleneck.
