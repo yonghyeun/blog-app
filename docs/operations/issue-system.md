@@ -396,14 +396,13 @@ Use a small fixed taxonomy. Avoid creating one-off labels for temporary wording.
 
 Every intake-ready issue should have labels from these axes:
 
-| Axis         | Required | Purpose                                      |
-| ------------ | -------- | -------------------------------------------- |
-| `type:*`     | Yes      | What kind of work this is.                   |
-| `kind:*`     | Yes      | Which planning role the issue plays.         |
-| `status:*`   | Yes      | Where the issue is in the lifecycle.         |
-| `priority:*` | Yes      | How soon the work should happen.             |
-| `area:*`     | Yes      | Which repo surface owns the work.            |
-| `source:*`   | No       | Optional note about why the issue was filed. |
+| Axis         | Required | Purpose                              |
+| ------------ | -------- | ------------------------------------ |
+| `type:*`     | Yes      | What kind of work this is.           |
+| `kind:*`     | Yes      | Which planning role the issue plays. |
+| `status:*`   | Yes      | Where the issue is in the lifecycle. |
+| `priority:*` | Yes      | How soon the work should happen.     |
+| `area:*`     | Yes      | Which repo surface owns the work.    |
 
 Use one label per axis unless the axis explicitly allows more.
 
@@ -521,7 +520,6 @@ Informational labels:
 - `kind:*`
 - `priority:*`
 - `area:*`
-- optional `source:*`
 
 Only `status:*` should change frequently during execution. Other labels should
 usually be stable after intake.
@@ -535,9 +533,6 @@ An issue passes label intake when it has:
 - one `status:*`
 - one `priority:*`
 - at least one `area:*`
-
-Use `source:*` only when it adds useful provenance. Do not make it required for
-normal issue intake.
 
 If labels do not exist yet in GitHub, record the intended labels in the issue body
 or intake comment:
