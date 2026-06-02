@@ -396,13 +396,14 @@ Use a small fixed taxonomy. Avoid creating one-off labels for temporary wording.
 
 Every intake-ready issue should have labels from these axes:
 
-| Axis         | Required | Purpose                              |
-| ------------ | -------- | ------------------------------------ |
-| `type:*`     | Yes      | What kind of work this is.           |
-| `status:*`   | Yes      | Where the issue is in the lifecycle. |
-| `priority:*` | Yes      | How soon the work should happen.     |
-| `source:*`   | Yes      | Where the work came from.            |
-| `area:*`     | Yes      | Which repo surface owns the work.    |
+| Axis         | Required | Purpose                                      |
+| ------------ | -------- | -------------------------------------------- |
+| `type:*`     | Yes      | What kind of work this is.                   |
+| `kind:*`     | Yes      | Which planning role the issue plays.         |
+| `status:*`   | Yes      | Where the issue is in the lifecycle.         |
+| `priority:*` | Yes      | How soon the work should happen.             |
+| `area:*`     | Yes      | Which repo surface owns the work.            |
+| `source:*`   | No       | Optional note about why the issue was filed. |
 
 Use one label per axis unless the axis explicitly allows more.
 
@@ -424,6 +425,28 @@ Required: exactly one.
 | `type:infra`    | Deployment, CI, hosting, or environment work             |
 
 The type label should match the issue title prefix.
+
+### Kind Labels
+
+Kind labels identify the planning role of the issue.
+
+Required: exactly one.
+
+| Label                  | Meaning                                            |
+| ---------------------- | -------------------------------------------------- |
+| `kind:umbrella`        | Parent issue that owns sequencing and tracking.    |
+| `kind:leaf`            | Bounded executable issue under an umbrella or SoT. |
+| `kind:risk-resolution` | System upgrade issue created to reduce a risk.     |
+| `kind:decision`        | Issue that records a decision before execution.    |
+| `kind:spike`           | Time-boxed investigation before a decision.        |
+
+Use `kind:*` to answer "what role does this issue play in the work graph?"
+
+Examples:
+
+- #18 uses `kind:umbrella`.
+- #19, #20, and #21 use `kind:leaf`.
+- A slice-review system upgrade can use `kind:risk-resolution`.
 
 ### Status Labels
 
@@ -470,20 +493,6 @@ Required: exactly one.
 
 Assign priority by impact on the next slice, not by how interesting the work is.
 
-### Source Labels
-
-Source labels record why the issue entered the backlog.
-
-Required: exactly one.
-
-| Label                    | Meaning                                              |
-| ------------------------ | ---------------------------------------------------- |
-| `source:user-request`    | Direct user request.                                 |
-| `source:slice-review`    | Found during slice review.                           |
-| `source:risk-resolution` | Created to reduce a known engineering risk.          |
-| `source:follow-up`       | Created as downstream work from another issue or PR. |
-| `source:maintenance`     | Routine upkeep or cleanup.                           |
-
 ### Area Labels
 
 Area labels identify the repo surface.
@@ -509,9 +518,10 @@ State-bearing labels:
 Informational labels:
 
 - `type:*`
+- `kind:*`
 - `priority:*`
-- `source:*`
 - `area:*`
+- optional `source:*`
 
 Only `status:*` should change frequently during execution. Other labels should
 usually be stable after intake.
@@ -521,10 +531,13 @@ usually be stable after intake.
 An issue passes label intake when it has:
 
 - one `type:*`
+- one `kind:*`
 - one `status:*`
 - one `priority:*`
-- one `source:*`
 - at least one `area:*`
+
+Use `source:*` only when it adds useful provenance. Do not make it required for
+normal issue intake.
 
 If labels do not exist yet in GitHub, record the intended labels in the issue body
 or intake comment:
@@ -532,9 +545,9 @@ or intake comment:
 ```text
 Intended labels:
 - type:chore
+- kind:leaf
 - status:ready
 - priority:p1
-- source:risk-resolution
 - area:ops
 - area:docs
 ```
