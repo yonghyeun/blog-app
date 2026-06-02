@@ -33,3 +33,7 @@ npm run format:check
 npm run typecheck
 git diff --check
 ```
+
+## Architecture
+
+- [Foundation Architecture Contract](./docs/architecture/foundation-architecture.md)
