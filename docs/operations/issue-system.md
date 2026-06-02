@@ -147,20 +147,26 @@ Issue titles use this format:
 <type>: <action-oriented summary>
 ```
 
+The title summary should prefer Korean because the primary repository operator is
+a Korean reader. Keep the type prefix in English so GitHub search, automation,
+and future label mapping remain simple.
+
 Examples:
 
-- `chore: define issue lifecycle and intake contract`
-- `docs: document content source of truth`
-- `feat: render markdown post list`
-- `test: add e2e coverage for home page`
-- `fix: handle missing post metadata`
+- `chore: 이슈 lifecycle 과 intake contract 정의`
+- `docs: 콘텐츠 원천 저장소 결정 문서화`
+- `feat: 마크다운 게시글 목록 렌더링`
+- `test: 홈 화면 e2e coverage 추가`
+- `fix: 게시글 metadata 누락 처리`
 
 Rules:
 
 - Use lowercase type.
-- Use an imperative or action-oriented summary.
+- Prefer a Korean action-oriented summary.
 - Keep the summary specific enough to distinguish the issue from related work.
-- Avoid vague titles such as `update docs`, `fix bug`, or `improve workflow`.
+- Use English only when it is a stable technical token, API name, file path, or
+  command.
+- Avoid vague titles such as `문서 수정`, `버그 수정`, or `workflow 개선`.
 
 The allowed title types for this contract are:
 
@@ -236,6 +242,10 @@ It should name:
 An issue body is intake-ready when an unfamiliar implementer can execute it without
 asking for the basic boundary.
 
+Issue bodies should prefer Korean for user-facing context, decisions, scope,
+non-scope, and acceptance criteria. English is acceptable for code symbols, file
+paths, commands, API names, package names, and copied tool output.
+
 Required sections for implementation issues:
 
 - `Context`
@@ -258,6 +268,7 @@ Recommended sections when relevant:
 Body quality rules:
 
 - State the problem before the solution.
+- Prefer Korean for prose so the issue remains reviewable by the repo owner.
 - Name what is explicitly out of scope.
 - Use concrete nouns instead of broad labels.
 - Keep downstream context on the umbrella when multiple leaves need it.
