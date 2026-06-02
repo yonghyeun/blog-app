@@ -71,8 +71,13 @@ Reason:
 
 Rules:
 
-- `describe` names should state the module or behavior group in Korean
-- `it` names should state the expected behavior in Korean
+- `describe` names should state the module, function, or behavior group in Korean
+- `describe` may hold the higher-level context that multiple test cases share
+- `it` names should state a concrete behavior case in Korean
+- `it` names should make the condition, input, trigger, or state visible when it affects the result
+- `it` names should make the observable output, return value, rendering, rejection, or side effect visible
+- prefer the pattern: `A이면 B를 반환한다`, `A를 요청하면 B를 렌더링한다`, or `A가 유효하지 않으면 B를 거부한다`
+- avoid vague names such as `works`, `validates slug`, or `기본 정보를 제공한다`
 - keep imported symbol names and code identifiers unchanged
 - use English only when quoting an external API, package name, or literal value
 
@@ -80,7 +85,22 @@ Example:
 
 ```ts
 describe("프로젝트 요약", () => {
-  it("공유 프로젝트 기본 정보를 제공한다", () => {
+  it("프로젝트 요약을 읽으면 이름, 설명, foundation 값을 반환한다", () => {
+    // ...
+  });
+});
+```
+
+For broader context, use `describe` or this contract document instead of making `it`
+names abstract.
+
+```ts
+describe("마크다운 slug 정규화", () => {
+  it("영문 제목을 입력하면 소문자 kebab-case slug를 반환한다", () => {
+    // ...
+  });
+
+  it("빈 제목을 입력하면 slug 생성을 거부한다", () => {
     // ...
   });
 });
