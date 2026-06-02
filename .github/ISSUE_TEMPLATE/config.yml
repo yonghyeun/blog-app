@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue System Contract
+    url: https://github.com/yonghyeun/blog-app/blob/main/docs/operations/issue-system.md
+    about: Read the repo issue lifecycle, relationship, and label taxonomy contract before filing work.
