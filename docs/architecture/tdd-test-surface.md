@@ -143,6 +143,9 @@ git diff --check
 Run `npm run build` when the change touches app routes, Next config, package versions, or
 rendered behavior.
 
+Run `npm run test:e2e` when the change touches route-level behavior or user-visible
+browser flows.
+
 ## Out Of Scope For This Contract
 
 - Storybook configuration

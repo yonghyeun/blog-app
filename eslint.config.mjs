@@ -12,6 +12,8 @@ export default defineConfig([
     "node_modules/**",
     "out/**",
     "storybook-static/**",
+    "playwright-report/**",
+    "test-results/**",
     "*.tsbuildinfo",
   ]),
 ]);

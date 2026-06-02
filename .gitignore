@@ -4,6 +4,8 @@ out/
 dist/
 build/
 storybook-static/
+playwright-report/
+test-results/
 
 *.tsbuildinfo
 
