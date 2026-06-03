@@ -39,6 +39,7 @@ git diff --check
 ## Operations
 
 - [Issue System Contract](./docs/operations/issue-system.md)
+- [Worktree VS Code Workspace](./docs/operations/worktree-vscode-workspace.md)
 - [Operations Index](./docs/operations/README.md)
 - [Agent Routing](./AGENTS.md)
 
