@@ -215,12 +215,15 @@ Post not found.
 
 ## Figma Structure And Naming
 
-Figma should separate system foundations, reusable components, and screens.
+Figma should separate foundations, architecture-layered components, and screens.
+
+Detailed Figma MCP operating rules live in
+[Figma MCP Usage Contract](./figma-mcp-usage.md).
 
 Recommended file/page structure:
 
 ```text
-00 System
+00 Foundations
 01 Components
 02 Screens
 ```
@@ -234,14 +237,14 @@ Frame naming pattern:
 Examples:
 
 ```text
-System/Typography/Default/Desktop
-System/Color/Default/Desktop
-System/Spacing/Default/Desktop
+Foundation / Typography
+Foundation / Color
+Foundation / Spacing
 
-Component/PostIndexItem/Default/Desktop
-Component/MetadataRail/Default/Desktop
-Component/ArticleHeader/Default/Desktop
-Component/StateMessage/Empty/Desktop
+Shared - MetadataPair
+Entity - PostMetadata
+Feature - PostIndexItem
+Widget - PostDetailHeader
 
 Screen/Home/Default/Desktop
 Screen/Home/Empty/Desktop
@@ -252,7 +255,11 @@ Screen/PostDetail/NotFound/Desktop
 Naming rules:
 
 - Names describe functional ownership, not decoration.
-- Component names use PascalCase.
+- Component groups follow the repo FSD layer model in
+  `docs/architecture/foundation-architecture.md`.
+- Component names use PascalCase after their layer prefix.
+- Design dependency direction is
+  `Screen -> Widget -> Feature -> Entity -> Shared -> Foundations`.
 - Screen names follow route or user experience ownership.
 - State names use clear product states such as `Default`, `Empty`, and
   `NotFound`.
