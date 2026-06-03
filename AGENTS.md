@@ -34,6 +34,8 @@ Before architecture-sensitive work:
 Before using Figma MCP:
 
 - Read `docs/design/figma-mcp-usage.md`.
+- Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`; do not commit
+  concrete Figma file keys in this public repository.
 - Reuse existing Figma variables, text styles, and components before creating
   new assets.
 - Record Figma file, page, frame, and node URLs on the source issue or umbrella

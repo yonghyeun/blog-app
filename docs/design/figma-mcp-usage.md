@@ -17,11 +17,14 @@ Before using Figma MCP for this repository, read:
 - `docs/architecture/foundation-architecture.md`
 - `docs/product/vertical-slice-v1-requirements.md`
 
-Use this Figma file for #32 vertical slice v1 design work:
+Use the Figma file key from local environment:
 
 ```text
-https://www.figma.com/design/ZXlHLgB0BoG0PFFCPrx8Vp
+FIGMA_VERTICAL_SLICE_V1_FILE_KEY
 ```
+
+This repository is public. Do not commit concrete Figma file keys or file URLs
+unless the file is intentionally public. Store concrete values in `.env.local`.
 
 ## Operating Order
 
@@ -29,10 +32,11 @@ Use this order for Figma MCP work:
 
 1. Confirm the source issue passed intake.
 2. Read this contract and the required context files.
-3. Inspect the Figma file before writing.
-4. Reuse existing variables, text styles, and components.
-5. Create new Figma assets only when the issue explicitly owns them.
-6. Record Figma file, page, frame, and node URLs on the issue tracking surface.
+3. Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`.
+4. Inspect the Figma file before writing.
+5. Reuse existing variables, text styles, and components.
+6. Create new Figma assets only when the issue explicitly owns them.
+7. Record Figma file, page, frame, and node URLs on the issue tracking surface.
 
 Do not start screen-frame generation from memory or from an isolated prompt.
 
@@ -267,7 +271,7 @@ https://www.figma.com/design/<fileKey>/<fileName>?node-id=<node-id-with-dash>
 Example:
 
 ```text
-https://www.figma.com/design/ZXlHLgB0BoG0PFFCPrx8Vp?node-id=22-2
+https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/<fileName>?node-id=22-2
 ```
 
 Record these links on the source issue or umbrella tracking comment, not inside
