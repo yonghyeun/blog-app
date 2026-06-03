@@ -46,6 +46,11 @@ git diff --check
 
 - [Vertical Slice v1 Requirements](./docs/product/vertical-slice-v1-requirements.md)
 
+## Design
+
+- [Blog Design Direction](./docs/design/blog-design-direction.md)
+- [Design System v1](./docs/design/design-system-v1.md)
+
 ## Architecture
 
 - [Foundation Architecture Contract](./docs/architecture/foundation-architecture.md)
