@@ -8,6 +8,7 @@ playwright-report/
 test-results/
 
 *.tsbuildinfo
+/blog-worktrees.code-workspace
 
 .env
 .env.local

@@ -13,7 +13,10 @@
     "storybook:build": "storybook build",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "worktree:add": "scripts/dev/worktree-add.sh",
+    "worktree:remove": "scripts/dev/worktree-remove.sh",
+    "worktree:workspace": "node scripts/dev/update-vscode-workspace.mjs"
   },
   "dependencies": {
     "next": "16.2.7",
