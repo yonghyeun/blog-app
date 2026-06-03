@@ -31,6 +31,14 @@ Before architecture-sensitive work:
 - Read `docs/architecture/README.md`.
 - Then read the specific architecture contract for the touched surface.
 
+Before creating or changing Storybook stories, Storybook configuration, reusable UI
+components, or component fixtures:
+
+- Read `docs/architecture/storybook-ui-surface.md`.
+- Keep Storybook focused on browser-safe reusable component states.
+- Do not import `src/app` route files or private content repository data into stories.
+- Run `npm run storybook:build` before review.
+
 Before using Figma MCP:
 
 - Read `docs/design/figma-mcp-usage.md`.
