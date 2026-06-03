@@ -9,12 +9,12 @@ type ResolveDateMetadataOptions = {
 
 export const resolveDateMetadata = async (
   source: PostSource,
-  options: ResolveDateMetadataOptions,
+  { dateProvider }: ResolveDateMetadataOptions,
 ): Promise<PostLoadResult<DateMetadata>> => {
   let providerValue: DateProviderResult | null;
 
   try {
-    providerValue = await options.dateProvider(source);
+    providerValue = await dateProvider(source);
   } catch (error) {
     return failure([
       {

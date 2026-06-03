@@ -12,6 +12,7 @@ export const resolveObsidianAssets = (
   nodes: PostContentNode[],
   options: ResolveObsidianAssetsOptions,
 ): PostLoadResult<PostContentNode[]> => {
+  const { path } = options;
   const resolvedNodes: PostContentNode[] = [];
   const attachmentIndex = createAttachmentIndex(options);
 
@@ -21,7 +22,11 @@ export const resolveObsidianAssets = (
       continue;
     }
 
-    const assetResult = resolveImageNode(node, options, attachmentIndex);
+    const assetResult = resolveImageNode(node, {
+      path,
+      attachmentIndex,
+      assetUrlPrefix: options.assetUrlPrefix,
+    });
 
     if (!assetResult.ok) {
       return failure(assetResult.error);
@@ -35,8 +40,15 @@ export const resolveObsidianAssets = (
 
 const resolveImageNode = (
   node: ImageNode,
-  options: ResolveObsidianAssetsOptions,
-  attachmentIndex: AttachmentIndex,
+  {
+    assetUrlPrefix,
+    attachmentIndex,
+    path,
+  }: {
+    assetUrlPrefix: string;
+    attachmentIndex: AttachmentIndex;
+    path?: string;
+  },
 ): PostLoadResult<ImageNode> => {
   const matches = node.target.includes("/")
     ? (attachmentIndex.byAssetPath.get(node.target) ?? [])
@@ -47,7 +59,7 @@ const resolveImageNode = (
       {
         code: "missing-obsidian-asset",
         reference: node.target,
-        path: options.path,
+        path,
         raw: node.source.raw,
         lineStart: node.source.lineStart,
         lineEnd: node.source.lineEnd,
@@ -61,7 +73,7 @@ const resolveImageNode = (
         code: "ambiguous-obsidian-asset",
         reference: node.target,
         matches: matches.map((match) => match.path),
-        path: options.path,
+        path,
         raw: node.source.raw,
         lineStart: node.source.lineStart,
         lineEnd: node.source.lineEnd,
@@ -70,13 +82,13 @@ const resolveImageNode = (
   }
 
   const [match] = matches;
-  const assetUrlPrefix = trimTrailingSlash(options.assetUrlPrefix);
+  const trimmedAssetUrlPrefix = trimTrailingSlash(assetUrlPrefix);
 
   return success({
     ...node,
     attachmentPath: match.path,
     assetPath: match.assetPath,
-    assetUrl: `${assetUrlPrefix}/${match.assetPath}`,
+    assetUrl: `${trimmedAssetUrlPrefix}/${match.assetPath}`,
   });
 };
 
@@ -90,12 +102,15 @@ type AttachmentIndex = {
   byBasename: Map<string, IndexedAttachment[]>;
 };
 
-const createAttachmentIndex = (options: ResolveObsidianAssetsOptions): AttachmentIndex => {
-  const attachmentRoot = trimTrailingSlash(options.attachmentRoot);
+const createAttachmentIndex = ({
+  attachmentRoot: rawAttachmentRoot,
+  attachments,
+}: ResolveObsidianAssetsOptions): AttachmentIndex => {
+  const attachmentRoot = trimTrailingSlash(rawAttachmentRoot);
   const byAssetPath = new Map<string, IndexedAttachment[]>();
   const byBasename = new Map<string, IndexedAttachment[]>();
 
-  for (const attachment of options.attachments) {
+  for (const attachment of attachments) {
     if (!isInsideRoot(attachment.path, attachmentRoot)) {
       continue;
     }

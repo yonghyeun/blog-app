@@ -10,7 +10,7 @@ const reservedFields = ["publishedAt", "updatedAt"] as const;
 
 export const validateFrontmatter = (
   frontmatter: ParsedFrontmatter | Record<string, unknown>,
-  options: ValidateFrontmatterOptions = {},
+  { path }: ValidateFrontmatterOptions = {},
 ): PostLoadResult<ValidPostFrontmatter> => {
   for (const field of reservedFields) {
     if (frontmatter[field] !== undefined) {
@@ -18,7 +18,7 @@ export const validateFrontmatter = (
         {
           code: "reserved-frontmatter-field",
           field,
-          path: options.path,
+          path,
         },
       ]);
     }
@@ -30,30 +30,30 @@ export const validateFrontmatter = (
         {
           code: "missing-frontmatter-field",
           field,
-          path: options.path,
+          path,
         },
       ]);
     }
   }
 
   if (!isString(frontmatter.slug)) {
-    return invalidField("slug", options.path);
+    return invalidField("slug", path);
   }
 
   if (!isString(frontmatter.title)) {
-    return invalidField("title", options.path);
+    return invalidField("title", path);
   }
 
   if (!isString(frontmatter.description)) {
-    return invalidField("description", options.path);
+    return invalidField("description", path);
   }
 
   if (!Array.isArray(frontmatter.tags) || !frontmatter.tags.every(isString)) {
-    return invalidField("tags", options.path);
+    return invalidField("tags", path);
   }
 
   if (frontmatter.type !== undefined && !isString(frontmatter.type)) {
-    return invalidField("type", options.path);
+    return invalidField("type", path);
   }
 
   return success({

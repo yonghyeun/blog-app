@@ -12,71 +12,41 @@ import type {
   LoadObsidianPostsOptions,
   ObsidianSources,
   PostLoadResult,
+  PostSource,
 } from "./types";
 
-export const loadObsidianPosts = async (
-  options: LoadObsidianPostsOptions,
-): Promise<PostLoadResult<LoadedObsidianPosts>> => {
-  const sourcesResult = await loadSources(options);
+type PostLoadSuccess<T> = Extract<PostLoadResult<T>, { ok: true }>;
+type PostLoadFailure<T> = Extract<PostLoadResult<T>, { ok: false }>;
+
+export const loadObsidianPosts = async ({
+  attachmentRoot,
+  assetUrlPrefix,
+  dateProvider,
+  loadSources,
+}: LoadObsidianPostsOptions): Promise<PostLoadResult<LoadedObsidianPosts>> => {
+  const sourcesResult = await loadPostSources(loadSources);
 
   if (!sourcesResult.ok) {
     return failure(sourcesResult.error);
   }
 
-  const posts: LoadedPost[] = [];
+  const postResults = await Promise.all(
+    sourcesResult.data.posts.map((source) =>
+      loadPost(source, {
+        attachmentRoot,
+        assetUrlPrefix,
+        attachments: sourcesResult.data.attachments,
+        dateProvider,
+      }),
+    ),
+  );
+  const failedPostResult = postResults.find(isPostLoadFailure);
 
-  for (const source of sourcesResult.data.posts) {
-    const frontmatterResult = parseFrontmatter(source);
-
-    if (!frontmatterResult.ok) {
-      return failure(frontmatterResult.error);
-    }
-
-    const validatedFrontmatterResult = validateFrontmatter(frontmatterResult.data.frontmatter, {
-      path: source.path,
-    });
-
-    if (!validatedFrontmatterResult.ok) {
-      return failure(validatedFrontmatterResult.error);
-    }
-
-    const contentResult = parseObsidianContent({
-      path: source.path,
-      content: frontmatterResult.data.body,
-      lineStart: frontmatterResult.data.bodyLineStart,
-    });
-
-    if (!contentResult.ok) {
-      return failure(contentResult.error);
-    }
-
-    const resolvedContentResult = resolveObsidianAssets(contentResult.data, {
-      attachmentRoot: options.attachmentRoot,
-      assetUrlPrefix: options.assetUrlPrefix,
-      attachments: sourcesResult.data.attachments,
-      path: source.path,
-    });
-
-    if (!resolvedContentResult.ok) {
-      return failure(resolvedContentResult.error);
-    }
-
-    const dateMetadataResult = await resolveDateMetadata(source, {
-      dateProvider: options.dateProvider,
-    });
-
-    if (!dateMetadataResult.ok) {
-      return failure(dateMetadataResult.error);
-    }
-
-    posts.push({
-      ...validatedFrontmatterResult.data,
-      ...dateMetadataResult.data,
-      path: source.path,
-      content: resolvedContentResult.data,
-    });
+  if (failedPostResult) {
+    return failure(failedPostResult.error);
   }
 
+  const posts = postResults.filter(isPostLoadSuccess).map(({ data }) => data);
   const sortedPostsResult = sortPosts(posts);
 
   if (!sortedPostsResult.ok) {
@@ -95,11 +65,73 @@ export const loadObsidianPosts = async (
   });
 };
 
-const loadSources = async (
-  options: LoadObsidianPostsOptions,
+type LoadPostOptions = Pick<
+  LoadObsidianPostsOptions,
+  "attachmentRoot" | "assetUrlPrefix" | "dateProvider"
+> & {
+  attachments: ObsidianSources["attachments"];
+};
+
+const loadPost = async (
+  source: PostSource,
+  { attachmentRoot, assetUrlPrefix, attachments, dateProvider }: LoadPostOptions,
+): Promise<PostLoadResult<LoadedPost>> => {
+  const frontmatterResult = parseFrontmatter(source);
+
+  if (!frontmatterResult.ok) {
+    return failure(frontmatterResult.error);
+  }
+
+  const validatedFrontmatterResult = validateFrontmatter(frontmatterResult.data.frontmatter, {
+    path: source.path,
+  });
+
+  if (!validatedFrontmatterResult.ok) {
+    return failure(validatedFrontmatterResult.error);
+  }
+
+  const contentResult = parseObsidianContent({
+    path: source.path,
+    content: frontmatterResult.data.body,
+    lineStart: frontmatterResult.data.bodyLineStart,
+  });
+
+  if (!contentResult.ok) {
+    return failure(contentResult.error);
+  }
+
+  const resolvedContentResult = resolveObsidianAssets(contentResult.data, {
+    attachmentRoot,
+    assetUrlPrefix,
+    attachments,
+    path: source.path,
+  });
+
+  if (!resolvedContentResult.ok) {
+    return failure(resolvedContentResult.error);
+  }
+
+  const dateMetadataResult = await resolveDateMetadata(source, {
+    dateProvider,
+  });
+
+  if (!dateMetadataResult.ok) {
+    return failure(dateMetadataResult.error);
+  }
+
+  return success({
+    ...validatedFrontmatterResult.data,
+    ...dateMetadataResult.data,
+    path: source.path,
+    content: resolvedContentResult.data,
+  });
+};
+
+const loadPostSources = async (
+  loadSources: LoadObsidianPostsOptions["loadSources"],
 ): Promise<PostLoadResult<ObsidianSources>> => {
   try {
-    const sources = await options.loadSources();
+    const sources = await loadSources();
 
     return success(sources);
   } catch (error) {
@@ -111,3 +143,8 @@ const loadSources = async (
     ]);
   }
 };
+
+const isPostLoadSuccess = <T>(result: PostLoadResult<T>): result is PostLoadSuccess<T> => result.ok;
+
+const isPostLoadFailure = <T>(result: PostLoadResult<T>): result is PostLoadFailure<T> =>
+  !result.ok;
