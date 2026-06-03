@@ -34,13 +34,17 @@ Vertical slice v1 focuses on readable post list and post detail screens.
 
 ## Visual Language
 
-The visual language is grayscale brutalist minimalism with a document-first
-archive structure.
+The visual language is Cold Document white-scale brutalist minimalism with a
+document-first archive structure.
 
 The interface should expose hierarchy through typography, spacing, borders,
 section labels, and link treatment before using color. It should avoid decorative
 color coding, card-heavy composition, gradients, glass effects, and ornamental
 icons.
+
+Cold Document uses near-white surfaces instead of pure white. The intended
+surface impression is crisp, quiet, and technical without relying on `#ffffff` as
+the default canvas.
 
 The target impression is cold, minimal, modern, and structural.
 
@@ -90,25 +94,23 @@ Design implications:
 
 ## Post Detail Direction
 
-Post detail pages use an article plus right metadata rail layout on desktop.
+Post detail pages use a centered article column on desktop.
 
-The rail is not decorative. It is the node context surface for the metadata
-defined by the current product requirements: published date, tags, and
-description.
+Post metadata is part of the title context. It appears directly below the title
+as a horizontal metadata row rather than as a separate right rail.
 
 Desktop direction:
 
 ```text
-article                          metadata rail
-title                            published date
-published date / tags            tags
-body                             description
+title
+published date / tags
+body
 ```
 
 Mobile direction:
 
 - Preserve the article-first reading flow.
-- Collapse the rail into a compact metadata block above or below the article.
+- Keep metadata close to the title.
 - Do not duplicate metadata in a way that slows reading.
 
 ## Tags

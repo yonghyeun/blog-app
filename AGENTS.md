@@ -31,6 +31,16 @@ Before architecture-sensitive work:
 - Read `docs/architecture/README.md`.
 - Then read the specific architecture contract for the touched surface.
 
+Before using Figma MCP:
+
+- Read `docs/design/figma-mcp-usage.md`.
+- Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`; do not commit
+  concrete Figma file keys in this public repository.
+- Reuse existing Figma variables, text styles, and components before creating
+  new assets.
+- Record Figma file, page, frame, and node URLs on the source issue or umbrella
+  tracking surface.
+
 Before PR or review:
 
 - Read the `Quality Gate` section in `README.md`.
