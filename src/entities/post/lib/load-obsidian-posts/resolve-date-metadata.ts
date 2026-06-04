@@ -22,6 +22,7 @@ export const resolveDateMetadata = async (
     return failure([
       {
         code: "date-provider-failed",
+        message: `${source.path} 게시글의 dateProvider(source) 실행 중 오류가 발생했습니다.`,
         path: source.path,
         cause: error,
       },
@@ -60,6 +61,7 @@ const toIsoDate = (
     return failure([
       {
         code: "missing-date-metadata",
+        message: `${path} 게시글의 ${field} 날짜 metadata가 없습니다. dateProvider 결과와 source.mtime을 모두 확인했지만 값을 찾지 못했습니다.`,
         field,
         path,
       },
@@ -72,6 +74,7 @@ const toIsoDate = (
     return failure([
       {
         code: "invalid-date-metadata",
+        message: `${path} 게시글의 ${field} 날짜 metadata가 유효한 날짜가 아닙니다. 받은 값: ${formatDateValue(value)}`,
         field,
         path,
       },
@@ -80,3 +83,9 @@ const toIsoDate = (
 
   return success(date.toISOString());
 };
+
+/**
+ * 날짜 metadata 오류 메시지에 넣을 입력값을 사람이 읽을 수 있는 문자열로 변환한다.
+ */
+const formatDateValue = (value: Date | string) =>
+  value instanceof Date ? value.toString() : `"${value}"`;

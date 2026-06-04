@@ -64,6 +64,7 @@ const resolveImageNode = (
     return failure([
       {
         code: "missing-obsidian-asset",
+        message: `${formatPath(path)} ${formatLineRange(node)}의 이미지 임베드가 참조하는 attachment를 찾을 수 없습니다. reference: ${node.target}, raw: ${node.source.raw}`,
         reference: node.target,
         path,
         raw: node.source.raw,
@@ -77,6 +78,7 @@ const resolveImageNode = (
     return failure([
       {
         code: "ambiguous-obsidian-asset",
+        message: `${formatPath(path)} ${formatLineRange(node)}의 이미지 임베드가 ${matches.length}개의 attachment와 매칭되어 하나로 결정할 수 없습니다. reference: ${node.target}, matches: ${matches.map((match) => match.path).join(", ")}`,
         reference: node.target,
         matches: matches.map((match) => match.path),
         path,
@@ -179,3 +181,16 @@ const relativeToRoot = (path: string, root: string) => {
  * slash-delimited path에서 마지막 filename segment를 가져온다.
  */
 const basename = (path: string) => path.split("/").at(-1) ?? path;
+
+/**
+ * asset resolution 메시지에서 source path 누락을 명시적으로 드러낸다.
+ */
+const formatPath = (path: string | undefined) => (path === undefined ? "(unknown path)" : path);
+
+/**
+ * image node의 원본 line range를 메시지용 문자열로 변환한다.
+ */
+const formatLineRange = (node: ImageNode) =>
+  node.source.lineStart === node.source.lineEnd
+    ? `${node.source.lineStart}번째 줄`
+    : `${node.source.lineStart}-${node.source.lineEnd}번째 줄`;

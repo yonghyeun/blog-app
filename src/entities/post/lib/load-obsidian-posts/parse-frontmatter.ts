@@ -19,6 +19,7 @@ export const parseFrontmatter = (
     return failure([
       {
         code: "missing-frontmatter-delimiter",
+        message: `${source.path} 1번째 줄에서 frontmatter 시작 구분자(---)를 찾지 못했습니다. 첫 줄은 반드시 --- 이어야 합니다.`,
         path: source.path,
       },
     ]);
@@ -30,6 +31,7 @@ export const parseFrontmatter = (
     return failure([
       {
         code: "missing-frontmatter-delimiter",
+        message: `${source.path} frontmatter를 닫는 구분자(---)를 찾지 못했습니다. 시작 구분자 이후에 닫는 --- 줄이 필요합니다.`,
         path: source.path,
       },
     ]);
@@ -74,6 +76,7 @@ const parseYamlSubset = (lines: string[], path: string): PostLoadResult<ParsedFr
       return failure([
         {
           code: "invalid-frontmatter-syntax",
+          message: `${path} ${index + 2}번째 줄의 frontmatter 문법을 해석할 수 없습니다. 받은 줄: ${line}`,
           path,
           raw: line,
           lineStart: index + 2,

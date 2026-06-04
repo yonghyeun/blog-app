@@ -1,5 +1,6 @@
 export type PostLoadIssue = {
   code: string;
+  message: string;
   path?: string;
   field?: string;
   raw?: string;
@@ -8,6 +9,5 @@ export type PostLoadIssue = {
   reference?: string;
   matches?: string[];
   slug?: string;
-  message?: string;
   cause?: unknown;
 };

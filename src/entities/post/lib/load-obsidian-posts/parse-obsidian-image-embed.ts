@@ -63,6 +63,7 @@ const invalidImageEmbed = (raw: string): PostLoadResult<never> =>
   failure([
     {
       code: "invalid-image-embed",
+      message: `Obsidian 이미지 임베드 문법이 올바르지 않습니다. 받은 값: ${raw}. 지원 형식: ![[파일명]], ![[파일명|300]], ![[파일명|300x200]]`,
       raw,
     },
   ]);

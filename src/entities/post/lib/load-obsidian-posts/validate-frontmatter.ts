@@ -20,6 +20,7 @@ export const validateFrontmatter = (
       return failure([
         {
           code: "reserved-frontmatter-field",
+          message: `${formatPath(path)} frontmatter의 ${field} 값은 작성자가 직접 넣을 수 없습니다. 받은 값: ${formatValue(frontmatter[field])}`,
           field,
           path,
         },
@@ -32,6 +33,7 @@ export const validateFrontmatter = (
       return failure([
         {
           code: "missing-frontmatter-field",
+          message: `${formatPath(path)} frontmatter에 필수 값 ${field}이 없습니다.`,
           field,
           path,
         },
@@ -40,23 +42,23 @@ export const validateFrontmatter = (
   }
 
   if (!isString(frontmatter.slug)) {
-    return invalidField("slug", path);
+    return invalidField("slug", frontmatter.slug, path);
   }
 
   if (!isString(frontmatter.title)) {
-    return invalidField("title", path);
+    return invalidField("title", frontmatter.title, path);
   }
 
   if (!isString(frontmatter.description)) {
-    return invalidField("description", path);
+    return invalidField("description", frontmatter.description, path);
   }
 
   if (!Array.isArray(frontmatter.tags) || !frontmatter.tags.every(isString)) {
-    return invalidField("tags", path);
+    return invalidField("tags", frontmatter.tags, path);
   }
 
   if (frontmatter.type !== undefined && !isString(frontmatter.type)) {
-    return invalidField("type", path);
+    return invalidField("type", frontmatter.type, path);
   }
 
   return success({
@@ -76,11 +78,30 @@ const isString = (value: unknown): value is string => typeof value === "string";
 /**
  * frontmatter field validation 실패를 표준 PostLoad issue로 만든다.
  */
-const invalidField = (field: string, path?: string): PostLoadResult<never> =>
+const invalidField = (field: string, value: unknown, path?: string): PostLoadResult<never> =>
   failure([
     {
       code: "invalid-frontmatter-field",
+      message: `${formatPath(path)} frontmatter의 ${field} 값 형식이 올바르지 않습니다. 받은 값: ${formatValue(value)}`,
       field,
       path,
     },
   ]);
+
+/**
+ * validation 메시지에서 source path 누락을 명시적으로 드러낸다.
+ */
+const formatPath = (path: string | undefined) => (path === undefined ? "(unknown path)" : path);
+
+/**
+ * frontmatter validation 메시지에 넣을 입력값을 사람이 읽을 수 있는 문자열로 변환한다.
+ */
+const formatValue = (value: unknown) => {
+  if (typeof value === "string") {
+    return `"${value}"`;
+  }
+
+  const jsonValue = JSON.stringify(value);
+
+  return jsonValue === undefined ? String(value) : jsonValue;
+};

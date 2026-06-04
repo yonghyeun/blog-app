@@ -14,6 +14,7 @@ export const buildPostLookup = <TPost extends { slug: string }>(
       return failure([
         {
           code: "duplicate-slug",
+          message: `slug lookup 생성 중 중복 slug를 발견했습니다. slug: ${post.slug}`,
           slug: post.slug,
         },
       ]);

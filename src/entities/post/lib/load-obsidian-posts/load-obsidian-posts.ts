@@ -148,6 +148,8 @@ const loadPostSources = async (
     return failure([
       {
         code: "load-sources-failed",
+        message:
+          "loadSources() 실행 중 예외가 발생해 게시글 원본과 attachment 목록을 불러오지 못했습니다.",
         cause: error,
       },
     ]);
