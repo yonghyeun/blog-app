@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Close"
+  short_description: "Close out terminal task state and decide workspace cleanup."
+  default_prompt: "Close out the current task and handle workspace cleanup policy."
