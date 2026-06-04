@@ -25,8 +25,8 @@ It uses two job groups:
 - `standard-gate`
 - `playwright-e2e`
 
-`standard-gate` runs lint, formatting, typecheck, Vitest, Next build, and Storybook
-build.
+`standard-gate` runs lint, formatting, typecheck, Vitest, Next build, Storybook build,
+and Storybook UI tests.
 
 `playwright-e2e` runs a matrix of public-safe Playwright suites. Each matrix entry runs
 one suite script:
@@ -44,12 +44,14 @@ The standard gate job runs:
 
 ```bash
 npm ci
+npx playwright install --with-deps chromium
 npm run lint
 npm run format:check
 npm run typecheck
 npm test
 npm run build
 npm run storybook:build
+npm run test:storybook
 ```
 
 The Playwright E2E matrix runs:
@@ -93,8 +95,8 @@ This refreshes the browser cache when the Playwright version changes through
 stay available on the GitHub runner. When the browser cache is restored, the large browser
 download should be skipped.
 
-The browser cache is only configured in `playwright-e2e`, because standard lint, module
-test, build, and Storybook checks do not need a browser install.
+The browser cache is configured in both job groups. `standard-gate` needs Chromium for
+Storybook UI browser tests, and `playwright-e2e` needs Chromium for route smoke tests.
 
 ## E2E Parallel Policy
 
@@ -121,6 +123,7 @@ Allowed:
 - lint, format, and type checks
 - Vitest module tests
 - Storybook production build
+- Storybook story smoke, interaction, and accessibility tests
 - Playwright Chromium smoke tests
 
 Not allowed:
@@ -138,3 +141,7 @@ explicitly changed in a follow-up issue.
 
 Storybook Vite chunk-size warnings are acceptable when `npm run storybook:build` exits
 successfully.
+
+Storybook UI test failures block merging when a story fails to render, a story `play`
+function assertion fails, or an accessibility violation fails a story with
+`parameters.a11y.test = "error"`.

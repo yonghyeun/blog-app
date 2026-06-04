@@ -20,7 +20,11 @@ npm run lint
 npm run format
 npm run format:check
 npm run start
+npm run storybook
+npm run storybook:build
 npm test
+npm run test:storybook
+npm run test:e2e
 npm run typecheck
 ```
 
@@ -33,6 +37,10 @@ npm run lint
 npm run format:check
 npm run typecheck
 npm test
+npm run build
+npm run storybook:build
+npm run test:storybook
+npm run test:e2e
 git diff --check
 ```
 

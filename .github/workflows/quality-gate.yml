@@ -58,6 +58,9 @@ jobs:
       - name: Build Storybook
         run: npm run storybook:build
 
+      - name: Run Storybook UI Tests
+        run: npm run test:storybook
+
   playwright-e2e:
     name: Playwright E2E (${{ matrix.suite }})
     runs-on: ubuntu-latest

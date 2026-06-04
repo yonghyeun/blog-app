@@ -13,9 +13,9 @@ const listMeta = {
   },
   decorators: [
     (Story) => (
-      <main className="w-[45rem] bg-background p-8">
+      <div className="w-[45rem] bg-background p-8">
         <Story />
-      </main>
+      </div>
     ),
   ],
 } satisfies Meta<typeof PostIndexList>;
@@ -42,9 +42,9 @@ export const Desktop: ListStory = {
 export const Mobile: ListStory = {
   decorators: [
     (Story) => (
-      <main className="w-[21.375rem] bg-background p-5">
+      <div className="w-[21.375rem] bg-background p-5">
         <Story />
-      </main>
+      </div>
     ),
   ],
 };
