@@ -1,0 +1,28 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
+import { PostNotFoundState } from "@/features/post-not-found/post-not-found-state";
+
+const meta = {
+  title: "features/PostNotFoundState",
+  component: PostNotFoundState,
+  tags: ["autodocs"],
+  args: {
+    label: "404",
+    message: "문서를 찾을 수 없음",
+    backHref: "/",
+    backLabel: "목록으로 돌아가기",
+  },
+  decorators: [
+    (Story) => (
+      <main className="w-[720px] bg-background p-8">
+        <Story />
+      </main>
+    ),
+  ],
+} satisfies Meta<typeof PostNotFoundState>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const NotFound: Story = {};
