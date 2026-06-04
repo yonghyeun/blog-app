@@ -9,6 +9,9 @@ import type {
   SourceLocation,
 } from "./types";
 
+/**
+ * Obsidian Markdown body를 renderer가 바로 소비할 수 있는 PostContentNode AST로 변환한다.
+ */
 export const parseObsidianContent = (
   source: Pick<PostSource, "path" | "content"> & { lineStart?: number },
 ): PostLoadResult<PostContentNode[]> => {
@@ -122,6 +125,9 @@ type ParsedBlock<TNode> = {
   nextIndex: number;
 };
 
+/**
+ * fenced code block 범위를 읽고 codeBlock node와 다음 parsing index를 반환한다.
+ */
 const parseCodeBlock = (
   lines: string[],
   startIndex: number,
@@ -157,6 +163,9 @@ const parseCodeBlock = (
   });
 };
 
+/**
+ * 연속된 flat ordered/unordered list line들을 하나의 list node로 묶는다.
+ */
 const parseList = (
   lines: string[],
   startIndex: number,
@@ -195,6 +204,9 @@ const parseList = (
   });
 };
 
+/**
+ * 현재 line이 v1에서 지원하는 flat list marker인지 판별한다.
+ */
 const getListKind = (line: string): boolean | null => {
   if (/^-\s+/.test(line)) {
     return false;
@@ -207,6 +219,9 @@ const getListKind = (line: string): boolean | null => {
   return null;
 };
 
+/**
+ * 원본 Markdown 추적을 위해 raw text와 line range를 SourceLocation으로 묶는다.
+ */
 const sourceLocation = (raw: string, lineStart: number, lineEnd: number): SourceLocation => ({
   raw,
   lineStart,

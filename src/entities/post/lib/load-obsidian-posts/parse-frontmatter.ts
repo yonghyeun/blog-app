@@ -7,6 +7,9 @@ type ParseFrontmatterData = {
   bodyLineStart: number;
 };
 
+/**
+ * Markdown source에서 YAML frontmatter와 body를 분리하고 body의 원본 시작 line을 보존한다.
+ */
 export const parseFrontmatter = (
   source: Pick<PostSource, "path" | "content">,
 ): PostLoadResult<ParseFrontmatterData> => {
@@ -52,6 +55,9 @@ export const parseFrontmatter = (
   });
 };
 
+/**
+ * v1에서 허용하는 scalar와 block list만 읽는 제한된 YAML frontmatter parser다.
+ */
 const parseYamlSubset = (lines: string[], path: string): PostLoadResult<ParsedFrontmatter> => {
   const frontmatter: ParsedFrontmatter = {};
 

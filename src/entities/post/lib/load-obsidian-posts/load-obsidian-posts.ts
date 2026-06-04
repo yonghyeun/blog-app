@@ -18,6 +18,10 @@ import type {
 type PostLoadSuccess<T> = Extract<PostLoadResult<T>, { ok: true }>;
 type PostLoadFailure<T> = Extract<PostLoadResult<T>, { ok: false }>;
 
+/**
+ * Obsidian-authored post sources를 로드하고, frontmatter validation, content AST parsing,
+ * asset/date resolution, sorting, slug lookup 생성을 하나의 Result 흐름으로 조립한다.
+ */
 export const loadObsidianPosts = async ({
   attachmentRoot,
   assetUrlPrefix,
@@ -72,6 +76,9 @@ type LoadPostOptions = Pick<
   attachments: ObsidianSources["attachments"];
 };
 
+/**
+ * 단일 Markdown source를 검증된 post metadata와 resolved content AST를 가진 LoadedPost로 변환한다.
+ */
 const loadPost = async (
   source: PostSource,
   { attachmentRoot, assetUrlPrefix, attachments, dateProvider }: LoadPostOptions,
@@ -127,6 +134,9 @@ const loadPost = async (
   });
 };
 
+/**
+ * 외부 source acquisition 함수의 예외를 loader Result issue로 변환한다.
+ */
 const loadPostSources = async (
   loadSources: LoadObsidianPostsOptions["loadSources"],
 ): Promise<PostLoadResult<ObsidianSources>> => {
@@ -144,7 +154,13 @@ const loadPostSources = async (
   }
 };
 
+/**
+ * PostLoadResult 배열에서 성공 Result만 좁히기 위한 type guard다.
+ */
 const isPostLoadSuccess = <T>(result: PostLoadResult<T>): result is PostLoadSuccess<T> => result.ok;
 
+/**
+ * PostLoadResult 배열에서 실패 Result만 좁히기 위한 type guard다.
+ */
 const isPostLoadFailure = <T>(result: PostLoadResult<T>): result is PostLoadFailure<T> =>
   !result.ok;

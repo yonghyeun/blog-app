@@ -7,6 +7,9 @@ type ResolveDateMetadataOptions = {
   ) => Promise<DateProviderResult | null> | DateProviderResult | null;
 };
 
+/**
+ * dateProvider 값 또는 source mtime을 ISO date metadata로 정규화한다.
+ */
 export const resolveDateMetadata = async (
   source: PostSource,
   { dateProvider }: ResolveDateMetadataOptions,
@@ -45,6 +48,9 @@ export const resolveDateMetadata = async (
   });
 };
 
+/**
+ * Date/string 값을 ISO string으로 변환하고 누락/invalid date를 PostLoad issue로 만든다.
+ */
 const toIsoDate = (
   value: Date | string | null | undefined,
   field: "publishedAt" | "updatedAt",

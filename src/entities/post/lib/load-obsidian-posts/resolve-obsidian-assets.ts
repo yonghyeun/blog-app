@@ -8,6 +8,9 @@ type ResolveObsidianAssetsOptions = {
   path?: string;
 };
 
+/**
+ * image node의 Obsidian attachment reference를 공개 asset URL과 attachment metadata로 해석한다.
+ */
 export const resolveObsidianAssets = (
   nodes: PostContentNode[],
   options: ResolveObsidianAssetsOptions,
@@ -38,6 +41,9 @@ export const resolveObsidianAssets = (
   return success(resolvedNodes);
 };
 
+/**
+ * 단일 image node의 target을 attachment index에서 찾아 resolved image node로 변환한다.
+ */
 const resolveImageNode = (
   node: ImageNode,
   {
@@ -102,6 +108,9 @@ type AttachmentIndex = {
   byBasename: Map<string, IndexedAttachment[]>;
 };
 
+/**
+ * attachmentRoot 안의 attachment만 assetPath와 basename 기준 lookup index로 구성한다.
+ */
 const createAttachmentIndex = ({
   attachmentRoot: rawAttachmentRoot,
   attachments,
@@ -130,6 +139,9 @@ const createAttachmentIndex = ({
   };
 };
 
+/**
+ * 중복 가능한 attachment lookup 값을 Map 배열 entry로 누적한다.
+ */
 const pushIndexValue = (
   map: Map<string, IndexedAttachment[]>,
   key: string,
@@ -138,10 +150,19 @@ const pushIndexValue = (
   map.set(key, [...(map.get(key) ?? []), value]);
 };
 
+/**
+ * path/url prefix 비교를 안정화하기 위해 trailing slash를 제거한다.
+ */
 const trimTrailingSlash = (value: string) => value.replace(/\/+$/, "");
 
+/**
+ * attachment path가 configured attachment root 내부에 있는지 확인한다.
+ */
 const isInsideRoot = (path: string, root: string) => path.startsWith(`${root}/`);
 
+/**
+ * attachmentRoot 기준의 repo-local asset path를 계산한다.
+ */
 const relativeToRoot = (path: string, root: string) => {
   if (path === root) {
     return "";
@@ -154,4 +175,7 @@ const relativeToRoot = (path: string, root: string) => {
   return path;
 };
 
+/**
+ * slash-delimited path에서 마지막 filename segment를 가져온다.
+ */
 const basename = (path: string) => path.split("/").at(-1) ?? path;

@@ -8,6 +8,9 @@ export type ParsedObsidianImageEmbed = {
   height?: number;
 };
 
+/**
+ * Obsidian image embed syntax를 target과 optional size metadata로 파싱한다.
+ */
 export const parseObsidianImageEmbed = (raw: string): PostLoadResult<ParsedObsidianImageEmbed> => {
   const match = /^!\[\[([^\]]+)\]\]$/.exec(raw);
 
@@ -53,6 +56,9 @@ export const parseObsidianImageEmbed = (raw: string): PostLoadResult<ParsedObsid
   return invalidImageEmbed(raw);
 };
 
+/**
+ * image embed syntax 오류를 표준 PostLoad issue로 만든다.
+ */
 const invalidImageEmbed = (raw: string): PostLoadResult<never> =>
   failure([
     {

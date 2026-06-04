@@ -8,6 +8,9 @@ type ValidateFrontmatterOptions = {
 const requiredFields = ["slug", "title", "description", "tags"] as const;
 const reservedFields = ["publishedAt", "updatedAt"] as const;
 
+/**
+ * parsed frontmatter가 post metadata 계약을 만족하는지 검증하고 typed metadata로 좁힌다.
+ */
 export const validateFrontmatter = (
   frontmatter: ParsedFrontmatter | Record<string, unknown>,
   { path }: ValidateFrontmatterOptions = {},
@@ -65,8 +68,14 @@ export const validateFrontmatter = (
   });
 };
 
+/**
+ * unknown 값을 string frontmatter scalar로 좁히는 type guard다.
+ */
 const isString = (value: unknown): value is string => typeof value === "string";
 
+/**
+ * frontmatter field validation 실패를 표준 PostLoad issue로 만든다.
+ */
 const invalidField = (field: string, path?: string): PostLoadResult<never> =>
   failure([
     {
