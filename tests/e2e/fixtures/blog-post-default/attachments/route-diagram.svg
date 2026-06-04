@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" role="img" aria-label="route diagram">
+  <rect width="320" height="180" fill="#f4f1ea" />
+  <rect x="24" y="34" width="112" height="52" fill="#d8d2c4" stroke="#282724" />
+  <rect x="184" y="94" width="112" height="52" fill="#e7e1d5" stroke="#282724" />
+  <path d="M136 60 C176 60 144 120 184 120" fill="none" stroke="#282724" stroke-width="3" />
+  <text x="44" y="66" font-family="sans-serif" font-size="14" fill="#282724">Home</text>
+  <text x="203" y="126" font-family="sans-serif" font-size="14" fill="#282724">Detail</text>
+</svg>
