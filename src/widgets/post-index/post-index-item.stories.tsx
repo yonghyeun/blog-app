@@ -30,7 +30,7 @@ export const Default: Story = {
       throw new Error("Post index item row link was not rendered.");
     }
 
-    if (!text.includes(postIndexFixture[0].tags.join(" / "))) {
+    if (!text.includes(postIndexFixture[0].tags.join(", "))) {
       throw new Error("Post index item tags were not rendered as plain metadata.");
     }
   },

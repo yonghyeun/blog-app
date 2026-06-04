@@ -33,7 +33,7 @@ export const Desktop: ListStory = {
       throw new Error("Post index list did not render one row link per post.");
     }
 
-    if (!text.includes(postIndexFixture[0].tags.join(" / "))) {
+    if (!text.includes(postIndexFixture[0].tags.join(", "))) {
       throw new Error("Post index list tags were not rendered as plain metadata.");
     }
   },

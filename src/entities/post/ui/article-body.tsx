@@ -27,7 +27,7 @@ const articleRenderers = {
 } satisfies ArticleRendererMap;
 
 export function ArticleBody({ nodes }: ArticleBodyProps) {
-  return <div className="space-y-8">{nodes.map(renderArticleNode)}</div>;
+  return <div className="space-y-6">{nodes.map(renderArticleNode)}</div>;
 }
 
 const renderArticleNode = (node: PostContentNode, key: Key) => {

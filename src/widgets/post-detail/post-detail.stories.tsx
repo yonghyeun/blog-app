@@ -29,7 +29,7 @@ export const Desktop: Story = {
       throw new Error("Post detail title was not rendered.");
     }
 
-    if (!text.includes(postDetailFixture.tags.join(" / "))) {
+    if (!text.includes(postDetailFixture.tags.join(", "))) {
       throw new Error("Post detail tags were not rendered as plain metadata.");
     }
 

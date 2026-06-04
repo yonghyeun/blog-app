@@ -19,15 +19,20 @@ export function PostIndexItem({
     <a
       href={href}
       className={[
-        "group block border-t border-border py-6 transition-colors",
+        "group block border-t border-border py-4 transition-colors",
         "visited:text-muted hover:bg-surface focus-visible:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-strong active:bg-surface-muted",
         className,
       ].join(" ")}
     >
       <article className="space-y-3">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-[12px] leading-[18px] text-muted">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-heading text-[13px] leading-[20px] text-muted">
           <time dateTime={publishedAt}>{publishedAt}</time>
-          {tags.length > 0 ? <span>{tags.join(" / ")}</span> : null}
+          {tags.length > 0 ? (
+            <>
+              <span>/</span>
+              <span>{tags.join(", ")}</span>
+            </>
+          ) : null}
         </div>
         <div className="space-y-2">
           <h3 className="font-heading text-[22px] font-semibold leading-[30px] text-text group-visited:text-muted">

@@ -6,7 +6,7 @@ type ArticleCodeBlockProps = {
 
 export function ArticleCodeBlock({ node }: ArticleCodeBlockProps) {
   return (
-    <figure className="border border-border bg-surface p-4">
+    <figure className="border border-border bg-surface-muted p-4">
       {node.language ? (
         <figcaption className="mb-3 font-heading text-[12px] leading-[18px] text-muted">
           {node.language}

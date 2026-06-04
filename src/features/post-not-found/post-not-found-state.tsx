@@ -11,16 +11,21 @@ type PostNotFoundStateProps = {
 export function PostNotFoundState({ backHref, backLabel, label, message }: PostNotFoundStateProps) {
   return (
     <section
-      className="space-y-5 border-t border-border pt-8"
+      className="space-y-6 border border-strong bg-strong p-6 text-inverse"
       aria-labelledby="post-not-found-title"
     >
-      <div className="space-y-3">
-        <p id="post-not-found-title" className="font-heading text-[12px] leading-[18px] text-muted">
+      <div className="space-y-6">
+        <p
+          id="post-not-found-title"
+          className="font-heading text-[22px] font-semibold leading-[30px] text-inverse"
+        >
           {label}
         </p>
-        <StateText>{message}</StateText>
+        <StateText className="text-inverse">{message}</StateText>
       </div>
-      <TextLink href={backHref}>{backLabel}</TextLink>
+      <TextLink href={backHref} className="text-inverse decoration-inverse hover:text-inverse">
+        {backLabel}
+      </TextLink>
     </section>
   );
 }

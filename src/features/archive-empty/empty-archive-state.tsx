@@ -8,10 +8,13 @@ type EmptyArchiveStateProps = {
 export function EmptyArchiveState({ label, message }: EmptyArchiveStateProps) {
   return (
     <section
-      className="space-y-3 border-t border-border pt-8"
+      className="space-y-6 border border-border bg-surface-muted p-6"
       aria-labelledby="empty-archive-title"
     >
-      <p id="empty-archive-title" className="font-heading text-[12px] leading-[18px] text-muted">
+      <p
+        id="empty-archive-title"
+        className="font-heading text-[22px] font-semibold leading-[30px] text-text"
+      >
         {label}
       </p>
       <StateText>{message}</StateText>
