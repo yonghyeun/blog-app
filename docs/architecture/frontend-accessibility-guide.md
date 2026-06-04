@@ -19,9 +19,9 @@ blog app so UI slices do not re-decide accessibility from scratch.
 
 Use this guide together with:
 
-- [Design System v1](./design-system-v1.md)
-- [Storybook UI Surface Guide](../architecture/storybook-ui-surface.md)
-- [Playwright E2E Surface Contract](../architecture/playwright-e2e-surface.md)
+- [Design System v1](../design/design-system-v1.md)
+- [Storybook UI Surface Guide](./storybook-ui-surface.md)
+- [Playwright E2E Surface Contract](./playwright-e2e-surface.md)
 
 When a visual preference conflicts with this guide, accessibility wins unless the
 source issue explicitly records the exception and its risk.

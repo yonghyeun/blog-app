@@ -265,7 +265,7 @@ Do not use Controls to simulate server state that the component does not own.
 
 Accessibility coverage should grow with UI maturity.
 
-Read [Frontend Accessibility Guide](../design/frontend-accessibility-guide.md) before
+Read [Frontend Accessibility Guide](./frontend-accessibility-guide.md) before
 creating or changing reusable UI components, component fixtures, visual states, or
 Storybook stories. That guide owns the pass/fail checklist. This section only defines
 Storybook's verification boundary.

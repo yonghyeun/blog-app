@@ -35,7 +35,7 @@ Do not use Playwright for:
 
 ## Accessibility Boundary
 
-Read [Frontend Accessibility Guide](../design/frontend-accessibility-guide.md) before
+Read [Frontend Accessibility Guide](./frontend-accessibility-guide.md) before
 changing route-level UI, keyboard/focus behavior, navigation behavior, or visible
 empty/error/not-found states.
 
