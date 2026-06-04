@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma Comments REST"
+  short_description: "Read Figma file comments through the REST API for issue handoff."
+  default_prompt: "Read Figma comments with the REST API and summarize implementation-relevant feedback for the source issue."
