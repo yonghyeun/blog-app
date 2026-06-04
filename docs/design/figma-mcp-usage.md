@@ -33,12 +33,138 @@ Use this order for Figma MCP work:
 1. Confirm the source issue passed intake.
 2. Read this contract and the required context files.
 3. Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`.
-4. Inspect the Figma file before writing.
-5. Reuse existing variables, text styles, and components.
-6. Create new Figma assets only when the issue explicitly owns them.
-7. Record Figma file, page, frame, and node URLs on the issue tracking surface.
+4. Choose and record the modification isolation surface.
+5. Inspect the target Figma file or branch before writing.
+6. Reuse existing variables, text styles, and components.
+7. Create new Figma assets only when the issue explicitly owns them.
+8. Record Figma file, page, frame, and node references on the issue tracking
+   surface.
 
 Do not start screen-frame generation from memory or from an isolated prompt.
+
+## Modification Isolation
+
+Default to branch-first Figma modification.
+
+The main Figma file is the design source of truth. Agents must not write
+exploratory or unreviewed changes directly into the main file when Figma
+branching is available for the current account and file.
+
+Use this fallback order:
+
+```text
+Figma branch -> duplicate file -> main file with named version checkpoint
+```
+
+### Branch-First Workflow
+
+Use a Figma branch when all conditions are true:
+
+- the file is in a Figma plan and workspace where branching is available
+- the actor has a Full seat or equivalent current Figma permission for creating
+  and editing branches
+- the actor has view or edit access to the main file
+- the work is not already a direct main-file repair requested by the source
+  issue
+
+Branch naming:
+
+```text
+issue-<number>-<short-scope>
+```
+
+Examples:
+
+```text
+issue-71-figma-branch-workflow
+issue-32-home-screen-frames
+```
+
+Branch operation rules:
+
+- create the branch from the current main file before MCP write work
+- pass the branch key or branch URL to Figma MCP write tools
+- keep the main file key in `.env.local` as `FIGMA_VERTICAL_SLICE_V1_FILE_KEY`
+- do not commit concrete branch keys, file keys, or file URLs
+- inspect the branch before writing and after writing
+- request review or manually review the branch before merging to main
+- merge the branch only after the source issue records the delivered nodes
+- archive abandoned branches instead of leaving them active
+
+Figma branch URLs include a `/branch/<branchKey>/` segment. When a Figma MCP tool
+supports branch URLs, use the branch URL or extracted branch key for branch work,
+not the main file key.
+
+### Duplicate File Fallback
+
+Use a duplicate file only when Figma branching is unavailable or blocked.
+
+Duplicate-file rules:
+
+- duplicate from the current main file or from a named version checkpoint
+- name the duplicate with `issue-<number>-<short-scope>`
+- write MCP changes only to the duplicate
+- treat the duplicate as exploratory until changes are manually copied or
+  recreated in the main file
+- record that merge-back is manual
+- delete or archive the duplicate after the accepted changes are promoted
+
+Duplicate files do not preserve a merge path back into the main file. They are
+isolation surfaces, not a replacement source of truth.
+
+### Main File Checkpoint Fallback
+
+Use the main file directly only when branch and duplicate fallback are both
+unsuitable for the current issue.
+
+Before writing to the main file, create a named version checkpoint:
+
+```text
+Before issue-<number>-<short-scope>
+```
+
+After the write is accepted, create another named version checkpoint:
+
+```text
+After issue-<number>-<short-scope>
+```
+
+Main-file direct writes require a narrow issue scope and an explicit issue
+comment explaining why branch and duplicate isolation were not used.
+
+### Issue Recording
+
+Before any MCP write, add an issue comment with this shape:
+
+```text
+## Figma Write Target
+
+- Issue: #<number>
+- Mode: branch | duplicate | main-checkpoint
+- Reason: <why this mode is used>
+- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Target: <redacted branch/file URL or local-only reference>
+- Pre-write checkpoint: <name or not applicable>
+- Expected write surface: <page/frame/component names>
+```
+
+After the write, add an issue comment with this shape:
+
+```text
+## Figma Write Result
+
+- Issue: #<number>
+- Mode: branch | duplicate | main-checkpoint
+- Target: <redacted branch/file URL or local-only reference>
+- Delivered nodes: <page/frame/component names and node ids>
+- Post-write checkpoint: <name or not applicable>
+- Review status: pending | accepted | merged | abandoned
+- Merge-back notes: <branch merge, manual copy, or none>
+```
+
+Use redacted or environment-variable-shaped references on public GitHub issues
+unless the Figma file is intentionally public. Concrete file keys and branch
+keys belong in `.env.local`, local notes, or Figma itself, not tracked docs.
 
 ## Design Hierarchy
 
@@ -256,11 +382,15 @@ Do not add `Loading` frames for vertical slice v1.
 
 Every Figma handoff must record:
 
-- file URL
+- file reference
 - page name
 - frame or component name
 - node id
-- node URL when available
+- node reference when available
+
+For public repo or public GitHub surfaces, use redacted references or
+environment-variable-shaped references. Use concrete Figma URLs only in local
+notes, private tracking surfaces, or intentionally public Figma files.
 
 Use this node URL shape:
 
@@ -274,8 +404,16 @@ Example:
 https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/<fileName>?node-id=22-2
 ```
 
-Record these links on the source issue or umbrella tracking comment, not inside
-repo docs as remote ownership claims.
+For branch work, the equivalent redacted shape is:
+
+```text
+https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/branch/<branchKey>/<fileName>?node-id=22-2
+```
+
+Record these references on the source issue or umbrella tracking comment, not
+inside repo docs as remote ownership claims. If the issue surface is public and
+the Figma file is private, record the page/frame/node names and keep the
+concrete URL in `.env.local` or a private operator note.
 
 ## Leaf 3 Checklist
 
