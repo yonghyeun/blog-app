@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #f7f7f5;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f7f7f5;
+  --color-background: #f9faf9;
+  --color-surface: #f2f4f3;
+  --color-surface-muted: #e8ebe9;
   --color-text: #111111;
-  --color-muted: #666666;
-  --color-border: #d8d8d4;
+  --color-muted: #5f6562;
+  --color-border: #d7dcda;
   --color-strong: #111111;
-  --color-inverse: #f7f7f5;
+  --color-inverse: #f9faf9;
 
   --font-sans: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --font-heading: "IBM Plex Sans KR", "Noto Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;

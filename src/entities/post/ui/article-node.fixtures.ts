@@ -58,7 +58,7 @@ export const imageNode = {
   type: "image",
   target: "renderer-boundary.png",
   assetUrl:
-    "data:image/svg+xml,%3Csvg width='960' height='540' viewBox='0 0 960 540' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='960' height='540' fill='%23f7f7f5'/%3E%3Crect x='80' y='80' width='800' height='380' fill='%23ffffff' stroke='%23d8d8d4'/%3E%3Ctext x='120' y='150' font-family='monospace' font-size='28' fill='%23111111'%3Erenderer-boundary.png%3C/text%3E%3Ctext x='120' y='210' font-family='monospace' font-size='20' fill='%23666666'%3Epublic fixture image%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg width='960' height='540' viewBox='0 0 960 540' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='960' height='540' fill='%23f9faf9'/%3E%3Crect x='80' y='80' width='800' height='380' fill='%23f2f4f3' stroke='%23d7dcda'/%3E%3Ctext x='120' y='150' font-family='monospace' font-size='28' fill='%23111111'%3Erenderer-boundary.png%3C/text%3E%3Ctext x='120' y='210' font-family='monospace' font-size='20' fill='%235f6562'%3Epublic fixture image%3C/text%3E%3C/svg%3E",
   width: 960,
   height: 540,
   source: articleNodeSource,
