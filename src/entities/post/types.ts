@@ -70,6 +70,7 @@ export type CodeBlockNode = {
 
 export type ListItemNode = {
   children: InlineContentNode[];
+  nestedLists?: ListNode[];
   source: SourceLocation;
 };
 

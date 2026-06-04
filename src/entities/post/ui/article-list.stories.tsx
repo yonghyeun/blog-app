@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { ArticleList } from "@/entities/post/ui/article-list";
-import { orderedListNode, unorderedListNode } from "@/entities/post/ui/article-node.fixtures";
+import {
+  nestedListNode,
+  orderedListNode,
+  unorderedListNode,
+} from "@/entities/post/ui/article-node.fixtures";
 
 const meta = {
   title: "entities/post/ArticleList",
@@ -28,5 +32,18 @@ export const Unordered: Story = {};
 export const Ordered: Story = {
   args: {
     node: orderedListNode,
+  },
+};
+
+export const Nested: Story = {
+  args: {
+    node: nestedListNode,
+  },
+  play: ({ canvasElement }) => {
+    const nestedLists = canvasElement.querySelectorAll("li ul, li ol");
+
+    if (nestedLists.length === 0) {
+      throw new Error("ArticleList nested list was not rendered.");
+    }
   },
 };

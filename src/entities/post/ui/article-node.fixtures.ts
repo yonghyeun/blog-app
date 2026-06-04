@@ -95,3 +95,53 @@ export const orderedListNode = {
   ...unorderedListNode,
   ordered: true,
 } satisfies ListNode;
+
+export const nestedListNode = {
+  type: "list",
+  ordered: false,
+  items: [
+    {
+      children: [{ type: "text", value: "renderer shell" }],
+      nestedLists: [
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            {
+              children: [{ type: "text", value: "entity atom stories" }],
+              source: articleNodeSource,
+            },
+            {
+              children: [{ type: "text", value: "widget composition stories" }],
+              source: articleNodeSource,
+            },
+          ],
+          source: articleNodeSource,
+        },
+      ],
+      source: articleNodeSource,
+    },
+    {
+      children: [{ type: "text", value: "content loader boundary" }],
+      nestedLists: [
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            {
+              children: [{ type: "text", value: "Markdown source" }],
+              source: articleNodeSource,
+            },
+            {
+              children: [{ type: "text", value: "PostContentNode AST" }],
+              source: articleNodeSource,
+            },
+          ],
+          source: articleNodeSource,
+        },
+      ],
+      source: articleNodeSource,
+    },
+  ],
+  source: articleNodeSource,
+} satisfies ListNode;

@@ -11,7 +11,11 @@ export function ArticleList({ node }: ArticleListProps) {
   return (
     <ListTag className={["space-y-2 pl-6", node.ordered ? "list-decimal" : "list-disc"].join(" ")}>
       {node.items.map((item, index) => (
-        <ArticleListItem key={index} node={item} />
+        <ArticleListItem key={index} node={item}>
+          {item.nestedLists?.map((nestedList, nestedIndex) => (
+            <ArticleList key={nestedIndex} node={nestedList} />
+          ))}
+        </ArticleListItem>
       ))}
     </ListTag>
   );
