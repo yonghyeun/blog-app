@@ -57,10 +57,14 @@ Before using Figma MCP:
 - Read `docs/design/figma-mcp-usage.md`.
 - Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`; do not commit
   concrete Figma file keys in this public repository.
+- Use `figma-write-start` before any Figma MCP write.
 - Reuse existing Figma variables, text styles, and components before creating
   new assets.
-- Record Figma file, page, frame, and node URLs on the source issue or umbrella
-  tracking surface.
+- Use `figma-write-finish` after any Figma MCP write.
+- Use `figma-branch-merge` only when the user explicitly approves merging an
+  accepted Figma branch into the main file.
+- Record Figma file, page, frame, and node references on the source issue or
+  umbrella tracking surface.
 
 Before PR or review:
 
