@@ -35,6 +35,7 @@ npm run typecheck
 npm test
 npm run build
 npm run storybook:build
+npm run test:storybook
 npm run test:e2e
 ```
 
@@ -79,6 +80,7 @@ Allowed:
 - lint, format, and type checks
 - Vitest module tests
 - Storybook production build
+- Storybook story smoke, interaction, and accessibility tests
 - Playwright Chromium smoke tests
 
 Not allowed:
@@ -96,3 +98,7 @@ explicitly changed in a follow-up issue.
 
 Storybook Vite chunk-size warnings are acceptable when `npm run storybook:build` exits
 successfully.
+
+Storybook UI test failures block merging when a story fails to render, a story `play`
+function assertion fails, or an accessibility violation fails a story with
+`parameters.a11y.test = "error"`.

@@ -330,11 +330,15 @@ It is not the final design system.
 ```bash
 npm run storybook
 npm run storybook:build
+npm run test:storybook
 ```
 
 Use `npm run storybook` for local component review.
 
 Use `npm run storybook:build` for non-interactive validation.
+
+Use `npm run test:storybook` for story render smoke tests, story `play` function
+interaction tests, and accessibility checks configured by Storybook parameters.
 
 ## Quality Gate
 
@@ -346,6 +350,7 @@ npm run format:check
 npm run typecheck
 npm test
 npm run storybook:build
+npm run test:storybook
 git diff --check
 ```
 

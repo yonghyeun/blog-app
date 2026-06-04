@@ -58,5 +58,8 @@ jobs:
       - name: Build Storybook
         run: npm run storybook:build
 
+      - name: Run Storybook UI Tests
+        run: npm run test:storybook
+
       - name: Run Playwright E2E
         run: npm run test:e2e

@@ -12,7 +12,10 @@ export function ArticleCodeBlock({ node }: ArticleCodeBlockProps) {
           {node.language}
         </figcaption>
       ) : null}
-      <pre className="overflow-x-auto font-mono text-[0.875rem] leading-[1.375rem] text-text">
+      <pre
+        className="overflow-x-auto font-mono text-[0.875rem] leading-[1.375rem] text-text"
+        tabIndex={0}
+      >
         <code>{node.code}</code>
       </pre>
     </figure>
