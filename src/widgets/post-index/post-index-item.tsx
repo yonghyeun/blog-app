@@ -18,6 +18,7 @@ export function PostIndexItem({
   return (
     <a
       href={href}
+      aria-label={title}
       className={[
         "group block border-t border-border py-4 transition-colors",
         "visited:text-muted hover:bg-surface focus-visible:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-strong active:bg-surface-muted",
