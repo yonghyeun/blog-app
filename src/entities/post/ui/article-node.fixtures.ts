@@ -145,3 +145,61 @@ export const nestedListNode = {
   ],
   source: articleNodeSource,
 } satisfies ListNode;
+
+export const mixedChildrenNestedListNode = {
+  type: "list",
+  ordered: false,
+  items: [
+    {
+      children: [
+        { type: "text", value: "root item with " },
+        { type: "inlineCode", value: "inlineCode" },
+        { type: "text", value: " child" },
+      ],
+      nestedLists: [
+        {
+          type: "list",
+          ordered: true,
+          items: [
+            {
+              children: [
+                { type: "text", value: "ordered nested item uses " },
+                { type: "inlineCode", value: "ordered" },
+              ],
+              source: articleNodeSource,
+            },
+            {
+              children: [{ type: "text", value: "second nested item has plain text" }],
+              source: articleNodeSource,
+            },
+          ],
+          source: articleNodeSource,
+        },
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            {
+              children: [
+                { type: "inlineCode", value: "unordered" },
+                { type: "text", value: " nested item starts with code" },
+              ],
+              source: articleNodeSource,
+            },
+          ],
+          source: articleNodeSource,
+        },
+      ],
+      source: articleNodeSource,
+    },
+    {
+      children: [
+        { type: "text", value: "sibling item keeps " },
+        { type: "inlineCode", value: "PostContentNode" },
+        { type: "text", value: " wording" },
+      ],
+      source: articleNodeSource,
+    },
+  ],
+  source: articleNodeSource,
+} satisfies ListNode;

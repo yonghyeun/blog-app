@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { ArticleList } from "@/entities/post/ui/article-list";
 import {
+  mixedChildrenNestedListNode,
   nestedListNode,
   orderedListNode,
   unorderedListNode,
@@ -44,6 +45,30 @@ export const Nested: Story = {
 
     if (nestedLists.length === 0) {
       throw new Error("ArticleList nested list was not rendered.");
+    }
+  },
+};
+
+export const NestedMixedChildren: Story = {
+  args: {
+    node: mixedChildrenNestedListNode,
+  },
+  play: ({ canvasElement }) => {
+    const nestedOrderedList = canvasElement.querySelector("li ol");
+    const nestedUnorderedList = canvasElement.querySelector("li ul");
+    const inlineCodes = canvasElement.querySelectorAll("code");
+    const text = canvasElement.textContent ?? "";
+
+    if (!nestedOrderedList || !nestedUnorderedList) {
+      throw new Error("ArticleList mixed nested ordered/unordered lists were not rendered.");
+    }
+
+    if (inlineCodes.length < 3) {
+      throw new Error("ArticleList mixed inlineCode children were not rendered.");
+    }
+
+    if (!text.includes("root item with inlineCode child")) {
+      throw new Error("ArticleList root mixed children text was not rendered.");
     }
   },
 };
