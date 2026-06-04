@@ -29,7 +29,7 @@ export const postDetailFixture = {
     {
       type: "codeBlock",
       language: "tsx",
-      code: '<ArticleBody nodes={post.content} />',
+      code: "<ArticleBody nodes={post.content} />",
       source,
     },
     {
