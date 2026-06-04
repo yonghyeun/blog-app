@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Umbrella Add"
+  short_description: "Create a new umbrella issue for a repo task group."
+  default_prompt: "Create a new umbrella issue for this task group."

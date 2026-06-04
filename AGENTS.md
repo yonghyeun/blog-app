@@ -24,6 +24,10 @@ Do not start implementation before the source issue passes intake.
 
 Use these repo-local skills for task lifecycle work:
 
+- Use `task-umbrella-add` when creating a new umbrella issue for a multi-leaf
+  workstream, slice, or risk-resolution group.
+- Use `task-leaf-add` when creating a bounded leaf issue under an existing
+  umbrella and registering it as a GitHub sub-issue.
 - Use `task-intake` before implementing a non-trivial issue or task.
 - Use `task-merge` when the user says a PR can be merged or landed.
 - Use `task-close` when the user asks for closeout, task cleanup, or workspace
