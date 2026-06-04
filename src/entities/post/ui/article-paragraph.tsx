@@ -7,7 +7,7 @@ type ArticleParagraphProps = {
 
 export function ArticleParagraph({ node }: ArticleParagraphProps) {
   return (
-    <p className="font-sans text-[17px] leading-[29px] text-text">
+    <p className="font-sans text-[1.0625rem] leading-[1.8125rem] text-text">
       <ArticleInlineContent nodes={node.children} />
     </p>
   );

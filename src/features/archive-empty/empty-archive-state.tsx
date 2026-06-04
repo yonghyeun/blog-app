@@ -13,7 +13,7 @@ export function EmptyArchiveState({ label, message }: EmptyArchiveStateProps) {
     >
       <p
         id="empty-archive-title"
-        className="font-heading text-[22px] font-semibold leading-[30px] text-text"
+        className="font-heading text-[1.375rem] font-semibold leading-[1.875rem] text-text"
       >
         {label}
       </p>

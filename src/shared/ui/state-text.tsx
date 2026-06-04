@@ -7,7 +7,9 @@ type StateTextProps = {
 
 export function StateText({ children, className = "" }: StateTextProps) {
   return (
-    <p className={["font-sans text-[17px] leading-[29px] text-muted", className].join(" ")}>
+    <p
+      className={["font-sans text-[1.0625rem] leading-[1.8125rem] text-muted", className].join(" ")}
+    >
       {children}
     </p>
   );

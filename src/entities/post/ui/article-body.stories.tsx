@@ -62,7 +62,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <article className="w-[720px] bg-background p-8">
+      <article className="w-[45rem] bg-background p-8">
         <Story />
       </article>
     ),

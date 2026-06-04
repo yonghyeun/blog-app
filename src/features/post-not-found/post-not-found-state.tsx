@@ -17,7 +17,7 @@ export function PostNotFoundState({ backHref, backLabel, label, message }: PostN
       <div className="space-y-6">
         <p
           id="post-not-found-title"
-          className="font-heading text-[22px] font-semibold leading-[30px] text-inverse"
+          className="font-heading text-[1.375rem] font-semibold leading-[1.875rem] text-inverse"
         >
           {label}
         </p>

@@ -7,7 +7,7 @@ type ArticleListItemProps = {
 
 export function ArticleListItem({ node }: ArticleListItemProps) {
   return (
-    <li className="pl-1 font-sans text-[17px] leading-[29px] text-text">
+    <li className="pl-1 font-sans text-[1.0625rem] leading-[1.8125rem] text-text">
       <ArticleInlineContent nodes={node.children} />
     </li>
   );

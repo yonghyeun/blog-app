@@ -19,11 +19,11 @@ export function ArticleImage({ node }: ArticleImageProps) {
           className="w-full border border-border bg-surface object-contain"
         />
       ) : (
-        <div className="flex min-h-[220px] items-center justify-center border border-border bg-surface-muted px-4 text-center font-heading text-[13px] leading-[20px] text-muted">
+        <div className="flex min-h-[13.75rem] items-center justify-center border border-border bg-surface-muted px-4 text-center font-heading text-[0.8125rem] leading-[1.25rem] text-muted">
           {node.target}
         </div>
       )}
-      <figcaption className="font-heading text-[12px] leading-[18px] text-muted">
+      <figcaption className="font-heading text-[0.75rem] leading-[1.125rem] text-muted">
         {node.target}
       </figcaption>
     </figure>

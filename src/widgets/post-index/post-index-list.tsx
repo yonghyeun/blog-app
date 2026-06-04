@@ -11,7 +11,10 @@ type PostIndexListProps = {
 export function PostIndexList({ posts, sectionLabel = "Index" }: PostIndexListProps) {
   return (
     <section className="w-full" aria-labelledby="post-index-title">
-      <p id="post-index-title" className="mb-6 font-heading text-[12px] leading-[18px] text-muted">
+      <p
+        id="post-index-title"
+        className="mb-6 font-heading text-[0.75rem] leading-[1.125rem] text-muted"
+      >
         {sectionLabel}
       </p>
       <div className="border-b border-border">

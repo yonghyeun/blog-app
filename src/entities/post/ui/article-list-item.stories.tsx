@@ -12,7 +12,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ul className="w-[720px] list-disc bg-background p-8 pl-14">
+      <ul className="w-[45rem] list-disc bg-background p-8 pl-14">
         <Story />
       </ul>
     ),

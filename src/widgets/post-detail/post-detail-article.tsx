@@ -11,7 +11,7 @@ type PostDetailArticleProps = {
 
 export function PostDetailArticle({ nodes, publishedAt, tags, title }: PostDetailArticleProps) {
   return (
-    <article className="mx-auto w-full max-w-[720px] space-y-12">
+    <article className="mx-auto w-full max-w-[45rem] space-y-12">
       <ArticleHeader title={title} publishedAt={publishedAt} tags={tags} />
       <ArticleBody nodes={nodes} />
     </article>

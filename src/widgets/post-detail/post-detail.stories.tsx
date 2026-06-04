@@ -42,7 +42,7 @@ export const Desktop: Story = {
 export const Mobile: Story = {
   decorators: [
     (Story) => (
-      <main className="w-[342px] bg-background p-5">
+      <main className="w-[21.375rem] bg-background p-5">
         <Story />
       </main>
     ),

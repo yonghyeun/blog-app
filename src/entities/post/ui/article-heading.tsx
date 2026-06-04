@@ -6,9 +6,9 @@ type ArticleHeadingProps = {
 };
 
 const headingClassNameByDepth = {
-  1: "font-heading text-[32px] font-semibold leading-[42px]",
-  2: "font-heading text-[22px] font-semibold leading-[30px]",
-  3: "font-heading text-[17px] font-semibold leading-[29px]",
+  1: "font-heading text-[2rem] font-semibold leading-[2.625rem]",
+  2: "font-heading text-[1.375rem] font-semibold leading-[1.875rem]",
+  3: "font-heading text-[1.0625rem] font-semibold leading-[1.8125rem]",
 } satisfies Record<HeadingNode["depth"], string>;
 
 export function ArticleHeading({ node }: ArticleHeadingProps) {

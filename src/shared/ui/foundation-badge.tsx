@@ -12,7 +12,7 @@ export function FoundationBadge({ label, tone = "neutral" }: FoundationBadgeProp
   return (
     <span
       className={[
-        "inline-flex items-center border px-2 py-1 font-heading text-[13px] font-semibold leading-none",
+        "inline-flex items-center border px-2 py-1 font-heading text-[0.8125rem] font-semibold leading-none",
         toneClassNames[tone],
       ].join(" ")}
     >

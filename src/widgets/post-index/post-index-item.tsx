@@ -25,7 +25,7 @@ export function PostIndexItem({
       ].join(" ")}
     >
       <article className="space-y-3">
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-heading text-[13px] leading-[20px] text-muted">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-heading text-[0.8125rem] leading-[1.25rem] text-muted">
           <time dateTime={publishedAt}>{publishedAt}</time>
           {tags.length > 0 ? (
             <>
@@ -35,10 +35,10 @@ export function PostIndexItem({
           ) : null}
         </div>
         <div className="space-y-2">
-          <h3 className="font-heading text-[22px] font-semibold leading-[30px] text-text group-visited:text-muted">
+          <h3 className="font-heading text-[1.375rem] font-semibold leading-[1.875rem] text-text group-visited:text-muted">
             {title}
           </h3>
-          <p className="max-w-[680px] font-sans text-[14px] leading-[22px] text-muted">
+          <p className="max-w-[42.5rem] font-sans text-[0.875rem] leading-[1.375rem] text-muted">
             {description}
           </p>
         </div>

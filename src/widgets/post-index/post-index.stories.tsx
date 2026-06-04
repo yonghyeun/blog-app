@@ -13,7 +13,7 @@ const listMeta = {
   },
   decorators: [
     (Story) => (
-      <main className="w-[720px] bg-background p-8">
+      <main className="w-[45rem] bg-background p-8">
         <Story />
       </main>
     ),
@@ -42,7 +42,7 @@ export const Desktop: ListStory = {
 export const Mobile: ListStory = {
   decorators: [
     (Story) => (
-      <main className="w-[342px] bg-background p-5">
+      <main className="w-[21.375rem] bg-background p-5">
         <Story />
       </main>
     ),
