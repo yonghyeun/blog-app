@@ -88,6 +88,41 @@ Implementation work should:
 - avoid completing future leaf work early
 - preserve unrelated user changes
 - update the issue or umbrella tracking surface when the plan changes
+- commit completed work in versionable atomic units
+
+#### Commit Units
+
+Do not wait until the end of a non-trivial task to put all repository changes in
+one final commit.
+
+An atomic commit should represent one reviewable intent, such as:
+
+- one documentation contract update
+- one implementation slice
+- one test slice
+- one review-finding fix
+- one mechanical formatting or generated-output update
+
+Each commit should leave the worktree in a coherent state for the committed
+surface. It does not need to complete the whole issue, but a later agent should
+be able to understand what was finished by reading the commit subject and diff.
+
+Individual commits do not need to run the full PR quality gate. The full quality
+gate remains a before-review PR requirement.
+
+Do not mix unrelated intents only because they were discovered in the same work
+session. If a change belongs to a future issue or exposes a new risk, record it
+on the issue or umbrella tracking surface instead of hiding it inside the current
+commit.
+
+When an interrupt or handoff happens, commit every completed atomic unit before
+handoff when the unit is coherent and passes its relevant local check. Leave
+unfinished work uncommitted only when it is explicitly described in the handoff
+receipt with the affected files and next action.
+
+This policy governs branch work, review, rollback, and handoff inside a task. It
+does not change the repository's squash merge preference or main branch history
+shape.
 
 ### 5. PR
 

@@ -38,7 +38,13 @@ Gate implementation behind the repo issue system and isolate work before edits.
    - accepted scope
    - non-scope
    - planned verification
-9. Begin implementation only after the receipt is written.
+9. Plan the first atomic commit before editing.
+   - Non-trivial work must be committed in versionable atomic units as it
+     progresses.
+   - Do not save all repository changes for one final catch-all commit.
+   - Each completed commit should have one reviewable intent and be
+     understandable to the next agent from its subject and diff.
+10. Begin implementation only after the receipt is written.
 
 ## Stop Conditions
 

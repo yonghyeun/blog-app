@@ -33,6 +33,7 @@ Infer the mode from the user's request and live PR/issue state. If ambiguous, ch
    - branch
    - head SHA or merge SHA
    - delivered scope
+   - completed atomic commit units
    - verification commands/results
    - follow-ups or risk-resolution note
    - workspace decision
@@ -73,6 +74,10 @@ git worktree prune
 | worktree has modified or untracked files                       | ask before removal                                 |
 | worktree has unpushed commits                                  | ask before removal                                 |
 | user explicitly says force remove                              | remove with `--force` after confirming target path |
+
+For handoff, completed coherent units should be committed before the receipt is
+written. If unfinished work remains uncommitted, name the affected files and the
+next action in the receipt.
 
 ## User Questions
 
