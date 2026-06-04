@@ -5,6 +5,7 @@ import { FoundationBadge } from "@/shared/ui/foundation-badge";
 const meta = {
   title: "shared/FoundationBadge",
   component: FoundationBadge,
+  tags: ["autodocs"],
   args: {
     label: "Foundation ready",
     tone: "neutral",
