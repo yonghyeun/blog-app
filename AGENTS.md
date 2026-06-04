@@ -74,6 +74,7 @@ When creating or executing issue work:
 - Prefer Korean for issue title summaries and user-facing issue body prose.
 - Keep the English title prefix such as `chore:`, `feat:`, or `fix:`.
 - Use intended labels from `docs/operations/issue-system.md`.
+- Follow the commit-unit policy in `docs/operations/issue-system.md`.
 - Keep umbrella context on the umbrella tracking surface.
 - Keep leaf work bounded to one executable outcome.
 - Record dependency changes in the issue or umbrella tracking comment.
