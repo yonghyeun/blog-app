@@ -8,23 +8,16 @@ import {
   loadLocalObsidianSources,
   resolveAttachmentRoot,
 } from "@/entities/post/lib/load-local-obsidian-sources";
-
-const assetUrlPrefix = "/post-assets";
+import { readBlogPostAssetUrlPrefix, readBlogPostRepoPath } from "@/shared/env/server-env";
 
 export const loadRendererPosts = (): Promise<PostLoadResult<LoadedObsidianPosts>> => {
-  const contentRoot = process.env.BLOG_POST_REPO_PATH;
+  const contentRoot = readBlogPostRepoPath();
 
   return loadObsidianPosts({
-    assetUrlPrefix,
-    attachmentRoot: contentRoot ? resolveAttachmentRoot({ contentRoot }) : "",
+    assetUrlPrefix: readBlogPostAssetUrlPrefix(),
+    attachmentRoot: resolveAttachmentRoot({ contentRoot }),
     dateProvider: () => null,
-    loadSources: () =>
-      contentRoot
-        ? loadLocalObsidianSources({ contentRoot })
-        : {
-            attachments: [],
-            posts: [],
-          },
+    loadSources: () => loadLocalObsidianSources({ contentRoot }),
   });
 };
 

@@ -5,6 +5,7 @@ import {
   resolveAttachmentRoot,
   resolveContentRoot,
 } from "@/entities/post/lib/load-local-obsidian-sources";
+import { readBlogPostRepoPath } from "@/shared/env/server-env";
 
 type PostAssetRouteContext = {
   params: Promise<{
@@ -13,12 +14,7 @@ type PostAssetRouteContext = {
 };
 
 export async function GET(_request: Request, { params }: PostAssetRouteContext) {
-  const contentRoot = process.env.BLOG_POST_REPO_PATH;
-
-  if (!contentRoot) {
-    return new Response(null, { status: 404 });
-  }
-
+  const contentRoot = readBlogPostRepoPath();
   const { assetPath } = await params;
   const attachmentRoot = resolveAttachmentRoot({
     contentRoot: resolveContentRoot(contentRoot),

@@ -176,6 +176,7 @@ Current foundation variables:
 
 ```text
 BLOG_POST_REPO_PATH
+BLOG_POST_ASSET_URL_PREFIX
 BLOG_POST_REPO_URL
 BLOG_POST_DEPLOY_KEY_PATH
 ```
@@ -183,6 +184,8 @@ BLOG_POST_DEPLOY_KEY_PATH
 Rules:
 
 - `BLOG_POST_REPO_PATH` is for local sibling checkout workflows.
+- `BLOG_POST_ASSET_URL_PREFIX` is the public URL prefix for resolved post attachment
+  images.
 - `BLOG_POST_REPO_URL` is for future server/build checkout workflows.
 - `BLOG_POST_DEPLOY_KEY_PATH` must never be exposed to client code.
 - Variables prefixed with `NEXT_PUBLIC_` are browser-visible and must not contain secrets.
