@@ -4,11 +4,11 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/dev/worktree-remove.sh <path> [--yes] [--force]
+  .codex/skills/task-close/scripts/worktree-remove.sh <path> [--yes] [--force]
 
 Examples:
-  scripts/dev/worktree-remove.sh ../app-issue-56
-  scripts/dev/worktree-remove.sh ../app-issue-56 --yes
+  .codex/skills/task-close/scripts/worktree-remove.sh ../app-issue-56
+  .codex/skills/task-close/scripts/worktree-remove.sh ../app-issue-56 --yes
 
 Behavior:
   - Removes the git worktree at <path>.
@@ -51,6 +51,7 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 repo_root="$(git rev-parse --show-toplevel)"
 
 if [[ ! -d "$target_path" ]]; then
@@ -99,6 +100,6 @@ remove_args+=("$target_abs")
 
 git -C "$repo_root" "${remove_args[@]}"
 
-node "$repo_root/scripts/dev/update-vscode-workspace.mjs"
+node "$script_dir/update-vscode-workspace.mjs"
 
 echo "Worktree removed: $target_abs"

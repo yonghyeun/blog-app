@@ -28,7 +28,7 @@ Gate implementation behind the repo issue system and isolate work before edits.
 5. If intake fails, update the issue or ask for the missing decision. Do not edit repo files.
 6. If intake passes, ensure the issue has `status:ready` or update it when appropriate.
 7. Create or select an isolated worktree.
-   - Prefer `scripts/dev/worktree-add.sh <path> <branch> origin/main`.
+   - Prefer `.codex/skills/task-intake/scripts/worktree-add.sh <path> <branch> origin/main`.
    - Set `BLOG_APP_SKIP_CODE_ADD=1` when the visible editor should not be mutated.
    - Do not implement on a dirty or unrelated branch.
 8. Add an intake receipt comment to the issue.
@@ -53,11 +53,11 @@ Gate implementation behind the repo issue system and isolate work before edits.
 Use repo-local scripts before raw worktree commands:
 
 ```bash
-BLOG_APP_SKIP_CODE_ADD=1 scripts/dev/worktree-add.sh ../app-issue-<n>-<slug> work/<n>-<slug> origin/main
+BLOG_APP_SKIP_CODE_ADD=1 .codex/skills/task-intake/scripts/worktree-add.sh ../app-issue-<n>-<slug> work/<n>-<slug> origin/main
 ```
 
 Raw `git worktree add` is fallback only when the script is absent or broken, and the final workspace file must then be regenerated with:
 
 ```bash
-node scripts/dev/update-vscode-workspace.mjs
+node .codex/skills/task-intake/scripts/update-vscode-workspace.mjs
 ```

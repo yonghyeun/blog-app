@@ -30,8 +30,8 @@ Use these repo-local skills for task lifecycle work:
   cleanup.
 
 `task-merge` must not remove workspaces. `task-close` owns workspace cleanup
-decisions and must prefer `scripts/dev/worktree-remove.sh` over raw
-`git worktree remove`.
+decisions and must prefer `.codex/skills/task-close/scripts/worktree-remove.sh`
+over raw `git worktree remove`.
 
 ## Required Reading
 

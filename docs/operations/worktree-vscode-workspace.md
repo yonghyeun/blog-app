@@ -22,6 +22,9 @@ Regenerate it from the current git worktree list:
 npm run worktree:workspace
 ```
 
+The npm wrapper delegates to the task lifecycle skill script at
+`.codex/skills/task-close/scripts/update-vscode-workspace.mjs`.
+
 The workspace includes watcher and search excludes for heavy generated folders:
 
 - `node_modules`
@@ -40,6 +43,9 @@ Use the repo wrapper instead of calling `git worktree add` directly:
 ```bash
 npm run worktree:add -- ../app-issue-56 work/56-worktree-vscode-workspace origin/main
 ```
+
+The npm wrapper delegates to
+`.codex/skills/task-intake/scripts/worktree-add.sh`.
 
 Arguments:
 
@@ -67,6 +73,9 @@ Use the repo wrapper instead of calling `git worktree remove` directly:
 ```bash
 npm run worktree:remove -- ../app-issue-56
 ```
+
+The npm wrapper delegates to
+`.codex/skills/task-close/scripts/worktree-remove.sh`.
 
 For non-interactive execution:
 

@@ -40,19 +40,19 @@ Infer the mode from the user's request and live PR/issue state. If ambiguous, ch
 6. If removing a worktree, use repo-local script first:
 
 ```bash
-scripts/dev/worktree-remove.sh <path> --yes
+.codex/skills/task-close/scripts/worktree-remove.sh <path> --yes
 ```
 
 Use force only after explicit user request:
 
 ```bash
-scripts/dev/worktree-remove.sh <path> --yes --force
+.codex/skills/task-close/scripts/worktree-remove.sh <path> --yes --force
 ```
 
 7. If fallback raw `git worktree remove` was required, run:
 
 ```bash
-node scripts/dev/update-vscode-workspace.mjs
+node .codex/skills/task-close/scripts/update-vscode-workspace.mjs
 git worktree prune
 ```
 

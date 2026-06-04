@@ -14,9 +14,9 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
-    "worktree:add": "scripts/dev/worktree-add.sh",
-    "worktree:remove": "scripts/dev/worktree-remove.sh",
-    "worktree:workspace": "node scripts/dev/update-vscode-workspace.mjs"
+    "worktree:add": ".codex/skills/task-intake/scripts/worktree-add.sh",
+    "worktree:remove": ".codex/skills/task-close/scripts/worktree-remove.sh",
+    "worktree:workspace": "node .codex/skills/task-close/scripts/update-vscode-workspace.mjs"
   },
   "dependencies": {
     "next": "16.2.7",
