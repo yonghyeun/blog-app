@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const baseURL = "http://127.0.0.1:3100";
+const readinessURL = `${baseURL}/favicon.ico`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -15,7 +16,7 @@ export default defineConfig({
   webServer: {
     command: "npm run dev -- --port 3100",
     reuseExistingServer: false,
-    url: baseURL,
+    url: readinessURL,
   },
   projects: [
     {

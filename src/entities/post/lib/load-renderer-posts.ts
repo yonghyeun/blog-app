@@ -22,7 +22,15 @@ export const loadRendererPosts = (): Promise<PostLoadResult<LoadedObsidianPosts>
 };
 
 export const getRendererPostsOrThrow = async (): Promise<LoadedObsidianPosts> => {
-  const postsResult = await loadRendererPosts();
+  let postsResult: PostLoadResult<LoadedObsidianPosts>;
+
+  try {
+    postsResult = await loadRendererPosts();
+  } catch (error) {
+    throw new Error(formatRendererLoadError(error), {
+      cause: error,
+    });
+  }
 
   if (!postsResult.ok) {
     throw new Error(formatPostLoadIssues(postsResult.error));
@@ -33,3 +41,11 @@ export const getRendererPostsOrThrow = async (): Promise<LoadedObsidianPosts> =>
 
 const formatPostLoadIssues = (issues: PostLoadIssue[]) =>
   issues.map((issue) => issue.message).join("\n");
+
+const formatRendererLoadError = (error: unknown) => {
+  if (error instanceof Error) {
+    return `Renderer post source configuration failed: ${error.message}`;
+  }
+
+  return "Renderer post source configuration failed.";
+};
