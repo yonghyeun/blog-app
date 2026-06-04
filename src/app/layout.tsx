@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { fontClassName } from "@/shared/ui/fonts";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={fontClassName}>
       <body>{children}</body>
     </html>
   );

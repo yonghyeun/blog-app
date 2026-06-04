@@ -1,38 +1,20 @@
-import type { CSSProperties } from "react";
-
 type FoundationBadgeProps = {
   label: string;
   tone?: "neutral" | "success";
 };
 
-const toneStyles = {
-  neutral: {
-    background: "#f8fafc",
-    borderColor: "#cbd5e1",
-    color: "#334155",
-  },
-  success: {
-    background: "#ecfdf5",
-    borderColor: "#6ee7b7",
-    color: "#047857",
-  },
-} satisfies Record<NonNullable<FoundationBadgeProps["tone"]>, CSSProperties>;
+const toneClassNames = {
+  neutral: "border-border bg-surface text-text",
+  success: "border-strong bg-strong text-inverse",
+} satisfies Record<NonNullable<FoundationBadgeProps["tone"]>, string>;
 
 export function FoundationBadge({ label, tone = "neutral" }: FoundationBadgeProps) {
   return (
     <span
-      style={{
-        ...toneStyles[tone],
-        alignItems: "center",
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderRadius: 6,
-        display: "inline-flex",
-        fontSize: 13,
-        fontWeight: 600,
-        lineHeight: 1,
-        padding: "6px 8px",
-      }}
+      className={[
+        "inline-flex items-center border px-2 py-1 font-heading text-[0.8125rem] font-semibold leading-none",
+        toneClassNames[tone],
+      ].join(" ")}
     >
       {label}
     </span>
