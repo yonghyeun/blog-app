@@ -14,9 +14,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <main className="w-[45rem] bg-background p-8">
+      <div className="w-[45rem] bg-background p-8">
         <Story />
-      </main>
+      </div>
     ),
   ],
 } satisfies Meta<typeof PostNotFoundState>;

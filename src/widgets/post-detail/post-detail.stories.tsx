@@ -10,9 +10,9 @@ const meta = {
   args: postDetailFixture,
   decorators: [
     (Story) => (
-      <main className="bg-background p-8">
+      <div className="bg-background p-8">
         <Story />
-      </main>
+      </div>
     ),
   ],
 } satisfies Meta<typeof PostDetailArticle>;
@@ -42,9 +42,9 @@ export const Desktop: Story = {
 export const Mobile: Story = {
   decorators: [
     (Story) => (
-      <main className="w-[21.375rem] bg-background p-5">
+      <div className="w-[21.375rem] bg-background p-5">
         <Story />
-      </main>
+      </div>
     ),
   ],
 };
