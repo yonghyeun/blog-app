@@ -24,7 +24,20 @@ export default listMeta;
 
 type ListStory = StoryObj<typeof listMeta>;
 
-export const Desktop: ListStory = {};
+export const Desktop: ListStory = {
+  play: ({ canvasElement }) => {
+    const links = canvasElement.querySelectorAll("a");
+    const text = canvasElement.textContent ?? "";
+
+    if (links.length !== postIndexFixture.length) {
+      throw new Error("Post index list did not render one row link per post.");
+    }
+
+    if (!text.includes(postIndexFixture[0].tags.join(" / "))) {
+      throw new Error("Post index list tags were not rendered as plain metadata.");
+    }
+  },
+};
 
 export const Mobile: ListStory = {
   decorators: [
@@ -39,5 +52,12 @@ export const Mobile: ListStory = {
 export const Empty: ListStory = {
   args: {
     posts: [],
+  },
+  play: ({ canvasElement }) => {
+    const links = canvasElement.querySelectorAll("a");
+
+    if (links.length !== 0) {
+      throw new Error("Post index empty state should not render post row links.");
+    }
   },
 };

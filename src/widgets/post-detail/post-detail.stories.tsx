@@ -21,7 +21,23 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Desktop: Story = {};
+export const Desktop: Story = {
+  play: ({ canvasElement }) => {
+    const text = canvasElement.textContent ?? "";
+
+    if (!text.includes(postDetailFixture.title)) {
+      throw new Error("Post detail title was not rendered.");
+    }
+
+    if (!text.includes(postDetailFixture.tags.join(" / "))) {
+      throw new Error("Post detail tags were not rendered as plain metadata.");
+    }
+
+    if (text.includes("updatedAt")) {
+      throw new Error("Post detail should not render updatedAt in v1.");
+    }
+  },
+};
 
 export const Mobile: Story = {
   decorators: [

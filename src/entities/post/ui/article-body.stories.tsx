@@ -73,7 +73,23 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: ({ canvasElement }) => {
+    const text = canvasElement.textContent ?? "";
+
+    if (!text.includes("렌더러 경계")) {
+      throw new Error("ArticleBody heading was not rendered.");
+    }
+
+    if (!text.includes("PostContentNode[]")) {
+      throw new Error("ArticleBody inline code text was not rendered.");
+    }
+
+    if (!text.includes("renderer-boundary.png")) {
+      throw new Error("ArticleBody image fallback was not rendered.");
+    }
+  },
+};
 
 export const OrderedList: Story = {
   args: {
@@ -98,5 +114,12 @@ export const OrderedList: Story = {
         source,
       },
     ],
+  },
+  play: ({ canvasElement }) => {
+    const orderedList = canvasElement.querySelector("ol");
+
+    if (!orderedList) {
+      throw new Error("ArticleBody ordered list was not rendered.");
+    }
   },
 };

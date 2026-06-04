@@ -23,4 +23,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Empty: Story = {};
+export const Empty: Story = {
+  play: ({ canvasElement }) => {
+    const text = canvasElement.textContent ?? "";
+
+    if (!text.includes("게시글 없음")) {
+      throw new Error("Empty archive state message was not rendered.");
+    }
+  },
+};

@@ -21,7 +21,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: ({ canvasElement }) => {
+    const link = canvasElement.querySelector(`a[href="${postIndexFixture[0].href}"]`);
+    const text = canvasElement.textContent ?? "";
+
+    if (!link) {
+      throw new Error("Post index item row link was not rendered.");
+    }
+
+    if (!text.includes(postIndexFixture[0].tags.join(" / "))) {
+      throw new Error("Post index item tags were not rendered as plain metadata.");
+    }
+  },
+};
 
 export const Hover: Story = {
   args: {
