@@ -4,11 +4,11 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/dev/worktree-add.sh <path> <branch> [start-point]
+  .codex/skills/task-intake/scripts/worktree-add.sh <path> <branch> [start-point]
 
 Examples:
-  scripts/dev/worktree-add.sh ../app-issue-56 work/56-worktree-vscode-workspace origin/main
-  BLOG_APP_SKIP_CODE_ADD=1 scripts/dev/worktree-add.sh ../app-issue-56 work/56-worktree-vscode-workspace
+  .codex/skills/task-intake/scripts/worktree-add.sh ../app-issue-56 work/56-worktree-vscode-workspace origin/main
+  BLOG_APP_SKIP_CODE_ADD=1 .codex/skills/task-intake/scripts/worktree-add.sh ../app-issue-56 work/56-worktree-vscode-workspace
 
 Behavior:
   - Creates a git worktree at <path>.
@@ -32,6 +32,7 @@ target_path="$1"
 branch="$2"
 start_point="${3:-HEAD}"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 repo_root="$(git rev-parse --show-toplevel)"
 target_parent="$(dirname "$target_path")"
 target_name="$(basename "$target_path")"
@@ -49,7 +50,7 @@ else
   git -C "$repo_root" worktree add -b "$branch" "$target_abs" "$start_point"
 fi
 
-node "$repo_root/scripts/dev/update-vscode-workspace.mjs"
+node "$script_dir/update-vscode-workspace.mjs"
 
 if [[ "${BLOG_APP_SKIP_CODE_ADD:-0}" != "1" ]]; then
   if command -v code >/dev/null 2>&1; then

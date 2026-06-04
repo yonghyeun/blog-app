@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { writeFileSync } from "node:fs";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = execFileSync("git", ["-C", scriptDir, "rev-parse", "--show-toplevel"], {

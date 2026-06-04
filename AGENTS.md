@@ -20,6 +20,19 @@ Context Build
 
 Do not start implementation before the source issue passes intake.
 
+## Task Lifecycle Skills
+
+Use these repo-local skills for task lifecycle work:
+
+- Use `task-intake` before implementing a non-trivial issue or task.
+- Use `task-merge` when the user says a PR can be merged or landed.
+- Use `task-close` when the user asks for closeout, task cleanup, or workspace
+  cleanup.
+
+`task-merge` must not remove workspaces. `task-close` owns workspace cleanup
+decisions and must prefer `.codex/skills/task-close/scripts/worktree-remove.sh`
+over raw `git worktree remove`.
+
 ## Required Reading
 
 Before creating or executing issues:

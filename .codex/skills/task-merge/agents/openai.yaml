@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Merge"
+  short_description: "Merge a ready PR and verify post-merge checks."
+  default_prompt: "Merge the ready PR and verify the post-merge state."
