@@ -49,6 +49,33 @@ Task Intake arguments:
 `--fix-issue` and `--no-fix-issue` are mutually exclusive. Do not add a
 `--no-issue` escape hatch; committed changes still require issue ownership.
 
+## Script-First Workflow
+
+Run the repo-local gate script before any manual `gh` mutation, raw worktree
+command, or repository file edit:
+
+```bash
+.codex/skills/task-intake/scripts/run.sh --issue <number> --worktree <path> --branch <name> --base origin/main --no-code-add
+```
+
+Use read-only modes when checking intake without mutation:
+
+```bash
+.codex/skills/task-intake/scripts/run.sh --issue <number> --check-only
+.codex/skills/task-intake/scripts/run.sh --issue <number> --worktree <path> --branch <name> --dry-run --no-code-add
+```
+
+The script owns deterministic gate checks:
+
+- live issue title, state, labels, relationship, and body section validation
+- `status:intake` to `status:ready` sync when intake passes
+- existing `worktree-add.sh` reuse for worktree preparation
+- intake receipt comment creation
+- dry-run output that separates remote and local planned mutations
+
+Fallback to manual `gh` and raw `git worktree` commands only when the script is
+absent or broken. Report the fallback reason on the source issue.
+
 ## Workflow
 
 1. Read `AGENTS.md` and `docs/operations/issue-system.md`.
@@ -57,7 +84,15 @@ Task Intake arguments:
    - If no issue exists and the task will change committed files, create a bounded leaf issue first.
    - Prefer Korean for issue body prose and keep the English title prefix.
 3. Fetch live issue state with `gh issue view` or `gh api`.
-4. Check intake requirements.
+4. Run the script-first gate in `--check-only` or `--dry-run` mode when you need
+   to inspect planned mutations.
+5. Run the script-first gate in mutation mode before implementation:
+   - pass `--issue <number>`
+   - pass the isolated `--worktree <path>`
+   - pass the implementation `--branch <name>`
+   - pass `--base origin/main`
+   - pass `--no-code-add` when the visible editor should not be mutated
+6. The script checks intake requirements.
    - title convention
    - labels including type, kind, status, priority, and area
    - scope
@@ -65,28 +100,30 @@ Task Intake arguments:
    - acceptance criteria
    - dependency notes when relevant
    - completion signal
-5. If intake fails, update the issue or ask for the missing decision. Do not edit repo files.
-6. If intake passes, ensure the issue has `status:ready` or update it when appropriate.
-7. Create or select an isolated worktree.
-   - Prefer `.codex/skills/task-intake/scripts/worktree-add.sh --path <path> --branch <branch> --base origin/main --no-code-add`.
-   - Existing positional form remains supported:
-     `.codex/skills/task-intake/scripts/worktree-add.sh <path> <branch> origin/main`.
-   - Use `--no-code-add` when the visible editor should not be mutated.
+7. If intake fails, update the issue or ask for the missing decision. Do not edit repo files.
+8. If intake passes, the script ensures the issue has `status:ready` when appropriate.
+9. The script creates or selects an isolated worktree through `worktree-add.sh`.
+   - Existing positional form remains supported by `worktree-add.sh`, but agents
+     should call `run.sh` first.
    - Do not implement on a dirty or unrelated branch.
-8. Add an intake receipt comment to the issue.
-   - issue number
-   - branch
-   - worktree path
-   - accepted scope
-   - non-scope
-   - planned verification
-9. Plan the first atomic commit before editing.
-   - Non-trivial work must be committed in versionable atomic units as it
-     progresses.
-   - Do not save all repository changes for one final catch-all commit.
-   - Each completed commit should have one reviewable intent and be
-     understandable to the next agent from its subject and diff.
-10. Begin implementation only after the receipt is written.
+10. The script adds an intake receipt comment to the issue.
+
+- issue number
+- branch
+- worktree path
+- accepted scope
+- non-scope
+- planned verification
+
+11. Plan the first atomic commit before editing.
+
+- Non-trivial work must be committed in versionable atomic units as it
+  progresses.
+- Do not save all repository changes for one final catch-all commit.
+- Each completed commit should have one reviewable intent and be
+  understandable to the next agent from its subject and diff.
+
+12. Begin implementation only after the script succeeds and the receipt is written.
 
 ## Stop Conditions
 
@@ -98,7 +135,13 @@ Task Intake arguments:
 
 ## Required Commands
 
-Use repo-local scripts before raw worktree commands:
+Use the script-first gate before raw issue or worktree commands:
+
+```bash
+.codex/skills/task-intake/scripts/run.sh --issue <number> --worktree ../app-issue-<n>-<slug> --branch work/<n>-<slug> --base origin/main --no-code-add
+```
+
+`run.sh` delegates worktree creation to:
 
 ```bash
 .codex/skills/task-intake/scripts/worktree-add.sh --path ../app-issue-<n>-<slug> --branch work/<n>-<slug> --base origin/main --no-code-add
@@ -115,3 +158,15 @@ Raw `git worktree add` is fallback only when the script is absent or broken, and
 ```bash
 node .codex/skills/task-intake/scripts/update-vscode-workspace.mjs
 ```
+
+## Script Metadata
+
+| Field        | Value                                                                                                                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Script Path  | `scripts/run.sh`                                                                                                                                                                        |
+| Test Path    | `scripts/run.test.sh`                                                                                                                                                                   |
+| Purpose      | Validate intake readiness, sync issue status, prepare the isolated worktree, and write the intake receipt.                                                                              |
+| Inputs       | `--issue`, `--worktree`, `--branch`, `--base`, `--check-only`, `--dry-run`, `--fix-issue`, `--no-fix-issue`, `--no-code-add`; optional `TASK_INTAKE_WORKTREE_ADD_SH` for focused tests. |
+| Side Effects | Remote mutation: issue status label update and receipt comment. Local mutation: worktree creation through `worktree-add.sh`. Read-only with `--check-only` or `--dry-run`.              |
+| Exit Codes   | `0` success, `1` runtime or external state failure, `2` invalid arguments, `3` intake or policy failure.                                                                                |
+| Error Style  | Next-action error messages.                                                                                                                                                             |
