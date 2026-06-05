@@ -27,12 +27,6 @@ Use a local Figma REST API token with:
 file_comments:read
 ```
 
-When reading every branch with `--all-branches`, the token also needs:
-
-```text
-file_content:read
-```
-
 Store the token only in local environment, normally `.env.local`:
 
 ```text
@@ -45,9 +39,9 @@ Use the existing local file key variable for the vertical slice file:
 FIGMA_VERTICAL_SLICE_V1_FILE_KEY=
 ```
 
-Concrete token values, file keys, branch keys, file URLs, page URLs, frame URLs,
-and node URLs must not be committed to this public repository unless the target
-Figma file is intentionally public.
+Concrete token values, file keys, file URLs, page URLs, frame URLs, and node URLs
+must not be committed to this public repository unless the target Figma file is
+intentionally public.
 
 ## API Contract
 
@@ -57,7 +51,7 @@ The comment read endpoint is:
 GET https://api.figma.com/v1/files/:key/comments
 ```
 
-`:key` may be a file key or branch key.
+`:key` is the file key used for this repository's tracked Figma handoff file.
 
 The script uses:
 
@@ -98,35 +92,6 @@ For a non-default file key:
   --as-md
 ```
 
-For a branch key:
-
-```bash
-.codex/skills/figma-comments-rest/scripts/read-comments.sh \
-  --branch-key "$FIGMA_BRANCH_KEY" \
-  --as-md
-```
-
-To discover every branch from the main file and read comments from each target:
-
-```bash
-.codex/skills/figma-comments-rest/scripts/read-comments.sh \
-  --all-branches \
-  --as-md
-```
-
-`--all-branches` changes the output shape from the native Figma
-`{"comments":[]}` response to a repo-local aggregate:
-
-```text
-{
-  "summary": {
-    "targets_count": 0,
-    "comments_count": 0
-  },
-  "targets": []
-}
-```
-
 ## Handoff Recording
 
 Record the result on the source issue or handoff surface in this shape:
@@ -152,15 +117,12 @@ If the script fails:
 
 - `FIGMA_ACCESS_TOKEN is not set`: load `.env.local` or pass
   `--token-env <name>`.
-- `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local`, pass
-  `--file-key <key>`, or pass `--branch-key <key>`.
+- `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local` or pass
+  `--file-key <key>`.
 - HTTP `403`: check that the token is valid, not expired, can access the file,
-  and includes `file_comments:read`. For `--all-branches`, also check
-  `file_content:read`.
-- HTTP `404`: check that the file key or branch key is correct and visible to
-  the token owner.
-- Empty comments array: confirm comments exist on the target file or branch, not
-  only in a different branch/file.
+  and includes `file_comments:read`.
+- HTTP `404`: check that the file key is correct and visible to the token owner.
+- Empty comments array: confirm comments exist on the target file.
 
 ## Verification
 
