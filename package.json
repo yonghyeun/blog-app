@@ -19,6 +19,8 @@
     "test:e2e:missing-env": "playwright test tests/e2e/renderer-missing-env.spec.ts",
     "hooks:install": "git config core.hooksPath .githooks",
     "test:githooks": "bash .githooks/pre-commit.test.sh",
+    "validate:skills": "node scripts/validate-skills.mjs",
+    "test:skills-validator": "vitest run --project=unit scripts/validate-skills.test.mjs",
     "typecheck": "tsc --noEmit",
     "worktree:add": ".codex/skills/task-intake/scripts/worktree-add.sh",
     "worktree:remove": ".codex/skills/task-close/scripts/worktree-remove.sh",

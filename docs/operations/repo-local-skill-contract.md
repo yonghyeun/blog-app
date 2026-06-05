@@ -232,3 +232,23 @@ Follow-up leaf work owns:
 - shell script test implementation for existing scripts
 - existing skill migration
 - `.codex/skills` to `.agents/skills` location decisions
+
+## Local Validation
+
+Run the local validator with:
+
+```bash
+npm run validate:skills
+```
+
+The validator checks the minimum repo-local skill structure:
+
+- `SKILL.md`
+- `agents/openai.yaml`
+- `SKILL.md` frontmatter `name`
+- `SKILL.md` frontmatter `description`
+- colocated script tests or documented script test exceptions
+
+This validator is intentionally separate from the Quality Gate until the existing
+repo-local skills are migrated to the contract. Before that migration is
+complete, the command may fail and should be read as a drift report.

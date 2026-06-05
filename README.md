@@ -28,6 +28,8 @@ npm run test:e2e
 npm run typecheck
 npm run hooks:install
 npm run test:githooks
+npm run validate:skills
+npm run test:skills-validator
 ```
 
 ## Quality Gate

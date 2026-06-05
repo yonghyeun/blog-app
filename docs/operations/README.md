@@ -17,6 +17,8 @@ Repo operating contracts.
   `.codex/skills/*`.
 - Use the repo-local skill script contract before creating or changing scripts
   under `.codex/skills/*/scripts/`.
+- Use `npm run validate:skills` to check repo-local skill contract drift.
+  This command may fail until the existing skill migration leaf is complete.
 - Use the issue forms under `.github/ISSUE_TEMPLATE/` when filing GitHub issues.
 - Use the local git hooks guide when installing or verifying repo-local hooks.
 - Use `AGENTS.md` for agent-facing routing.
