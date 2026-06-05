@@ -35,6 +35,21 @@ Do not infer merge approval from write completion.
 - delivered page, frame, component, and node names
 - known conflicts or pending concerns
 
+## Environment
+
+Use the current repo-local Figma environment keys from `.env.local`:
+
+```text
+FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+FIGMA_ACCESS_TOKEN
+```
+
+Use `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` to identify the main file. Use
+`FIGMA_ACCESS_TOKEN` only when an approved tool or workflow explicitly needs
+Figma API authentication.
+
+Never print, commit, or post concrete values.
+
 ## Workflow
 
 1. Verify the user explicitly requested merge in the current task.

@@ -26,28 +26,50 @@ decision before any design mutation happens.
 - current Figma access mode when known
 - branch URL, duplicate URL, or checkpoint name when already prepared
 
+## Environment
+
+Read Figma values from the current worktree's `.env.local`.
+
+Current repo-local Figma environment keys:
+
+```text
+FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+FIGMA_ACCESS_TOKEN
+```
+
+Use `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` as the main file key. Use
+`FIGMA_ACCESS_TOKEN` only when an approved tool or workflow explicitly needs
+Figma API authentication.
+
+Do not print, commit, or paste either value into issue comments, PR bodies, logs,
+or tracked docs. `.env.example` documents key names only; it is not a source for
+real values.
+
 ## Workflow
 
 1. Verify the source issue passed intake.
-2. Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`.
-3. Confirm no concrete Figma file key or branch key will be committed.
-4. Choose the isolation mode using this order:
+2. Read the current repo-local Figma environment keys from `.env.local`.
+3. Confirm `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` is present when no explicit local
+   target was provided.
+4. Confirm no concrete Figma file key, branch key, or access token will be
+   committed or posted.
+5. Choose the isolation mode using this order:
 
 ```text
 branch -> duplicate -> main-checkpoint
 ```
 
-5. Use `branch` when Figma branching is available and the actor can create or
+6. Use `branch` when Figma branching is available and the actor can create or
    edit a branch.
-6. Use `duplicate` when branch access is unavailable or blocked.
-7. Use `main-checkpoint` only when branch and duplicate isolation are unsuitable.
-8. For `main-checkpoint`, require a named pre-write checkpoint:
+7. Use `duplicate` when branch access is unavailable or blocked.
+8. Use `main-checkpoint` only when branch and duplicate isolation are unsuitable.
+9. For `main-checkpoint`, require a named pre-write checkpoint:
 
 ```text
 Before issue-<number>-<short-scope>
 ```
 
-9. Add a source issue comment before the write:
+10. Add a source issue comment before the write:
 
 ```text
 ## Figma Write Target
@@ -61,7 +83,7 @@ Before issue-<number>-<short-scope>
 - Expected write surface: <page/frame/component names>
 ```
 
-10. Return the exact target surface the next Figma MCP call should use.
+11. Return the exact target surface the next Figma MCP call should use.
 
 ## Output
 
@@ -79,8 +101,10 @@ Report:
 - no source issue
 - source issue has not passed intake
 - target surface is unknown
-- `.env.local` lacks the main Figma file key and no explicit local target is
+- the current worktree lacks `.env.local` and no explicit local target is
   provided
+- `.env.local` lacks `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` and no explicit local
+  target is provided
 - branch mode is requested but no branch target exists or can be created by the
   human/operator
 - main-checkpoint mode is selected without a named pre-write checkpoint
