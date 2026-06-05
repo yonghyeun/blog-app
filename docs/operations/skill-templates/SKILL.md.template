@@ -1,6 +1,9 @@
 ---
 name: <skill-name>
 description: <Use when Codex should ... Include concrete trigger conditions.>
+contract: repo-local-skill@1.0
+# Include only when this skill has scripts:
+# script_contract: repo-local-skill-script@1.0
 ---
 
 # <Skill Display Name>

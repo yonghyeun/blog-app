@@ -21,6 +21,40 @@ They must be:
 - testable when scripts are present
 - explicit about local or remote side effects
 
+## Contract Version
+
+This document defines `repo-local-skill@1.0`.
+
+Version syntax:
+
+```text
+<contract-id>@<major>.<minor>
+```
+
+Rules:
+
+- Contract id: `repo-local-skill`.
+- Current version: `1.0`.
+- Major version changes are breaking authoring contract changes.
+- Minor version changes are additive and must preserve existing `1.x`
+  compatibility.
+- Patch versions are not used for repo-local skill contracts.
+- A `SKILL.md` file declares its authoring contract in frontmatter.
+
+Required frontmatter:
+
+```yaml
+contract: repo-local-skill@1.0
+```
+
+Validator rule:
+
+- Unsupported contract id fails validation.
+- Unsupported major version fails validation.
+- Supported major with a newer minor version fails validation until the validator
+  explicitly supports that minor version.
+- Missing `contract` is drift for repo-local skills after migration.
+
 ## Directory Contract
 
 Every repo-local skill directory must contain:
@@ -94,10 +128,11 @@ the agent when to read it.
 
 Required frontmatter:
 
-| Field         | Meaning                                                     |
-| ------------- | ----------------------------------------------------------- |
-| `name`        | Skill id. Lowercase letters, digits, and hyphens only.      |
-| `description` | Trigger description. Include when the skill should be used. |
+| Field         | Meaning                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| `name`        | Skill id. Lowercase letters, digits, and hyphens only.           |
+| `description` | Trigger description. Include when the skill should be used.      |
+| `contract`    | Repo-local authoring contract, currently `repo-local-skill@1.0`. |
 
 Required body sections:
 

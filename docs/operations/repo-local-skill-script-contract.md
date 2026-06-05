@@ -12,6 +12,38 @@
 
 - [Repo-Local Skill 구조 계약](./repo-local-skill-contract.md)
 
+## Contract Version
+
+이 문서는 `repo-local-skill-script@1.0`을 정의한다.
+
+Version syntax:
+
+```text
+<contract-id>@<major>.<minor>
+```
+
+규칙:
+
+- Contract id: `repo-local-skill-script`.
+- Current version: `1.0`.
+- Major version 변경은 breaking script contract 변경.
+- Minor version 변경은 additive 변경.
+- Patch version은 사용하지 않음.
+- script가 있는 `SKILL.md`는 frontmatter에 script contract를 선언한다.
+
+Required frontmatter for skills with scripts:
+
+```yaml
+script_contract: repo-local-skill-script@1.0
+```
+
+Validator rule:
+
+- script가 없으면 `script_contract`가 필요 없음.
+- script가 있는데 `script_contract`가 없으면 migration 이후 drift.
+- unsupported contract id 또는 major version은 실패.
+- supported major의 newer minor version은 validator 지원 전까지 실패.
+
 ## 목적
 
 skill script의 목적은 반복되는 운영 절차를 deterministic하게 만드는 것이다.
