@@ -16,6 +16,12 @@ description: <Use when Codex should ... Include concrete trigger conditions.>
 
 ## Inputs / Arguments
 
+If this skill has no arguments, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 추가 인자를 받지 않는다.
+```
+
 | Argument | Required | Default     | Behavior              |
 | -------- | -------- | ----------- | --------------------- |
 | `<arg>`  | yes/no   | `<default>` | <Effect on workflow.> |
@@ -29,6 +35,12 @@ description: <Use when Codex should ... Include concrete trigger conditions.>
 5. <Record receipt or handoff when required.>
 
 ## Commands
+
+If this skill has no script or command, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 문서화된 절차만 제공한다.
+```
 
 | Command     | When           | Required Args | Optional Args    | Preconditions     | Side Effects                | Output              | Failure / Next Action     |
 | ----------- | -------------- | ------------- | ---------------- | ----------------- | --------------------------- | ------------------- | ------------------------- |
@@ -45,5 +57,11 @@ description: <Use when Codex should ... Include concrete trigger conditions.>
 - <Manual or remote check.>
 
 ## References
+
+If this skill has no skill-local references, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 skill-local references를 사용하지 않는다.
+```
 
 - `<references/file.md>`: <When to read it.>

@@ -115,6 +115,10 @@ Required body sections:
 Keep `SKILL.md` focused on core procedure and routing. Move detailed or
 conditional material into `references/`.
 
+Do not remove required headings when a section does not apply to a skill. Keep
+the heading and write `관련 사항 없음` or `Not applicable`, plus one short reason
+when the absence could affect execution.
+
 ## Command Table Schema
 
 Every command documented in `SKILL.md` must include:
@@ -131,6 +135,9 @@ Every command documented in `SKILL.md` must include:
 | Failure / Next Action | yes      | What to do next when the command fails.                           |
 
 Use tables for commands even when a skill has only one command.
+
+If a skill has no script or command, keep the `Commands` heading and write
+`관련 사항 없음. 이 skill은 문서화된 절차만 제공한다.`
 
 ## Script Contract
 
