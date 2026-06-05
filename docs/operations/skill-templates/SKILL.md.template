@@ -1,0 +1,67 @@
+---
+name: <skill-name>
+description: <Use when Codex should ... Include concrete trigger conditions.>
+---
+
+# <Skill Display Name>
+
+## Goal
+
+<One job this skill performs.>
+
+## When To Use
+
+- <Explicit trigger.>
+- <Implicit trigger.>
+
+## Inputs / Arguments
+
+If this skill has no arguments, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 추가 인자를 받지 않는다.
+```
+
+| Argument | Required | Default     | Behavior              |
+| -------- | -------- | ----------- | --------------------- |
+| `<arg>`  | yes/no   | `<default>` | <Effect on workflow.> |
+
+## Workflow
+
+1. <Read required repo contracts or context.>
+2. <Identify target state.>
+3. <Run commands or perform edits.>
+4. <Verify output.>
+5. <Record receipt or handoff when required.>
+
+## Commands
+
+If this skill has no script or command, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 문서화된 절차만 제공한다.
+```
+
+| Command     | When           | Required Args | Optional Args    | Preconditions     | Side Effects                | Output              | Failure / Next Action     |
+| ----------- | -------------- | ------------- | ---------------- | ----------------- | --------------------------- | ------------------- | ------------------------- |
+| `<command>` | <When to run.> | `<args>`      | `<args or None>` | <Required state.> | <Local or remote mutation.> | <Success artifact.> | <Next action on failure.> |
+
+## Stop Conditions
+
+- <Condition that must stop execution.>
+- <Condition that requires user input.>
+
+## Verification
+
+- `<verification command>`
+- <Manual or remote check.>
+
+## References
+
+If this skill has no skill-local references, keep this heading and write:
+
+```text
+관련 사항 없음. 이 skill은 skill-local references를 사용하지 않는다.
+```
+
+- `<references/file.md>`: <When to read it.>
