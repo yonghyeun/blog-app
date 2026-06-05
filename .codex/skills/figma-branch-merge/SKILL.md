@@ -55,11 +55,11 @@ figma-branch-merge --issue 32
 Use the current repo-local Figma environment keys from `.env.local`:
 
 ```text
-FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+FIGMA_MAIN_FILE_KEY
 FIGMA_ACCESS_TOKEN
 ```
 
-Use `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` to identify the main file. Use
+Use `FIGMA_MAIN_FILE_KEY` to identify the main file. Use
 `FIGMA_ACCESS_TOKEN` only when an approved tool or workflow explicitly needs
 Figma API authentication.
 
@@ -95,7 +95,7 @@ when `--issue <number>` is provided:
 - Issue: #<number>
 - Tracking: issue-backed
 - Branch: <redacted branch URL or local-only reference>
-- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Main file: FIGMA_MAIN_FILE_KEY
 - Merged nodes: <page/frame/component names and node ids>
 - Merge status: merged | blocked | abandoned
 - Verification: <main file inspected, human-confirmed, or blocked reason>
@@ -110,7 +110,7 @@ For ad-hoc work, report or save this record without posting to GitHub:
 - Issue: none
 - Tracking: ad-hoc
 - Branch: <redacted branch URL or local-only reference>
-- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Main file: FIGMA_MAIN_FILE_KEY
 - Merged nodes: <page/frame/component names and node ids>
 - Merge status: merged | blocked | abandoned
 - Verification: <main file inspected, human-confirmed, or blocked reason>

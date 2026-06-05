@@ -20,7 +20,7 @@ Before using Figma MCP for this repository, read:
 Use the Figma file key from local environment:
 
 ```text
-FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+FIGMA_MAIN_FILE_KEY
 ```
 
 This repository is public. Do not commit concrete Figma file keys or file URLs
@@ -30,15 +30,18 @@ unless the file is intentionally public. Store concrete values in `.env.local`.
 
 Use this order for Figma MCP work:
 
-1. Confirm the source issue passed intake.
-2. Read this contract and the required context files.
-3. Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`.
-4. Choose and record the modification isolation surface.
-5. Inspect the target Figma file or branch before writing.
-6. Reuse existing variables, text styles, and components.
-7. Create new Figma assets only when the issue explicitly owns them.
-8. Record Figma file, page, frame, and node references on the issue tracking
-   surface.
+1. Choose tracking mode.
+   - Default to ad-hoc mode.
+   - Use issue-backed mode only when `--issue <number>` is provided.
+2. For issue-backed work, confirm the source issue passed intake.
+3. Read this contract and the required context files.
+4. Read `FIGMA_MAIN_FILE_KEY` from `.env.local`.
+5. Choose and record the modification isolation surface.
+6. Inspect the target Figma file or branch before writing.
+7. Reuse existing variables, text styles, and components.
+8. Create new Figma assets only when the work explicitly owns them.
+9. Record Figma file, page, frame, and node references on the issue tracking
+   surface or ad-hoc target record.
 
 Do not start screen-frame generation from memory or from an isolated prompt.
 
@@ -71,6 +74,7 @@ Branch naming:
 
 ```text
 issue-<number>-<short-scope>
+ad-hoc-<short-scope>
 ```
 
 Examples:
@@ -78,13 +82,14 @@ Examples:
 ```text
 issue-71-figma-branch-workflow
 issue-32-home-screen-frames
+ad-hoc-home-layout-test
 ```
 
 Branch operation rules:
 
 - create the branch from the current main file before MCP write work
 - pass the branch key or branch URL to Figma MCP write tools
-- keep the main file key in `.env.local` as `FIGMA_VERTICAL_SLICE_V1_FILE_KEY`
+- keep the main file key in `.env.local` as `FIGMA_MAIN_FILE_KEY`
 - do not commit concrete branch keys, file keys, or file URLs
 - inspect the branch before writing and after writing
 - request review or manually review the branch before merging to main
@@ -120,40 +125,79 @@ unsuitable for the current issue.
 Before writing to the main file, create a named version checkpoint:
 
 ```text
-Before issue-<number>-<short-scope>
+Before <tracking-id>
 ```
 
 After the write is accepted, create another named version checkpoint:
 
 ```text
-After issue-<number>-<short-scope>
+After <tracking-id>
 ```
 
-Main-file direct writes require a narrow issue scope and an explicit issue
-comment explaining why branch and duplicate isolation were not used.
+Use `issue-<number>-<short-scope>` as the tracking id for issue-backed work. Use
+`ad-hoc-<short-scope>` as the tracking id for ad-hoc work.
 
-### Issue Recording
+Main-file direct writes require a narrow scope and an explicit record explaining
+why branch and duplicate isolation were not used.
 
-Before any MCP write, add an issue comment with this shape:
+### Target Recording
+
+Before any MCP write, record this shape.
+
+For issue-backed work, add it as an issue comment:
 
 ```text
 ## Figma Write Target
 
 - Issue: #<number>
+- Tracking: issue-backed
 - Mode: branch | duplicate | main-checkpoint
 - Reason: <why this mode is used>
-- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Main file: FIGMA_MAIN_FILE_KEY
 - Target: <redacted branch/file URL or local-only reference>
 - Pre-write checkpoint: <name or not applicable>
 - Expected write surface: <page/frame/component names>
 ```
 
-After the write, add an issue comment with this shape:
+For ad-hoc work, report it in the assistant response or private operator note:
+
+```text
+## Figma Write Target
+
+- Issue: none
+- Tracking: ad-hoc
+- Mode: branch | duplicate | main-checkpoint
+- Reason: <why this mode is used>
+- Main file: FIGMA_MAIN_FILE_KEY
+- Target: <redacted branch/file URL or local-only reference>
+- Pre-write checkpoint: <name or not applicable>
+- Expected write surface: <page/frame/component names>
+```
+
+After the write, record this shape.
+
+For issue-backed work, add it as an issue comment:
 
 ```text
 ## Figma Write Result
 
 - Issue: #<number>
+- Tracking: issue-backed
+- Mode: branch | duplicate | main-checkpoint
+- Target: <redacted branch/file URL or local-only reference>
+- Delivered nodes: <page/frame/component names and node ids>
+- Post-write checkpoint: <name or not applicable>
+- Review status: pending | accepted | merged | abandoned
+- Merge-back notes: <branch merge, manual copy, or none>
+```
+
+For ad-hoc work, report it in the assistant response or private operator note:
+
+```text
+## Figma Write Result
+
+- Issue: none
+- Tracking: ad-hoc
 - Mode: branch | duplicate | main-checkpoint
 - Target: <redacted branch/file URL or local-only reference>
 - Delivered nodes: <page/frame/component names and node ids>
@@ -401,13 +445,13 @@ https://www.figma.com/design/<fileKey>/<fileName>?node-id=<node-id-with-dash>
 Example:
 
 ```text
-https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/<fileName>?node-id=22-2
+https://www.figma.com/design/$FIGMA_MAIN_FILE_KEY/<fileName>?node-id=22-2
 ```
 
 For branch work, the equivalent redacted shape is:
 
 ```text
-https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/branch/<branchKey>/<fileName>?node-id=22-2
+https://www.figma.com/design/$FIGMA_MAIN_FILE_KEY/branch/<branchKey>/<fileName>?node-id=22-2
 ```
 
 Record these references on the source issue or umbrella tracking comment, not

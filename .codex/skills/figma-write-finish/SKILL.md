@@ -59,8 +59,11 @@ figma-write-finish --issue 32
 5. If the mode is `main-checkpoint`, confirm a named post-write checkpoint:
 
 ```text
-After issue-<number>-<short-scope>
+After <tracking-id>
 ```
+
+Use the same tracking id that `figma-write-start` used for the pre-write
+checkpoint.
 
 6. Record the result.
 

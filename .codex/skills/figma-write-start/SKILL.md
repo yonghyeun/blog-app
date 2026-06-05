@@ -66,11 +66,11 @@ Read Figma values from the current worktree's `.env.local`.
 Current repo-local Figma environment keys:
 
 ```text
-FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+FIGMA_MAIN_FILE_KEY
 FIGMA_ACCESS_TOKEN
 ```
 
-Use `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` as the main file key. Use
+Use `FIGMA_MAIN_FILE_KEY` as the main file key. Use
 `FIGMA_ACCESS_TOKEN` only when an approved tool or workflow explicitly needs
 Figma API authentication.
 
@@ -87,7 +87,7 @@ real values.
 3. For `ad-hoc`, record the user's explicit request text or a short local
    purpose statement.
 4. Read the current repo-local Figma environment keys from `.env.local`.
-5. Confirm `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` is present when no explicit local
+5. Confirm `FIGMA_MAIN_FILE_KEY` is present when no explicit local
    target was provided.
 6. Confirm no concrete Figma file key, branch key, or access token will be
    committed or posted.
@@ -105,8 +105,11 @@ branch -> duplicate -> main-checkpoint
 11. For `main-checkpoint`, require a named pre-write checkpoint:
 
 ```text
-Before issue-<number>-<short-scope>
+Before <tracking-id>
 ```
+
+Use `issue-<number>-<short-scope>` as the tracking id for issue-backed work. Use
+`ad-hoc-<short-scope>` as the tracking id for ad-hoc work.
 
 12. Record the write target.
 
@@ -119,7 +122,7 @@ For `issue-backed`, add a source issue comment:
 - Tracking: issue-backed
 - Mode: branch | duplicate | main-checkpoint
 - Reason: <why this mode is used>
-- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Main file: FIGMA_MAIN_FILE_KEY
 - Target: <redacted branch/file URL or local-only reference>
 - Pre-write checkpoint: <name or not applicable>
 - Expected write surface: <page/frame/component names>
@@ -133,7 +136,7 @@ For `ad-hoc`, report or save this record without posting to GitHub:
 - Issue: none
 - Tracking: ad-hoc
 - Reason: <explicit user request or local purpose>
-- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Main file: FIGMA_MAIN_FILE_KEY
 - Target: <redacted branch/file URL or local-only reference>
 - Pre-write checkpoint: <name or not applicable>
 - Expected write surface: <page/frame/component names>
@@ -161,7 +164,7 @@ Report:
 - target surface is unknown
 - the current worktree lacks `.env.local` and no explicit local target is
   provided
-- `.env.local` lacks `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` and no explicit local
+- `.env.local` lacks `FIGMA_MAIN_FILE_KEY` and no explicit local
   target is provided
 - branch mode is requested but no branch target exists or can be created by the
   human/operator
