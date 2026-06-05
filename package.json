@@ -17,6 +17,8 @@
     "test:e2e:default": "BLOG_POST_REPO_PATH=tests/e2e/fixtures/blog-post-default BLOG_POST_ASSET_URL_PREFIX=/post-assets playwright test tests/e2e/renderer-default.spec.ts",
     "test:e2e:empty": "BLOG_POST_REPO_PATH=tests/e2e/fixtures/blog-post-empty BLOG_POST_ASSET_URL_PREFIX=/post-assets playwright test tests/e2e/renderer-empty.spec.ts",
     "test:e2e:missing-env": "playwright test tests/e2e/renderer-missing-env.spec.ts",
+    "hooks:install": "git config core.hooksPath .githooks",
+    "test:githooks": "bash .githooks/pre-commit.test.sh",
     "typecheck": "tsc --noEmit",
     "worktree:add": ".codex/skills/task-intake/scripts/worktree-add.sh",
     "worktree:remove": ".codex/skills/task-close/scripts/worktree-remove.sh",

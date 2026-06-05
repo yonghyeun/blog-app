@@ -26,6 +26,8 @@ npm test
 npm run test:storybook
 npm run test:e2e
 npm run typecheck
+npm run hooks:install
+npm run test:githooks
 ```
 
 ## Quality Gate
@@ -47,6 +49,7 @@ git diff --check
 ## Operations
 
 - [Issue System Contract](./docs/operations/issue-system.md)
+- [Local Git Hooks](./docs/operations/local-git-hooks.md)
 - [Repo-Local Skill Contract](./docs/operations/repo-local-skill-contract.md)
 - [Repo-Local Skill Script Contract](./docs/operations/repo-local-skill-script-contract.md)
 - [Worktree VS Code Workspace](./docs/operations/worktree-vscode-workspace.md)
