@@ -30,7 +30,7 @@ file_comments:read
 Store the token only in local environment, normally `.env.local`:
 
 ```text
-FIGMA_COMMENTS_READ_TOKEN=
+FIGMA_ACCESS_TOKEN=
 ```
 
 Use the existing local file key variable for the vertical slice file:
@@ -115,7 +115,7 @@ Keep private file keys and secret values out of committed docs.
 
 If the script fails:
 
-- `FIGMA_COMMENTS_READ_TOKEN is not set`: load `.env.local` or pass
+- `FIGMA_ACCESS_TOKEN is not set`: load `.env.local` or pass
   `--token-env <name>`.
 - `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local` or pass
   `--file-key <key>`.

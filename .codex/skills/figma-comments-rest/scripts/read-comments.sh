@@ -11,7 +11,7 @@ Reads Figma file comments with the REST API:
 
 Defaults:
   file key env: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
-  token env:    FIGMA_COMMENTS_READ_TOKEN
+  token env:    FIGMA_ACCESS_TOKEN
 
 Required token scope:
   file_comments:read
@@ -20,13 +20,13 @@ Examples:
   set -a; source .env.local; set +a
   .codex/skills/figma-comments-rest/scripts/read-comments.sh --as-md
 
-  FIGMA_COMMENTS_READ_TOKEN=... FIGMA_VERTICAL_SLICE_V1_FILE_KEY=... \
+  FIGMA_ACCESS_TOKEN=... FIGMA_VERTICAL_SLICE_V1_FILE_KEY=... \
     .codex/skills/figma-comments-rest/scripts/read-comments.sh
 USAGE
 }
 
 file_key="${FIGMA_VERTICAL_SLICE_V1_FILE_KEY:-}"
-token_env="FIGMA_COMMENTS_READ_TOKEN"
+token_env="FIGMA_ACCESS_TOKEN"
 as_md="0"
 
 while [[ "$#" -gt 0 ]]; do
