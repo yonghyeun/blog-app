@@ -5,7 +5,10 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const scriptPath = path.join(path.dirname(fileURLToPath(import.meta.url)), "update-vscode-workspace.mjs");
+const scriptPath = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "update-vscode-workspace.mjs",
+);
 
 function makeExecutable(filePath, content) {
   fs.writeFileSync(filePath, content, { mode: 0o755 });
