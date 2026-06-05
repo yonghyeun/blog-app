@@ -44,9 +44,19 @@ Before architecture-sensitive work:
 - Read `docs/architecture/README.md`.
 - Then read the specific architecture contract for the touched surface.
 
+Before creating or changing frontend UI internals, reusable UI components,
+route-level UI composition, keyboard/focus behavior, visual states, or UI
+fixtures:
+
+- Read `docs/architecture/frontend-accessibility-guide.md`.
+- Treat the guide's checklist as the minimum pass/fail standard for the UI
+  change.
+- Record any accepted accessibility exception on the source issue.
+
 Before creating or changing Storybook stories, Storybook configuration, reusable UI
 components, or component fixtures:
 
+- Read `docs/architecture/frontend-accessibility-guide.md`.
 - Read `docs/architecture/storybook-ui-surface.md`.
 - Keep Storybook focused on browser-safe reusable component states.
 - Do not import `src/app` route files or private content repository data into stories.

@@ -33,6 +33,22 @@ Do not use Playwright for:
 - private `blog-post` repository access
 - server/build internals that are better covered by module tests
 
+## Accessibility Boundary
+
+Read [Frontend Accessibility Guide](./frontend-accessibility-guide.md) before
+changing route-level UI, keyboard/focus behavior, navigation behavior, or visible
+empty/error/not-found states.
+
+Playwright owns accessibility checks that require the real app shell:
+
+- route-level landmarks and visible heading expectations
+- keyboard navigation across page sections
+- focus behavior after route navigation when the route defines it
+- visible empty, error, or not-found states
+- local image rendering and asset path behavior
+
+Storybook remains the owner for isolated reusable component states.
+
 ## Test Location
 
 Place E2E tests under:
