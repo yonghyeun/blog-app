@@ -51,39 +51,55 @@ is explicit cleanup intent, not the default behavior.
 
 ## Workflow
 
+Run the repo-local script before any raw `gh pr merge` command:
+
+```bash
+.codex/skills/task-merge/scripts/run.sh --pr <number> --dry-run
+```
+
+Use `--wait` when the script reports pending checks and the user wants the agent
+to wait. Use the same script without `--dry-run` only after the readiness gate
+passes:
+
+```bash
+.codex/skills/task-merge/scripts/run.sh --pr <number> --method squash --wait
+```
+
+Script-owned workflow:
+
 1. Identify the PR.
    - Prefer an explicit PR number.
-   - Otherwise use the current branch's PR.
-2. Verify merge readiness.
-   - `gh pr view --json state,mergeable,mergeStateStatus,statusCheckRollup,baseRefName,headRefName,headRefOid`
+   - Otherwise use `--issue` or the current branch's PR.
+2. Verify merge readiness through the script.
    - PR state must be `OPEN`.
+   - Draft PRs fail.
    - `mergeable` must be `MERGEABLE`.
-   - required checks must be successful.
-3. If checks are pending, wait for them.
-4. If checks fail or conflicts exist, stop. Do not merge.
-5. Merge with the repository's normal method.
-   - Prefer `gh pr merge <number> --squash --delete-branch` unless repo policy or `--method` says otherwise.
+   - conflict, blocked, behind, closed, or unknown merge states fail.
+   - status checks must be successful.
+3. If checks are pending, the script stops unless `--wait` is set.
+4. If checks fail or conflicts exist, the script exits non-zero. Do not merge.
+5. Merge with the script.
+   - Default method is `squash`.
+   - Supported methods are `squash`, `merge`, and `rebase`.
    - Never force-push.
-   - Never retry `gh pr merge` blindly after a non-zero exit. Query PR state first.
-   - If local branch deletion fails because a worktree has the branch checked
-     out, query PR state before deciding whether the merge succeeded.
-6. Verify merge result.
-   - `gh pr view <number> --json state,mergedAt,mergedBy,mergeCommit,url`
-   - Record merge commit SHA.
-7. Verify source issue state when the PR uses closing keywords.
-8. Watch post-merge CI for the merge commit.
-   - Use `gh run list --json workflowName,status,conclusion,headSha,url`.
-   - Wait until the merge commit's quality workflow completes.
+   - Never retry a failed merge manually. Query PR state with the script first.
+6. Verify merge result through the script.
+   - PR state must become `MERGED`.
+   - Merge timestamp and merge commit SHA must be present.
+7. Verify source issue state when the PR exposes closing issue references.
+8. Watch post-merge CI for the merge commit through the script.
+   - The script uses `gh run list --commit <merge-sha>`.
+   - `--skip-deploy-check` never skips required CI.
 9. Detect deploy workflow.
-   - Search `.github/workflows` for deploy/release/production/cd.
+   - The script searches `.github/workflows` for deploy/release/production/cd.
    - If `--skip-deploy-check` is set, report deploy verification skipped by explicit argument.
-   - If no deploy workflow or production URL is configured, report deploy verification skipped.
+   - If no deploy workflow is detected, report deploy verification skipped.
 10. Handle workspace cleanup.
-    - Without `--clean`, do not remove any worktree or local branch. Hand off to `task-close`.
-    - With `--clean`, cleanup is allowed only after merge success, source issue close verification, and post-merge CI success.
-    - Reuse `task-close` policy or `.codex/skills/task-close/scripts/worktree-remove.sh`.
-    - If the branch is checked out by a worktree, remove the worktree before local branch deletion.
-    - Dirty or unpushed worktrees require a stop or user decision.
+    - Without `--clean`, the script does not remove any worktree or local branch.
+    - With `--clean`, cleanup is allowed only after merge success, source issue
+      close verification, and post-merge CI success.
+    - Cleanup delegates to `.codex/skills/task-close/scripts/worktree-remove.sh`.
+    - Dirty or unpushed worktrees require `task-close` follow-up instead of raw removal.
 
 ## Stop Conditions
 
