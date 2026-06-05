@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  read-comments.sh [--file-key <key>] [--token-env <env-name>] [--as-md]
+  read-comments.sh [--file-key <key> | --branch-key <key>] [--token-env <env-name>] [--as-md]
 
 Reads Figma file comments with the REST API:
   GET https://api.figma.com/v1/files/:key/comments
@@ -22,6 +22,10 @@ Examples:
 
   FIGMA_ACCESS_TOKEN=... FIGMA_VERTICAL_SLICE_V1_FILE_KEY=... \
     .codex/skills/figma-comments-rest/scripts/read-comments.sh
+
+  .codex/skills/figma-comments-rest/scripts/read-comments.sh \
+    --branch-key "$FIGMA_BRANCH_KEY" \
+    --as-md
 USAGE
 }
 
@@ -31,9 +35,9 @@ as_md="0"
 
 while [[ "$#" -gt 0 ]]; do
   case "$1" in
-    --file-key)
+    --file-key|--branch-key)
       if [[ "$#" -lt 2 || -z "${2:-}" ]]; then
-        echo "--file-key requires a value" >&2
+        echo "$1 requires a value" >&2
         exit 2
       fi
       file_key="$2"
@@ -64,7 +68,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if [[ -z "$file_key" ]]; then
-  echo "FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set; pass --file-key or load .env.local" >&2
+  echo "FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set; pass --file-key/--branch-key or load .env.local" >&2
   exit 2
 fi
 

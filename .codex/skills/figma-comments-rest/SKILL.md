@@ -84,11 +84,19 @@ set +a
   > /tmp/figma-comments.json
 ```
 
-For a non-default file or branch key:
+For a non-default file key:
 
 ```bash
 .codex/skills/figma-comments-rest/scripts/read-comments.sh \
   --file-key "$FIGMA_VERTICAL_SLICE_V1_FILE_KEY" \
+  --as-md
+```
+
+For a branch key:
+
+```bash
+.codex/skills/figma-comments-rest/scripts/read-comments.sh \
+  --branch-key "$FIGMA_BRANCH_KEY" \
   --as-md
 ```
 
@@ -117,8 +125,8 @@ If the script fails:
 
 - `FIGMA_ACCESS_TOKEN is not set`: load `.env.local` or pass
   `--token-env <name>`.
-- `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local` or pass
-  `--file-key <key>`.
+- `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local`, pass
+  `--file-key <key>`, or pass `--branch-key <key>`.
 - HTTP `403`: check that the token is valid, not expired, can access the file,
   and includes `file_comments:read`.
 - HTTP `404`: check that the file key or branch key is correct and visible to
