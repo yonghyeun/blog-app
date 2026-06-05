@@ -9,6 +9,46 @@ description: Close out a task after handoff or merge and decide workspace cleanu
 
 Close the operational loop without losing work: record final state, verify GitHub state, then decide whether a workspace should be removed, kept, or left pending.
 
+## Argument Contract
+
+Arguments are optional at the skill level because the agent may infer issue, PR,
+mode, and worktree from the current branch and live state. If the target or
+cleanup decision cannot be identified safely, stop and ask instead of guessing.
+
+Precedence:
+
+1. Explicit argument
+2. User request
+3. Live GitHub or repository state
+4. Safe default
+
+Common arguments:
+
+| Argument               | Required | Behavior                                     |
+| ---------------------- | -------- | -------------------------------------------- |
+| `--dry-run`            | no       | Report closeout and cleanup decisions only   |
+| `--issue <number>`     | no       | Use the given receipt issue                  |
+| `--pr <number>`        | no       | Use the given PR                             |
+| `--json`               | no       | Emit machine-readable output when practical  |
+| `--verbose`            | no       | Include inspected state and fallback reasons |
+| `--timeout <duration>` | no       | Bound waits for external state               |
+
+Task Close arguments:
+
+| Argument                                    | Required | Behavior                                           |
+| ------------------------------------------- | -------- | -------------------------------------------------- |
+| `--mode handoff\|merged\|workspace-cleanup` | no       | Pin the closeout mode                              |
+| `--issue <number>`                          | no       | Pin the receipt target issue                       |
+| `--pr <number>`                             | no       | Pin the related PR                                 |
+| `--worktree <path>`                         | no       | Pin the workspace cleanup target                   |
+| `--workspace keep\|remove\|pending`         | no       | Pin the desired workspace decision                 |
+| `--yes`                                     | no       | Skip confirmation after safety checks pass         |
+| `--force`                                   | no       | Force worktree removal only after explicit request |
+
+`--workspace remove` does not override safety policy. Main worktree removal,
+dirty worktrees, unpushed commits, and inconsistent PR/issue state remain stop
+conditions unless the policy explicitly allows the requested action.
+
 ## Modes
 
 - **handoff**: PR is open and human review is waiting. Do not merge. Do not remove workspace by default.
@@ -16,6 +56,20 @@ Close the operational loop without losing work: record final state, verify GitHu
 - **workspace-cleanup**: User explicitly asks to remove workspaces.
 
 Infer the mode from the user's request and live PR/issue state. If ambiguous, choose the safer mode.
+
+## Issue Status Sync
+
+Sync issue status labels during closeout after PR and issue state are verified.
+
+- **handoff**: if the PR is open and waiting for review, ensure the issue has
+  `status:review`.
+- **merged**: after merge, issue close verification, and post-merge CI success,
+  ensure the issue is closed and has `status:done`.
+- **workspace-cleanup**: do not change issue status unless the task is already
+  terminal.
+- Remove stale `status:*` labels before adding the target status label.
+- If PR state, issue state, and requested mode disagree, stop and report the
+  inconsistency instead of syncing labels.
 
 ## Workflow
 
@@ -37,8 +91,15 @@ Infer the mode from the user's request and live PR/issue state. If ambiguous, ch
    - verification commands/results
    - follow-ups or risk-resolution note
    - workspace decision
-5. Decide workspace state with the policy below.
-6. If removing a worktree, use repo-local script first:
+5. Sync issue status labels according to the mode.
+6. Decide workspace state with the policy below.
+7. If removing a worktree, use repo-local script first:
+
+```bash
+.codex/skills/task-close/scripts/worktree-remove.sh --path <path> --yes
+```
+
+Legacy positional form remains valid:
 
 ```bash
 .codex/skills/task-close/scripts/worktree-remove.sh <path> --yes
@@ -50,14 +111,14 @@ Use force only after explicit user request:
 .codex/skills/task-close/scripts/worktree-remove.sh <path> --yes --force
 ```
 
-7. If fallback raw `git worktree remove` was required, run:
+8. If fallback raw `git worktree remove` was required, run:
 
 ```bash
 node .codex/skills/task-close/scripts/update-vscode-workspace.mjs
 git worktree prune
 ```
 
-8. Verify final state:
+9. Verify final state:
    - worktree list contains expected paths only
    - `blog-worktrees.code-workspace` reflects the same paths
    - local git status is clean for touched worktree

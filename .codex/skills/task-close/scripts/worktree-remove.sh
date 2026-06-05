@@ -5,10 +5,12 @@ usage() {
   cat <<'USAGE'
 Usage:
   .codex/skills/task-close/scripts/worktree-remove.sh <path> [--yes] [--force]
+  .codex/skills/task-close/scripts/worktree-remove.sh --path <path> [--yes] [--force]
 
 Examples:
   .codex/skills/task-close/scripts/worktree-remove.sh ../app-issue-56
   .codex/skills/task-close/scripts/worktree-remove.sh ../app-issue-56 --yes
+  .codex/skills/task-close/scripts/worktree-remove.sh --path ../app-issue-56 --yes
 
 Behavior:
   - Removes the git worktree at <path>.
@@ -24,32 +26,67 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-if [[ "$#" -lt 1 || "$#" -gt 3 ]]; then
-  usage >&2
-  exit 2
-fi
-
-target_path="$1"
+target_path=""
 confirm="0"
 force="0"
+positional=()
 
-shift
 while [[ "$#" -gt 0 ]]; do
   case "$1" in
+    --path)
+      if [[ -z "${2:-}" ]]; then
+        echo "Missing value for --path" >&2
+        usage >&2
+        exit 2
+      fi
+      target_path="$2"
+      shift 2
+      ;;
     --yes)
       confirm="1"
+      shift
       ;;
     --force)
       force="1"
+      shift
       ;;
-    *)
+    --)
+      shift
+      while [[ "$#" -gt 0 ]]; do
+        positional+=("$1")
+        shift
+      done
+      ;;
+    --*)
       echo "Unknown option: $1" >&2
       usage >&2
       exit 2
       ;;
+    *)
+      positional+=("$1")
+      shift
+      ;;
   esac
-  shift
 done
+
+if [[ "${#positional[@]}" -gt 0 ]]; then
+  if [[ -n "$target_path" ]]; then
+    echo "Do not mix positional path with --path" >&2
+    usage >&2
+    exit 2
+  fi
+  if [[ "${#positional[@]}" -ne 1 ]]; then
+    usage >&2
+    exit 2
+  fi
+  target_path="${positional[0]}"
+fi
+
+if [[ -z "$target_path" ]]; then
+  echo "Path is required" >&2
+  usage >&2
+  exit 2
+fi
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 repo_root="$(git rev-parse --show-toplevel)"
