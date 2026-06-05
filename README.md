@@ -48,6 +48,7 @@ git diff --check
 
 - [Issue System Contract](./docs/operations/issue-system.md)
 - [Repo-Local Skill Contract](./docs/operations/repo-local-skill-contract.md)
+- [Repo-Local Skill Script Contract](./docs/operations/repo-local-skill-script-contract.md)
 - [Worktree VS Code Workspace](./docs/operations/worktree-vscode-workspace.md)
 - [Operations Index](./docs/operations/README.md)
 - [Agent Routing](./AGENTS.md)

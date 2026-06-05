@@ -144,6 +144,10 @@ If a skill has no script or command, keep the `Commands` heading and write
 Scripts are optional. Add scripts when the behavior should be deterministic or
 would otherwise be rewritten repeatedly.
 
+Detailed script authoring rules live in:
+
+- [Repo-Local Skill Script Contract](./repo-local-skill-script-contract.md)
+
 When a skill has scripts:
 
 - keep scripts under `scripts/`
@@ -225,6 +229,6 @@ Follow-up leaf work owns:
 
 - validator implementation
 - CI quality gate integration
-- shell script test implementation
+- shell script test implementation for existing scripts
 - existing skill migration
 - `.codex/skills` to `.agents/skills` location decisions
