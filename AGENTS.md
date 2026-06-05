@@ -55,7 +55,7 @@ components, or component fixtures:
 Before using Figma MCP:
 
 - Read `docs/design/figma-mcp-usage.md`.
-- Read `FIGMA_MAIN_FILE_KEY` from `.env.local`; do not commit
+- Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`; do not commit
   concrete Figma file keys in this public repository.
 - Use `figma-write-start` before any Figma MCP write.
   - Default to ad-hoc mode.

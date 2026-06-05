@@ -20,7 +20,7 @@ Before using Figma MCP for this repository, read:
 Use the Figma file key from local environment:
 
 ```text
-FIGMA_MAIN_FILE_KEY
+FIGMA_VERTICAL_SLICE_V1_FILE_KEY
 ```
 
 This repository is public. Do not commit concrete Figma file keys or file URLs
@@ -35,7 +35,7 @@ Use this order for Figma MCP work:
    - Use issue-backed mode only when `--issue <number>` is provided.
 2. For issue-backed work, confirm the source issue passed intake.
 3. Read this contract and the required context files.
-4. Read `FIGMA_MAIN_FILE_KEY` from `.env.local`.
+4. Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`.
 5. Choose and record the modification isolation surface.
 6. Inspect the target Figma file or branch before writing.
 7. Reuse existing variables, text styles, and components.
@@ -89,7 +89,7 @@ Branch operation rules:
 
 - create the branch from the current main file before MCP write work
 - pass the branch key or branch URL to Figma MCP write tools
-- keep the main file key in `.env.local` as `FIGMA_MAIN_FILE_KEY`
+- keep the main file key in `.env.local` as `FIGMA_VERTICAL_SLICE_V1_FILE_KEY`
 - do not commit concrete branch keys, file keys, or file URLs
 - inspect the branch before writing and after writing
 - request review or manually review the branch before merging to main
@@ -153,7 +153,7 @@ For issue-backed work, add it as an issue comment:
 - Tracking: issue-backed
 - Mode: branch | duplicate | main-checkpoint
 - Reason: <why this mode is used>
-- Main file: FIGMA_MAIN_FILE_KEY
+- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
 - Target: <redacted branch/file URL or local-only reference>
 - Pre-write checkpoint: <name or not applicable>
 - Expected write surface: <page/frame/component names>
@@ -168,7 +168,7 @@ For ad-hoc work, report it in the assistant response or private operator note:
 - Tracking: ad-hoc
 - Mode: branch | duplicate | main-checkpoint
 - Reason: <why this mode is used>
-- Main file: FIGMA_MAIN_FILE_KEY
+- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
 - Target: <redacted branch/file URL or local-only reference>
 - Pre-write checkpoint: <name or not applicable>
 - Expected write surface: <page/frame/component names>
@@ -445,13 +445,13 @@ https://www.figma.com/design/<fileKey>/<fileName>?node-id=<node-id-with-dash>
 Example:
 
 ```text
-https://www.figma.com/design/$FIGMA_MAIN_FILE_KEY/<fileName>?node-id=22-2
+https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/<fileName>?node-id=22-2
 ```
 
 For branch work, the equivalent redacted shape is:
 
 ```text
-https://www.figma.com/design/$FIGMA_MAIN_FILE_KEY/branch/<branchKey>/<fileName>?node-id=22-2
+https://www.figma.com/design/$FIGMA_VERTICAL_SLICE_V1_FILE_KEY/branch/<branchKey>/<fileName>?node-id=22-2
 ```
 
 Record these references on the source issue or umbrella tracking comment, not
