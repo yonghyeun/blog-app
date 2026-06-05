@@ -27,23 +27,21 @@ description: Use when creating or editing Markdown documents, issue handoffs, re
 ## Workflow
 
 1. 대상 문서의 독자와 목적을 확인한다.
-2. 필요한 repo contract를 먼저 읽는다.
-   - issue/workflow 문서: `docs/operations/issue-system.md`
-   - repo-local skill 문서: `docs/operations/repo-local-skill-contract.md`
-   - 문체 기준: `docs/operations/agent-writing-style.md`
-3. 문서를 `상태 / 근거 / 결정 / 다음 행동` 중 필요한 축으로 나눈다.
-4. 한국어 우선으로 작성한다.
+2. 문체 기준이 필요하면 `docs/operations/agent-writing-style.md`를 읽는다.
+3. 대상 문서가 별도 repo contract를 요구하면 `AGENTS.md`의 required reading을 따른다.
+4. 문서를 `상태 / 근거 / 결정 / 다음 행동` 중 필요한 축으로 나눈다.
+5. 한국어 우선으로 작성한다.
    - 기술 고유명사, 명령어, 파일 경로는 English token 유지.
    - 문장보다 불렛 우선.
    - 긴 배경 설명보다 현재 판단과 다음 행동 우선.
-5. 문체를 정리한다.
+6. 문체를 정리한다.
    - `~하였습니다`, `~할 수 있습니다`, `~하는 것이 좋습니다` 최소화.
    - `완료.`, `필요.`, `리스크 존재.`, `추가 확인 필요.` 같은 단문 사용.
    - 한 불렛에는 하나의 판단만 둔다.
-6. 예외를 확인한다.
+7. 예외를 확인한다.
    - 법적/대외 문서처럼 정중한 서술이 필요한 경우 평문형 종결 허용.
    - 사용자에게 그대로 보일 PR/issue 본문은 단문형을 유지하되 무례하게 줄이지 않는다.
-7. 작성 후 체크리스트를 통과한다.
+8. 작성 후 체크리스트를 통과한다.
 
 ## Commands
 
