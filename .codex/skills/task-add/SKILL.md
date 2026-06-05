@@ -1,6 +1,6 @@
 ---
 name: task-add
-description: "Create a GitHub umbrella or leaf issue for the repo task graph. Use with required arguments: `--kind umbrella` for parent tracking issues, or `--kind leaf --parent #N` for bounded executable work registered as a GitHub sub-issue."
+description: "Create a GitHub umbrella, leaf, or standalone issue for the repo task graph. Use required `--kind` arguments to choose parent tracking, child work, or standalone bounded work."
 ---
 
 # Task Add
@@ -11,7 +11,7 @@ Create one GitHub issue in the repo task graph.
 
 This skill owns remote issue graph creation only. It does not create a worktree,
 edit repository files, open a PR, close issues, or run implementation. Use
-`task-intake` after a leaf is ready for implementation.
+`task-intake` after a leaf or standalone issue is ready for implementation.
 
 ## Required Arguments
 
@@ -22,16 +22,18 @@ Accepted forms:
 ```text
 task-add --kind umbrella
 task-add --kind leaf --parent #<umbrella>
+task-add --kind standalone
 ```
 
 Fail immediately when:
 
 - `task-add` is invoked without arguments.
 - `--kind` is missing.
-- `--kind` is not `umbrella` or `leaf`.
+- `--kind` is not `umbrella`, `leaf`, or `standalone`.
 - `--kind leaf` is used without `--parent #<umbrella>`.
+- `--kind standalone` is used with `--parent`.
 - `--kind umbrella` is used with a required executable result that should be a
-  leaf.
+  leaf or standalone issue.
 
 ## Shared Workflow
 
@@ -114,11 +116,39 @@ gh api repos/:owner/:repo/issues/<parent>/sub_issues -X POST -F sub_issue_id=<le
    - Include summary, bounded scope, non-scope, AC summary, and dependency notes.
 8. Report whether `task-intake` should run next.
 
+## `--kind standalone`
+
+Use this mode for one bounded executable issue without umbrella progress
+tracking.
+
+Standalone issues are for work that:
+
+- is executable as one issue
+- has no parent sequencing surface
+- carries its own context, scope, non-scope, acceptance criteria, dependencies,
+  and completion signal
+- can close without advancing an umbrella
+
+Workflow:
+
+1. Confirm the requested work does not need umbrella sequencing, shared
+   decisions, or parent closeout tracking.
+2. Build the standalone issue body around exactly one bounded outcome.
+3. Create the GitHub issue with `kind:standalone`.
+4. Add relationship notation:
+   - `Related: #<issue>` for informational context only
+5. Do not add `Parent` or `Sub-issue of` notation.
+6. Do not register the issue as a GitHub sub-issue.
+7. Report whether `task-intake` should run next.
+
 ## Relationship Rules
 
 - An umbrella should not have a parent issue by default.
 - A leaf has exactly one umbrella parent.
 - A leaf may have N related issues.
+- A standalone issue has no parent issue.
+- A standalone issue must not be registered as a sub-issue.
+- A standalone issue may reference related issues for context only.
 - `Related` never means parent, dependency, or execution order.
 - `Depends on` and `Blocked by` are order or readiness signals, not ownership.
 - Shared context belongs on the umbrella tracking surface, not duplicated into
@@ -134,6 +164,10 @@ gh api repos/:owner/:repo/issues/<parent>/sub_issues -X POST -F sub_issue_id=<le
 - Required arguments are missing or invalid.
 - The requested umbrella has one bounded executable result. Use
   `task-add --kind leaf --parent #<umbrella>`.
+- The requested standalone issue needs parent sequencing, shared decisions, or
+  parent closeout tracking. Use an umbrella and leaf issue instead.
+- The requested standalone issue includes a parent issue or sub-issue
+  registration requirement.
 - The requested leaf has no parent umbrella.
 - The requested leaf parent is closed.
 - The requested leaf parent is not labeled `kind:umbrella`.
