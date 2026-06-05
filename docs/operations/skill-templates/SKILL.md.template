@@ -1,0 +1,49 @@
+---
+name: <skill-name>
+description: <Use when Codex should ... Include concrete trigger conditions.>
+---
+
+# <Skill Display Name>
+
+## Goal
+
+<One job this skill performs.>
+
+## When To Use
+
+- <Explicit trigger.>
+- <Implicit trigger.>
+
+## Inputs / Arguments
+
+| Argument | Required | Default     | Behavior              |
+| -------- | -------- | ----------- | --------------------- |
+| `<arg>`  | yes/no   | `<default>` | <Effect on workflow.> |
+
+## Workflow
+
+1. <Read required repo contracts or context.>
+2. <Identify target state.>
+3. <Run commands or perform edits.>
+4. <Verify output.>
+5. <Record receipt or handoff when required.>
+
+## Commands
+
+| Command     | When           | Required Args | Optional Args    | Preconditions     | Side Effects                | Output              | Failure / Next Action     |
+| ----------- | -------------- | ------------- | ---------------- | ----------------- | --------------------------- | ------------------- | ------------------------- |
+| `<command>` | <When to run.> | `<args>`      | `<args or None>` | <Required state.> | <Local or remote mutation.> | <Success artifact.> | <Next action on failure.> |
+
+## Stop Conditions
+
+- <Condition that must stop execution.>
+- <Condition that requires user input.>
+
+## Verification
+
+- `<verification command>`
+- <Manual or remote check.>
+
+## References
+
+- `<references/file.md>`: <When to read it.>
