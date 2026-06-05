@@ -1,4 +1,4 @@
 interface:
   display_name: "Korean Doc Writer"
-  short_description: "Write Korean-first Markdown that is structured and easy to scan."
-  default_prompt: "Use $korean-doc-writer to draft or revise Markdown in a concise Korean-first style."
+  short_description: "한국어 우선 Markdown을 짧고 구조화된 문체로 작성."
+  default_prompt: "$korean-doc-writer로 Markdown을 한국어 우선 단문형 문체로 작성하거나 수정."

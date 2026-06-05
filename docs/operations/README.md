@@ -6,6 +6,7 @@ Repo operating contracts.
 
 - [Issue System Contract](./issue-system.md)
 - [Agent Writing Style](./agent-writing-style.md)
+- [Document Style Drift Inventory](./document-style-drift-inventory.md)
 - [Local Git Hooks](./local-git-hooks.md)
 - [Repo-Local Skill Contract](./repo-local-skill-contract.md)
 - [Repo-Local Skill Script Contract](./repo-local-skill-script-contract.md)

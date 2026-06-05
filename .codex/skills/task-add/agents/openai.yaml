@@ -1,4 +1,4 @@
 interface:
   display_name: "Task Add"
-  short_description: "Create repo task graph issues"
-  default_prompt: "Use $task-add to create a repo task issue with --kind umbrella, leaf, or standalone."
+  short_description: "repo task graph issue 생성."
+  default_prompt: "$task-add로 --kind umbrella, leaf, standalone 중 하나의 repo task issue 생성."

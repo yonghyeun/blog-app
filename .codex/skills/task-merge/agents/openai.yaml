@@ -1,4 +1,4 @@
 interface:
   display_name: "Task Merge"
-  short_description: "Merge a ready PR and verify post-merge checks."
-  default_prompt: "Merge the ready PR and verify the post-merge state."
+  short_description: "ready PR merge와 post-merge 상태 검증."
+  default_prompt: "ready PR을 merge하고 post-merge 상태 검증."

@@ -1,4 +1,4 @@
 interface:
   display_name: "Task Intake"
-  short_description: "Prepare issue-backed repo work before implementation."
-  default_prompt: "Run task intake for the current issue before implementation."
+  short_description: "구현 전 issue-backed repo 작업 준비."
+  default_prompt: "구현 전 현재 issue에 대해 task intake 실행."

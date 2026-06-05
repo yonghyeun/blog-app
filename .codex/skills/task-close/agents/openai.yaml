@@ -1,4 +1,4 @@
 interface:
   display_name: "Task Close"
-  short_description: "Close out terminal task state and decide workspace cleanup."
-  default_prompt: "Close out the current task and handle workspace cleanup policy."
+  short_description: "task terminal state 정리와 workspace cleanup 결정."
+  default_prompt: "현재 task를 closeout하고 workspace cleanup 정책 적용."
