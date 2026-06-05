@@ -9,6 +9,25 @@ description: Close out a task after handoff or merge and decide workspace cleanu
 
 Close the operational loop without losing work: record final state, verify GitHub state, then decide whether a workspace should be removed, kept, or left pending.
 
+## Script-First Gate
+
+Agents must run the repo-local closeout gate before raw GitHub status mutation,
+receipt writing, or workspace cleanup:
+
+```bash
+.codex/skills/task-close/scripts/run.sh --mode <handoff|merged|workspace-cleanup> --issue <number> --pr <number> --worktree <path> --workspace <keep|remove|pending> --dry-run
+```
+
+After the dry-run passes, rerun without `--dry-run` when mutation is intended:
+
+```bash
+.codex/skills/task-close/scripts/run.sh --mode handoff --issue <number> --pr <number> --worktree <path> --workspace keep --yes
+```
+
+The script owns closeout receipt creation, issue status sync, terminal-state
+checks, workspace decision validation, and cleanup delegation. Agent-side manual
+commands are fallback only when the script is missing or reports a degraded path.
+
 ## Argument Contract
 
 Arguments are optional at the skill level because the agent may infer issue, PR,
@@ -74,15 +93,26 @@ Sync issue status labels during closeout after PR and issue state are verified.
 ## Workflow
 
 1. Identify issue, PR, branch, and worktree path.
-2. Query live state.
+2. Run the closeout gate in dry-run mode:
+
+```bash
+.codex/skills/task-close/scripts/run.sh --mode <mode> --issue <issue> --pr <pr> --worktree <path> --workspace <decision> --dry-run --verbose
+```
+
+3. Stop if the script reports an inconsistent issue/PR/worktree state.
+4. Rerun the script without `--dry-run` for the intended mutation.
+   - Use `--workspace keep` for handoff.
+   - Use `--workspace pending` when post-merge CI, deploy, or cleanup state is not terminal.
+   - Use `--workspace remove --yes` only after the script safety checks pass.
+5. Query live state only when needed to explain or resolve script failures.
    - `gh pr view`
    - `gh issue view`
    - `git status --short --branch`
    - `git worktree list`
-3. Write or update a closeout receipt.
+6. The script writes or updates a closeout receipt.
    - issue comment for issue-owned work
    - PR comment only when issue comment is not suitable
-4. Include in the receipt:
+7. Include in the receipt:
    - PR URL
    - branch
    - head SHA or merge SHA
@@ -91,9 +121,9 @@ Sync issue status labels during closeout after PR and issue state are verified.
    - verification commands/results
    - follow-ups or risk-resolution note
    - workspace decision
-5. Sync issue status labels according to the mode.
-6. Decide workspace state with the policy below.
-7. If removing a worktree, use repo-local script first:
+8. The script syncs issue status labels according to the mode.
+9. The script decides workspace state with the policy below.
+10. If removing a worktree, the script delegates to repo-local removal:
 
 ```bash
 .codex/skills/task-close/scripts/worktree-remove.sh --path <path> --yes
@@ -111,17 +141,18 @@ Use force only after explicit user request:
 .codex/skills/task-close/scripts/worktree-remove.sh <path> --yes --force
 ```
 
-8. If fallback raw `git worktree remove` was required, run:
+11. If fallback raw `git worktree remove` was required, run:
 
 ```bash
 node .codex/skills/task-close/scripts/update-vscode-workspace.mjs
 git worktree prune
 ```
 
-9. Verify final state:
-   - worktree list contains expected paths only
-   - `blog-worktrees.code-workspace` reflects the same paths
-   - local git status is clean for touched worktree
+12. Verify final state:
+
+- worktree list contains expected paths only
+- `blog-worktrees.code-workspace` reflects the same paths
+- local git status is clean for touched worktree
 
 ## Workspace Cleanup Policy
 
