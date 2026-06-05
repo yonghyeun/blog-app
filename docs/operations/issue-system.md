@@ -236,7 +236,8 @@ Deep umbrella and sub-issue rules are defined by the relationship tracking leaf.
 
 ### Leaf Issue
 
-A leaf issue owns one bounded implementation outcome.
+A leaf issue owns one bounded implementation outcome under an umbrella or source
+of truth tracking surface.
 
 It should be completable without deciding unrelated future work.
 
@@ -248,6 +249,29 @@ Leaf issues must include:
 - dependencies
 - acceptance criteria
 - completion signal
+
+### Standalone Issue
+
+A standalone issue owns one bounded implementation outcome without an umbrella
+parent.
+
+Use a standalone issue when:
+
+- the work is executable as one issue
+- no parent needs to own sequencing or shared context
+- closing the issue does not need to advance an umbrella
+- the issue can carry its own context, scope, non-scope, dependencies,
+  acceptance criteria, and completion signal
+
+Do not use a standalone issue when:
+
+- the work is part of a known multi-leaf sequence
+- shared decisions or downstream handoff notes belong on an umbrella
+- multiple agents need a parent tracking surface
+- closing this issue should update umbrella progress
+
+If standalone work later reveals a multi-leaf sequence, create or propose an
+umbrella before splitting follow-up work.
 
 ### Risk-Resolution Issue
 
@@ -300,7 +324,8 @@ umbrella tracking surface, then let leaves reference the umbrella.
 
 ### Leaf Ownership
 
-A leaf issue owns one bounded outcome.
+A leaf issue owns one bounded outcome under an umbrella or source of truth
+tracking surface.
 
 The leaf is responsible for:
 
@@ -312,6 +337,23 @@ The leaf is responsible for:
 
 A leaf should not decide future leaf semantics unless the umbrella explicitly
 delegates that decision.
+
+### Standalone Ownership
+
+A standalone issue owns one bounded outcome without parent progress tracking.
+
+The standalone issue is responsible for:
+
+- its own context
+- its own scope and non-scope
+- its own acceptance criteria
+- its direct dependencies
+- its PR and verification result
+- its closeout signal
+
+A standalone issue should not be registered as a sub-issue. If the work needs
+parent sequencing, shared decisions, or parent closeout tracking, use an umbrella
+and leaf issue instead.
 
 ### Sub-Issue Registration
 
@@ -470,6 +512,7 @@ Required: exactly one.
 | ---------------------- | -------------------------------------------------- |
 | `kind:umbrella`        | Parent issue that owns sequencing and tracking.    |
 | `kind:leaf`            | Bounded executable issue under an umbrella or SoT. |
+| `kind:standalone`      | Bounded executable issue without an umbrella.      |
 | `kind:risk-resolution` | System upgrade issue created to reduce a risk.     |
 | `kind:decision`        | Issue that records a decision before execution.    |
 | `kind:spike`           | Time-boxed investigation before a decision.        |
@@ -480,6 +523,7 @@ Examples:
 
 - #18 uses `kind:umbrella`.
 - #19, #20, and #21 use `kind:leaf`.
+- A bounded issue with no parent tracking surface can use `kind:standalone`.
 - A slice-review system upgrade can use `kind:risk-resolution`.
 
 ### Status Labels

@@ -5,9 +5,10 @@ title: "chore: "
 labels: "kind:leaf, status:intake, priority:p2, area:ops"
 ---
 
-Leaf issue는 하나의 bounded outcome만 소유합니다.
+Leaf issue는 umbrella 또는 SoT 아래의 하나의 bounded outcome만 소유합니다.
 구현은 issue intake가 통과한 뒤 시작합니다.
 bug, refactor, docs, test 작업도 별도 전용 template가 생기기 전까지 이 template를 사용합니다.
+Parent tracking surface가 없는 단독 실행 이슈는 Standalone Issue template를 사용합니다.
 
 제목 summary와 본문 prose는 한국어 우선 작성입니다.
 제목 prefix가 `fix:`, `docs:`, `test:`, `refactor:` 등으로 바뀌면 `Intended labels`의 `type:*`도 함께 바꿉니다.
