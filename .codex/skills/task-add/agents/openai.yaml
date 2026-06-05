@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Add"
+  short_description: "Create umbrella or leaf issues"
+  default_prompt: "Use $task-add to create a repo task issue with the required --kind argument."

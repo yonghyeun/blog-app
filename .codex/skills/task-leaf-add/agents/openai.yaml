@@ -1,4 +1,0 @@
-interface:
-  display_name: "Task Leaf Add"
-  short_description: "Create and link a leaf issue under an umbrella."
-  default_prompt: "Create a leaf issue under the umbrella and link it as a sub-issue."
