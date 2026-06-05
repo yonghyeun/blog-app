@@ -58,9 +58,9 @@ Before using Figma MCP:
 - Read `FIGMA_VERTICAL_SLICE_V1_FILE_KEY` from `.env.local`; do not commit
   concrete Figma file keys in this public repository.
 - Use `figma-write-start` before any Figma MCP write.
-  - Use issue-backed mode when a source issue exists.
-  - Use ad-hoc mode only when the user explicitly requests no-issue Figma
-    exploration.
+  - Default to ad-hoc mode.
+  - Use `--issue <number>` only when the Figma write should be tracked on a
+    GitHub issue.
 - Reuse existing Figma variables, text styles, and components before creating
   new assets.
 - Use `figma-write-finish` after any Figma MCP write.

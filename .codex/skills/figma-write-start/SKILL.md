@@ -16,11 +16,25 @@ decision before any design mutation happens.
 
 1. `AGENTS.md`
 2. `docs/design/figma-mcp-usage.md`
-3. Source issue body and comments
+3. Source issue body and comments when `--issue <number>` is provided
+
+## Arguments
+
+Default behavior is ad-hoc.
+
+Use `--issue <number>` only when the Figma write should be tracked on a GitHub
+issue.
+
+Examples:
+
+```text
+figma-write-start
+figma-write-start --issue 32
+```
 
 ## Inputs
 
-- source issue number, or explicit ad-hoc request
+- optional source issue number from `--issue <number>`
 - intended Figma write scope
 - target page, frame, or component names
 - current Figma access mode when known
@@ -28,23 +42,22 @@ decision before any design mutation happens.
 
 ## Tracking Modes
 
-Prefer `issue-backed` mode for Figma work that will become an implementation
-handoff or design source-of-truth change.
+Default to `ad-hoc` mode.
 
-Use `ad-hoc` mode when the user explicitly asks to explore, test, or create a
-Figma branch without a source issue.
+Use `issue-backed` mode only when `--issue <number>` is provided.
 
 ```text
-issue-backed -> record on the source issue
 ad-hoc -> record in the assistant response or a private operator note
+issue-backed -> record on the source issue
 ```
 
 Ad-hoc mode may create or target a Figma branch or duplicate, but it still must
 not write directly to the main file unless the user explicitly chooses
 `main-checkpoint`.
 
-Do not silently convert ad-hoc Figma work into issue-backed work. Create an issue
-only when the user asks for one or when repo files will be changed.
+Do not silently convert ad-hoc Figma work into issue-backed work. Create or use
+an issue only when the user provides `--issue <number>`, asks for an issue, or
+repo files will be changed.
 
 ## Environment
 
@@ -68,8 +81,8 @@ real values.
 ## Workflow
 
 1. Choose tracking mode:
-   - use `issue-backed` when a source issue is provided
-   - use `ad-hoc` when the user explicitly requests no-issue exploration
+   - use `ad-hoc` by default
+   - use `issue-backed` only when `--issue <number>` is provided
 2. For `issue-backed`, verify the source issue passed intake.
 3. For `ad-hoc`, record the user's explicit request text or a short local
    purpose statement.
@@ -132,7 +145,7 @@ For `ad-hoc`, report or save this record without posting to GitHub:
 
 Report:
 
-- source issue
+- source issue when provided
 - tracking mode
 - selected mode
 - target surface
@@ -142,7 +155,8 @@ Report:
 
 ## Stop Conditions
 
-- no source issue and no explicit ad-hoc request
+- intended Figma write scope or local purpose is missing
+- `--issue <number>` was provided but the issue cannot be read
 - source issue has not passed intake in `issue-backed` mode
 - target surface is unknown
 - the current worktree lacks `.env.local` and no explicit local target is

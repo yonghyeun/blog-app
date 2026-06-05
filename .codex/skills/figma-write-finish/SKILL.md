@@ -17,13 +17,28 @@ separate explicit step.
 
 1. `AGENTS.md`
 2. `docs/design/figma-mcp-usage.md`
-3. Source issue body and comments when the work is issue-backed
+3. Source issue body and comments when `--issue <number>` is provided
 4. The matching `Figma Write Target` issue comment, assistant message, or
    private operator note
 
+## Arguments
+
+Default behavior is ad-hoc.
+
+Use `--issue <number>` only when the matching Figma write target was tracked on
+a GitHub issue.
+
+Examples:
+
+```text
+figma-write-finish
+figma-write-finish --issue 32
+```
+
 ## Inputs
 
-- source issue number, or ad-hoc target record
+- optional source issue number from `--issue <number>`
+- matching ad-hoc target record when no issue is provided
 - write mode from `figma-write-start`
 - target branch, duplicate, or main-checkpoint reference
 - delivered page, frame, component, and node names
@@ -49,7 +64,8 @@ After issue-<number>-<short-scope>
 
 6. Record the result.
 
-For issue-backed work, add a source issue comment:
+For issue-backed work, add a source issue comment. Use issue-backed mode only
+when `--issue <number>` is provided:
 
 ```text
 ## Figma Write Result
@@ -89,7 +105,7 @@ For ad-hoc work, report or save this record without posting to GitHub:
 
 Report:
 
-- source issue
+- source issue when provided
 - tracking mode
 - write mode
 - delivered nodes
