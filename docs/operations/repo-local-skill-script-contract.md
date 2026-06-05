@@ -1,142 +1,141 @@
-# Repo-Local Skill Script Contract
+# Repo-Local Skill Script 작성 계약
 
-This contract defines how scripts under repo-local Codex skills are authored in
-this repository.
+이 문서는 repo-local Codex skill 안에 들어가는 script 작성 기준이다.
 
-It applies to scripts under:
+적용 대상:
 
 ```text
 .codex/skills/<skill-name>/scripts/
 ```
 
-It extends the repo-local skill structure contract:
+이 문서는 아래 구조 계약을 확장한다.
 
-- [Repo-Local Skill Contract](./repo-local-skill-contract.md)
+- [Repo-Local Skill 구조 계약](./repo-local-skill-contract.md)
 
-## Purpose
+## 목적
 
-Skill scripts exist to make repeated operational behavior deterministic.
+skill script의 목적은 반복되는 운영 절차를 deterministic하게 만드는 것이다.
 
-They must be:
+script는 다음 기준을 만족해야 한다.
 
-- narrow enough to review from the script name and metadata
-- explicit about local and remote side effects
-- safe to run from the repository root
-- predictable for agents and humans
-- covered by colocated tests unless a documented exception applies
-- clear about failure cause and the next action
+- script 이름과 metadata만 보고 의도를 파악할 수 있어야 한다.
+- local mutation과 remote mutation을 명확히 구분해야 한다.
+- repository root에서 실행해도 안전해야 한다.
+- agent와 사람이 같은 결과를 기대할 수 있어야 한다.
+- 예외 사유가 없으면 colocated test를 가져야 한다.
+- 실패 원인과 다음 행동을 같이 알려야 한다.
 
-## When To Create A Script
+## Script를 만드는 기준
 
-Create a script when the skill needs behavior that is easier to verify as code
-than as prose.
+prose보다 code로 고정하는 편이 더 안전하고 검증하기 쉬운 절차라면 script를
+만든다.
 
-Use a script for:
+script를 만드는 경우:
 
-- repeatable command orchestration
-- worktree, branch, issue, PR, or file bookkeeping that must stay consistent
-- argument validation with predictable error output
-- deterministic formatting or artifact generation
-- remote API calls whose request shape should not be rewritten every time
-- safety checks before local or remote mutation
+- 반복되는 command orchestration
+- worktree, branch, issue, PR, file bookkeeping처럼 일관성이 필요한 작업
+- argument validation과 예측 가능한 error output
+- deterministic formatting 또는 artifact generation
+- 매번 다시 작성하면 위험한 remote API request
+- local mutation 또는 remote mutation 전 safety check
 
-Do not create a script for:
+script를 만들지 않는 경우:
 
-- one-off commands that are clearer inline in `SKILL.md`
-- judgment-heavy review or planning steps
-- behavior that depends on interactive agent reasoning
-- broad wrappers that hide unrelated side effects
-- replacing a documented repo contract with duplicated logic
+- `SKILL.md`에 command 한 줄로 두는 편이 더 명확한 one-off command
+- 판단이 핵심인 review 또는 planning step
+- interactive agent reasoning에 의존하는 작업
+- 서로 무관한 side effect를 숨기는 broad wrapper
+- 이미 문서화된 repo contract를 중복 logic으로 대체하는 작업
 
-If a command is simple but risky, prefer a script. Risky behavior benefits from
-consistent validation, dry-run handling, and next-action error messages.
+command 자체가 단순해도 위험하면 script를 선호한다. 위험한 작업은 validation,
+dry-run, next-action error message가 일관되어야 한다.
 
-## Placement And Naming
+## 위치와 이름
 
-Scripts must live under the owning skill:
+script는 반드시 소유 skill 아래에 둔다.
 
 ```text
 .codex/skills/<skill-name>/scripts/<action>.sh
 ```
 
-Rules:
+규칙:
 
-- Use action-oriented names such as `worktree-add.sh` or
-  `read-comments.sh`.
-- Keep one primary operation per script.
-- Do not place shared helpers in `.codex/skills/scripts`.
-- Do not make scripts depend on another skill's private `scripts/` directory.
-- If behavior becomes shared across multiple skills, create a separate follow-up
-  issue before adding shared tooling.
+- `worktree-add.sh`, `read-comments.sh`처럼 action-oriented name을 쓴다.
+- 하나의 script는 하나의 primary operation만 가진다.
+- shared helper를 `.codex/skills/scripts`에 두지 않는다.
+- 다른 skill의 private `scripts/` directory에 의존하지 않는다.
+- 여러 skill에서 같은 동작이 필요해지면 shared tooling 추가 전에 별도
+  follow-up issue를 만든다.
 
-## Shell Style
+## Shell Style 기준
 
-Shell scripts must be Bash unless the issue explains why another runtime is
-needed.
+shell script는 Bash를 기본으로 한다. 다른 runtime이 필요하면 source issue에
+이유를 남긴다.
 
-Required shell baseline:
+필수 baseline:
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 ```
 
-Style rules:
+style 규칙:
 
-- quote variable expansions unless word splitting is intentional
-- parse flags with an explicit loop or a small deterministic parser
-- keep usage text in a `usage()` function
-- validate required args before mutation
-- resolve repository paths from `git rev-parse --show-toplevel` when the script
-  touches repo files
-- prefer `printf` for computed output
-- write errors to stderr
-- keep stdout for success output or machine-readable output
-- avoid hidden global state when args or env vars can make behavior explicit
-- avoid broad shell globs for mutation
-- do not use aliases or shell options that only exist in interactive shells
+- word splitting이 의도된 경우가 아니면 variable expansion을 quote한다.
+- flag parsing은 explicit loop 또는 작고 deterministic한 parser로 처리한다.
+- usage text는 `usage()` function에 둔다.
+- mutation 전에 required args를 검증한다.
+- repo file을 건드릴 때는 `git rev-parse --show-toplevel` 기준으로 path를
+  계산한다.
+- 계산된 output에는 `printf`를 선호한다.
+- error는 stderr로 쓴다.
+- stdout은 success output 또는 machine-readable output 용도로 유지한다.
+- args나 env vars로 명시할 수 있는 동작을 hidden global state로 만들지 않는다.
+- mutation에는 broad shell glob을 피한다.
+- interactive shell에서만 동작하는 alias나 shell option을 쓰지 않는다.
 
-Avoid:
+피해야 할 것:
 
-- implicit current-directory assumptions outside the documented preconditions
-- unquoted command substitution in mutating paths
-- silent fallback after failed validation
-- catch-all success messages when partial work failed
-- destructive cleanup without confirmation or a documented force flag
+- 문서화된 precondition 밖의 current-directory 가정
+- mutating path에서 unquoted command substitution 사용
+- validation 실패 뒤 silent fallback
+- 일부 작업이 실패했는데 catch-all success message 출력
+- confirmation 또는 documented force flag 없는 destructive cleanup
 
-## Inputs
+## Input 처리
 
-Scripts may accept positional args, flags, environment variables, or stdin.
+script input은 positional args, flags, environment variables, stdin 중 하나일 수
+있다.
 
-Document every input in the owning `SKILL.md` command table or in a linked
-script metadata section.
+모든 input은 owning `SKILL.md` command table 또는 연결된 script metadata section에
+문서화한다.
 
-### Required Args
+### Required Args 기준
 
-Required args must:
+required args 기준:
 
-- be validated before side effects
-- fail with exit code `2` when missing or invalid
-- name the missing input in the error
-- provide the next action
+- side effect 전에 검증한다.
+- 누락되거나 invalid하면 exit code `2`로 실패한다.
+- error message에 누락된 input 이름을 적는다.
+- 다음 행동을 함께 제시한다.
 
-Example:
+예시:
 
 ```text
 Missing issue number. Pass --issue <number> or provide an issue URL.
 ```
 
-### Optional Args
+### Optional Args 기준
 
-Optional args must:
+optional args 기준:
 
-- have documented defaults
-- be visible in `--help` output when the script has help output
-- avoid changing mutation scope unless the option name makes that clear
+- default를 문서화한다.
+- script에 help output이 있다면 `--help`에 표시한다.
+- option name이 명확하지 않다면 mutation scope를 바꾸지 않는다.
 
-Use explicit flags for behavior-changing options.
+동작을 바꾸는 option은 explicit flag로 둔다.
 
-Examples:
+예시:
 
 ```text
 --dry-run
@@ -145,99 +144,97 @@ Examples:
 --worktree <path>
 ```
 
-### Environment Variables
+### Environment Variables 기준
 
-Use environment variables only for:
+environment variable은 다음 경우에만 쓴다.
 
-- credentials or tokens already expected by a CLI
-- compatibility with existing repo-local behavior
-- opt-out behavior that should not clutter normal command usage
+- CLI가 이미 기대하는 credential 또는 token
+- 기존 repo-local behavior와의 호환
+- normal command usage를 복잡하게 만들지 않기 위한 opt-out behavior
 
-Rules:
+규칙:
 
-- document every supported env var
-- avoid env vars for required business inputs
-- prefer flags over env vars for reviewable workflow decisions
-- never echo secrets
+- 지원하는 env var를 모두 문서화한다.
+- required business input에는 env var를 피한다.
+- reviewable workflow decision에는 env var보다 flag를 선호한다.
+- secret을 echo하지 않는다.
 
-### Stdin
+### Stdin 기준
 
-Use stdin only when the script processes streamed content or when a CLI contract
-requires it.
+stdin은 streamed content를 처리하거나 CLI contract가 요구할 때만 쓴다.
 
-Rules:
+규칙:
 
-- document whether stdin is required or optional
-- fail fast when required stdin is absent
-- avoid mixing stdin with unrelated positional content
+- stdin이 required인지 optional인지 문서화한다.
+- required stdin이 없으면 빠르게 실패한다.
+- stdin과 무관한 positional content를 섞지 않는다.
 
-## Side Effects
+## Side Effect 표기
 
-Every script must classify side effects as local mutation, remote mutation, or
-read-only behavior.
+모든 script는 side effect를 local mutation, remote mutation, read-only behavior로
+분류해야 한다.
 
-Local mutation examples:
+local mutation 예시:
 
-- creating, editing, or deleting files
-- creating worktrees
-- updating workspace files
-- creating commits
-- changing local branches
+- file 생성, 수정, 삭제
+- worktree 생성
+- workspace file 갱신
+- commit 생성
+- local branch 변경
 
-Remote mutation examples:
+remote mutation 예시:
 
-- editing GitHub issues or PRs
-- creating comments
-- pushing branches
-- changing labels
-- calling a write API
+- GitHub issue 또는 PR 수정
+- comment 생성
+- branch push
+- label 변경
+- write API 호출
 
-Read-only examples:
+read-only 예시:
 
-- fetching issue state
-- listing labels
-- printing a planned command
-- validating local file structure
+- issue state 조회
+- label 목록 조회
+- planned command 출력
+- local file structure validation
 
-Rules:
+규칙:
 
-- document side effects before the script is used in a skill workflow
-- separate read-only checks from mutation when practical
-- name remote writes in success output
-- do not hide remote mutation behind a read-only command name
+- skill workflow에서 script를 사용하기 전에 side effect를 문서화한다.
+- 가능하면 read-only check와 mutation을 분리한다.
+- remote write가 있었다면 success output에 무엇을 썼는지 드러낸다.
+- read-only처럼 보이는 command name 뒤에 remote mutation을 숨기지 않는다.
 
-## Exit Codes
+## Exit Code 의미
 
-Scripts must keep exit codes predictable.
+script exit code는 예측 가능해야 한다.
 
-Use this baseline:
+기본 의미:
 
-| Exit Code | Meaning                                    |
-| --------- | ------------------------------------------ |
-| `0`       | Success.                                   |
-| `1`       | Runtime failure or unmet external state.   |
-| `2`       | Usage error, invalid args, or invalid env. |
-| `3`       | Intake, policy, or precondition failure.   |
-| `4`       | Destructive action requires confirmation.  |
+| Exit Code | 의미                                        |
+| --------- | ------------------------------------------- |
+| `0`       | 성공.                                       |
+| `1`       | runtime failure 또는 unmet external state.  |
+| `2`       | usage error, invalid args, invalid env.     |
+| `3`       | intake, policy, precondition failure.       |
+| `4`       | destructive action에 confirmation이 필요함. |
 
-Rules:
+규칙:
 
-- document any script-specific exit code beyond this baseline
-- do not return `0` after a failed required mutation
-- preserve meaningful exit codes from child validators when the script is only
-  forwarding validation result
+- 이 baseline 밖의 script-specific exit code는 문서화한다.
+- required mutation이 실패했는데 `0`을 반환하지 않는다.
+- child validator 결과를 전달하는 script라면 의미 있는 child exit code를 보존한다.
 
-## Error Messages
+## Error Message 기준
 
-Scripts must emit next-action error messages.
+script error message는 next-action 형식이어야 한다.
 
-Pattern:
+형식:
 
 ```text
 <problem>. <next action>.
 ```
 
-Examples:
+예시:
 
 ```text
 Worktree path already exists. Choose --worktree <path> or run task-close first.
@@ -251,51 +248,50 @@ GitHub issue is missing acceptance criteria. Update the issue body before intake
 GitHub API request failed. Re-run with GH_DEBUG=api and check token permissions.
 ```
 
-Rules:
+규칙:
 
-- include the failing target when useful
-- keep the next action concrete
-- do not expose tokens, file keys, or secrets
-- avoid vague messages such as `Failed`, `Invalid input`, or
-  `Something went wrong`
+- 필요하면 실패한 target을 포함한다.
+- next action은 구체적으로 쓴다.
+- token, file key, secret을 노출하지 않는다.
+- `Failed`, `Invalid input`, `Something went wrong`처럼 모호한 message를 피한다.
 
-## Dry Run, Confirmation, And Destructive Actions
+## Dry Run, Confirmation, Destructive Action
 
-Scripts that mutate local or remote state should support `--dry-run` when the
-planned action can be represented accurately.
+local 또는 remote state를 바꾸는 script는 planned action을 정확히 표현할 수 있으면
+`--dry-run`을 지원해야 한다.
 
-Dry-run rules:
+dry-run 규칙:
 
-- print what would change
-- do not write files
-- do not edit issues, PRs, labels, or comments
-- do not create branches, worktrees, or commits
-- make the output distinguish local and remote planned mutations
+- 무엇이 바뀔지 출력한다.
+- file을 쓰지 않는다.
+- issue, PR, label, comment를 수정하지 않는다.
+- branch, worktree, commit을 만들지 않는다.
+- local planned mutation과 remote planned mutation을 구분해서 출력한다.
 
-Confirmation is required for destructive actions unless the user explicitly
-requested the destructive action in the current task and the script is designed
-for that action.
+destructive action에는 confirmation이 필요하다. 단, 현재 task에서 사용자가 해당
+destructive action을 명시적으로 요청했고 script가 그 작업을 위해 설계된 경우는
+예외다.
 
-Destructive examples:
+destructive action 예시:
 
-- deleting a worktree
-- removing files
-- closing issues
-- changing issue ownership labels
-- force-updating a branch
+- worktree 삭제
+- file 삭제
+- issue close
+- issue ownership label 변경
+- branch force update
 
-Confirmation rules:
+confirmation 규칙:
 
-- use an explicit `--yes` or similarly named flag
-- fail with exit code `4` when confirmation is required but missing
-- print the exact next command or flag needed
-- prefer repo-local cleanup scripts over raw destructive commands
+- `--yes` 또는 비슷하게 명확한 flag를 쓴다.
+- confirmation이 필요한데 없으면 exit code `4`로 실패한다.
+- 필요한 다음 command 또는 flag를 정확히 출력한다.
+- raw destructive command보다 repo-local cleanup script를 선호한다.
 
-## Colocated Tests
+## Colocated Test 기준
 
-Script tests must be colocated with the script they test.
+script test는 test 대상 script 옆에 둔다.
 
-Examples:
+예시:
 
 ```text
 scripts/worktree-add.sh
@@ -307,49 +303,49 @@ scripts/update-vscode-workspace.mjs
 scripts/update-vscode-workspace.test.mjs
 ```
 
-Rules:
+규칙:
 
-- preserve the script basename and add `.test` before the extension
-- test argument parsing failures
-- test dry-run behavior when supported
-- test important side-effect boundaries with temporary directories or mocked
-  commands
-- test next-action error messages for common failures
-- document an exception when a script is trivial or not practically testable
+- script basename을 유지하고 extension 앞에 `.test`를 추가한다.
+- argument parsing failure를 test한다.
+- dry-run을 지원하면 dry-run behavior를 test한다.
+- 중요한 side-effect boundary는 temporary directory 또는 mocked command로
+  test한다.
+- 흔한 실패의 next-action error message를 test한다.
+- script가 trivial하거나 현실적으로 test하기 어렵다면 예외를 문서화한다.
 
-An exception must name:
+예외 문서에는 다음을 적는다.
 
-- why no colocated test exists
-- what verification command or manual check covers the script instead
-- which follow-up issue will add coverage when the exception is temporary
+- colocated test가 없는 이유
+- 대신 어떤 verification command 또는 manual check가 담당하는지
+- 임시 예외라면 coverage를 추가할 follow-up issue
 
-## Script Metadata
+## Script Metadata 기준
 
-Every skill with scripts must document script metadata.
+script를 가진 skill은 script metadata를 문서화해야 한다.
 
-Minimum schema:
+minimum schema:
 
-| Field        | Required | Meaning                                      |
+| Field        | Required | 의미                                         |
 | ------------ | -------- | -------------------------------------------- |
-| Script Path  | yes      | Path under `scripts/`.                       |
-| Test Path    | yes      | Colocated test path or documented exception. |
-| Purpose      | yes      | Deterministic behavior the script owns.      |
-| Inputs       | yes      | Args, env vars, or stdin.                    |
-| Side Effects | yes      | Local or remote mutation.                    |
-| Exit Codes   | yes      | Important exit code meanings.                |
-| Error Style  | yes      | Whether next-action errors are followed.     |
+| Script Path  | yes      | `scripts/` 아래 path.                        |
+| Test Path    | yes      | colocated test path 또는 문서화된 예외 사유. |
+| Purpose      | yes      | script가 고정하는 deterministic behavior.    |
+| Inputs       | yes      | args, env vars, stdin.                       |
+| Side Effects | yes      | local mutation 또는 remote mutation.         |
+| Exit Codes   | yes      | 중요한 exit code 의미.                       |
+| Error Style  | yes      | next-action error 준수 여부.                 |
 
-Keep metadata in `SKILL.md` when it is short. Move detailed metadata to a
-skill-local `references/` file only when it would make `SKILL.md` hard to scan.
+metadata가 짧으면 `SKILL.md`에 둔다. metadata가 길어서 `SKILL.md`를 읽기 어렵게
+만들 때만 skill-local `references/` file로 분리한다.
 
-## Follow-Up Boundaries
+## 후속 Leaf 범위
 
-This contract does not implement enforcement.
+이 문서는 enforcement를 구현하지 않는다.
 
-Follow-up leaf work owns:
+후속 leaf 범위:
 
-- validator implementation
-- CI quality gate integration
-- migration of existing skill scripts
-- adding missing colocated tests for existing scripts
-- changing the repo-local skill location from `.codex/skills` to another path
+- validator 구현
+- CI quality gate 편입
+- 기존 skill script migration
+- 기존 script에 빠진 colocated test 추가
+- repo-local skill 위치를 `.codex/skills`에서 다른 path로 바꾸는 결정
