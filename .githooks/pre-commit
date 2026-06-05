@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${BYPASS_MAIN_COMMIT_GUARD:-}" == "1" ]]; then
+  exit 0
+fi
+
+current_branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+
+if [[ "$current_branch" != "main" ]]; then
+  exit 0
+fi
+
+cat >&2 <<'MESSAGE'
+Direct commits on main are blocked.
+Create an issue worktree or task branch, then commit there.
+Emergency bypass: BYPASS_MAIN_COMMIT_GUARD=1 git commit ...
+MESSAGE
+
+exit 1
