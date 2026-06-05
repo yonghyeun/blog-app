@@ -57,6 +57,20 @@ conditions unless the policy explicitly allows the requested action.
 
 Infer the mode from the user's request and live PR/issue state. If ambiguous, choose the safer mode.
 
+## Issue Status Sync
+
+Sync issue status labels during closeout after PR and issue state are verified.
+
+- **handoff**: if the PR is open and waiting for review, ensure the issue has
+  `status:review`.
+- **merged**: after merge, issue close verification, and post-merge CI success,
+  ensure the issue is closed and has `status:done`.
+- **workspace-cleanup**: do not change issue status unless the task is already
+  terminal.
+- Remove stale `status:*` labels before adding the target status label.
+- If PR state, issue state, and requested mode disagree, stop and report the
+  inconsistency instead of syncing labels.
+
 ## Workflow
 
 1. Identify issue, PR, branch, and worktree path.
@@ -77,8 +91,9 @@ Infer the mode from the user's request and live PR/issue state. If ambiguous, ch
    - verification commands/results
    - follow-ups or risk-resolution note
    - workspace decision
-5. Decide workspace state with the policy below.
-6. If removing a worktree, use repo-local script first:
+5. Sync issue status labels according to the mode.
+6. Decide workspace state with the policy below.
+7. If removing a worktree, use repo-local script first:
 
 ```bash
 .codex/skills/task-close/scripts/worktree-remove.sh --path <path> --yes
@@ -96,14 +111,14 @@ Use force only after explicit user request:
 .codex/skills/task-close/scripts/worktree-remove.sh <path> --yes --force
 ```
 
-7. If fallback raw `git worktree remove` was required, run:
+8. If fallback raw `git worktree remove` was required, run:
 
 ```bash
 node .codex/skills/task-close/scripts/update-vscode-workspace.mjs
 git worktree prune
 ```
 
-8. Verify final state:
+9. Verify final state:
    - worktree list contains expected paths only
    - `blog-worktrees.code-workspace` reflects the same paths
    - local git status is clean for touched worktree
