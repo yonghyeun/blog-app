@@ -17,12 +17,13 @@ separate explicit step.
 
 1. `AGENTS.md`
 2. `docs/design/figma-mcp-usage.md`
-3. Source issue body and comments
-4. The matching `Figma Write Target` issue comment
+3. Source issue body and comments when the work is issue-backed
+4. The matching `Figma Write Target` issue comment, assistant message, or
+   private operator note
 
 ## Inputs
 
-- source issue number
+- source issue number, or ad-hoc target record
 - write mode from `figma-write-start`
 - target branch, duplicate, or main-checkpoint reference
 - delivered page, frame, component, and node names
@@ -30,7 +31,7 @@ separate explicit step.
 
 ## Workflow
 
-1. Re-read the matching `Figma Write Target` comment.
+1. Re-read the matching `Figma Write Target` record.
 2. Inspect the target Figma surface after the write.
 3. Verify the result stays inside the expected page, frame, or component scope.
 4. Check for obvious contract drift:
@@ -46,12 +47,30 @@ separate explicit step.
 After issue-<number>-<short-scope>
 ```
 
-6. Add a source issue comment:
+6. Record the result.
+
+For issue-backed work, add a source issue comment:
 
 ```text
 ## Figma Write Result
 
 - Issue: #<number>
+- Tracking: issue-backed
+- Mode: branch | duplicate | main-checkpoint
+- Target: <redacted branch/file URL or local-only reference>
+- Delivered nodes: <page/frame/component names and node ids>
+- Post-write checkpoint: <name or not applicable>
+- Review status: pending | accepted | abandoned
+- Merge-back notes: <branch merge, manual copy, or none>
+```
+
+For ad-hoc work, report or save this record without posting to GitHub:
+
+```text
+## Figma Write Result
+
+- Issue: none
+- Tracking: ad-hoc
 - Mode: branch | duplicate | main-checkpoint
 - Target: <redacted branch/file URL or local-only reference>
 - Delivered nodes: <page/frame/component names and node ids>
@@ -71,15 +90,16 @@ After issue-<number>-<short-scope>
 Report:
 
 - source issue
+- tracking mode
 - write mode
 - delivered nodes
 - review status
-- issue comment URL
+- issue comment URL or ad-hoc result record
 - whether `figma-branch-merge` is eligible later
 
 ## Stop Conditions
 
-- no matching `Figma Write Target` comment
+- no matching `Figma Write Target` record
 - target surface cannot be inspected
 - delivered nodes are unknown
 - write appears to have modified the wrong Figma surface

@@ -24,12 +24,12 @@ Do not infer merge approval from write completion.
 
 1. `AGENTS.md`
 2. `docs/design/figma-mcp-usage.md`
-3. Source issue body and comments
-4. Matching `Figma Write Target` and `Figma Write Result` comments
+3. Source issue body and comments when the work is issue-backed
+4. Matching `Figma Write Target` and `Figma Write Result` records
 
 ## Inputs
 
-- source issue number
+- source issue number, or ad-hoc result record
 - branch reference
 - review approval signal
 - delivered page, frame, component, and node names
@@ -69,12 +69,30 @@ Never print, commit, or post concrete values.
    - Otherwise, guide the human/operator to merge in Figma and continue with
      post-merge verification.
 9. Inspect the main file after merge when access is available.
-10. Add a source issue comment:
+10. Record the merge result.
+
+For issue-backed work, add a source issue comment:
 
 ```text
 ## Figma Branch Merge Result
 
 - Issue: #<number>
+- Tracking: issue-backed
+- Branch: <redacted branch URL or local-only reference>
+- Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
+- Merged nodes: <page/frame/component names and node ids>
+- Merge status: merged | blocked | abandoned
+- Verification: <main file inspected, human-confirmed, or blocked reason>
+- Follow-up: <none or required action>
+```
+
+For ad-hoc work, report or save this record without posting to GitHub:
+
+```text
+## Figma Branch Merge Result
+
+- Issue: none
+- Tracking: ad-hoc
 - Branch: <redacted branch URL or local-only reference>
 - Main file: FIGMA_VERTICAL_SLICE_V1_FILE_KEY
 - Merged nodes: <page/frame/component names and node ids>
@@ -88,9 +106,10 @@ Never print, commit, or post concrete values.
 Report:
 
 - source issue
+- tracking mode
 - merge status
 - verification status
-- issue comment URL
+- issue comment URL or ad-hoc merge record
 - follow-up or blocker
 
 ## Stop Conditions
