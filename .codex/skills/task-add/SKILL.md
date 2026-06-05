@@ -45,7 +45,31 @@ Fail immediately when:
    `priority:*`, and one or more `area:*`.
 6. Include scope, non-scope, acceptance criteria, dependencies when relevant, and
    completion signal.
-7. Report the issue URL, labels, relationship notes, and next action.
+7. Run `.codex/skills/task-add/scripts/create-issue.sh` for issue creation.
+8. Report the issue URL, labels, relationship notes, and next action.
+
+Do not call `gh issue create` directly for `task-add` work unless the script is
+missing or broken. The script owns label-axis validation, title/type alignment,
+kind/label alignment, leaf parent validation, issue creation, leaf sub-issue
+registration, and optional parent tracking comments.
+
+## Commands
+
+| Command                                          | When                                          | Required Args                                                                                                       | Optional Args                         | Preconditions                                                                                                            | Side Effects                                                                                                                                                            | Output                                                | Failure / Next Action                                                                                                                                                                            |
+| ------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.codex/skills/task-add/scripts/create-issue.sh` | Every issue creation mutation for this skill. | `--kind`, `--title`, `--body-file`, one `--label` for each required axis. `--parent` is required for `--kind leaf`. | `--parent-comment-file`, `--dry-run`. | `AGENTS.md` and `docs/operations/issue-system.md` read; body file already drafted; labels chosen from the repo taxonomy. | Remote mutation: creates one GitHub issue. For leaf issues, registers the issue as a GitHub sub-issue. When `--parent-comment-file` is present, comments on the parent. | Created issue URL and sub-issue registration summary. | Fix the reported argument, label, parent, or GitHub API problem before retrying. Do not fall back to direct `gh` mutation unless the script itself is broken and the degraded state is reported. |
+
+Script metadata:
+
+- Script Path: `.codex/skills/task-add/scripts/create-issue.sh`
+- Test Path: `.codex/skills/task-add/scripts/create-issue.test.sh`
+- Purpose: deterministic `task-add` issue creation and relationship mutation.
+- Inputs: flags, a Markdown issue body file, optional parent comment file.
+- Side Effects: GitHub issue creation, sub-issue registration, optional parent
+  comment.
+- Exit Codes: `0` success, `1` runtime/GitHub failure, `2` invalid usage,
+  `3` issue contract/precondition failure.
+- Error Style: next-action errors.
 
 ## `--kind umbrella`
 
@@ -63,7 +87,7 @@ Workflow:
 
 1. Build enough context to write a bounded umbrella.
 2. Confirm the issue will own sequencing, shared decisions, and closeout status.
-3. Create the GitHub issue with `kind:umbrella`.
+3. Draft a Markdown body file.
 4. Include these sections:
    - `Intended labels`
    - `Context`
@@ -73,11 +97,25 @@ Workflow:
    - `Leaf Sequence`
    - `Acceptance Criteria`
    - `Completion Signal`
-5. Add or initialize the tracking surface.
+5. Create the GitHub issue through the script:
+
+```bash
+.codex/skills/task-add/scripts/create-issue.sh \
+  --kind umbrella \
+  --title "<type>: <summary>" \
+  --body-file <body.md> \
+  --label type:<type> \
+  --label kind:umbrella \
+  --label status:intake \
+  --label priority:<p0|p1|p2|p3> \
+  --label area:<area>
+```
+
+6. Add or initialize the tracking surface.
    - The issue body may hold the first tracking surface.
    - If the plan is likely to change, add a tracking comment and say it is the
      current execution surface.
-6. Report the intended first leaf, if known.
+7. Report the intended first leaf, if known.
 
 ## `--kind leaf --parent #<umbrella>`
 
@@ -100,20 +138,34 @@ gh api repos/:owner/:repo/issues/<parent>
    - `Depends on: #<issue>` when planned order matters
    - `Blocked by: #<issue>` only when work is actually stuck
    - `Blocks: #<issue>` when this leaf must finish before another issue
-5. Create the GitHub issue with `kind:leaf`.
-6. Register the leaf as a GitHub sub-issue of the parent.
-   - Fetch the created leaf issue id.
-   - Use the REST endpoint with an integer field.
-   - The command must use `-F`, not `-f`, so `sub_issue_id` is sent as an
-     integer.
+5. Draft a parent tracking comment file when the parent should be updated in the
+   same mutation path. The comment file may use `{{issue_number}}` and
+   `{{issue_url}}` placeholders.
+6. Create the GitHub issue and register it as a sub-issue through the script:
+
+```bash
+.codex/skills/task-add/scripts/create-issue.sh \
+  --kind leaf \
+  --parent #<umbrella> \
+  --title "<type>: <summary>" \
+  --body-file <body.md> \
+  --label type:<type> \
+  --label kind:leaf \
+  --label status:intake \
+  --label priority:<p0|p1|p2|p3> \
+  --label area:<area> \
+  --parent-comment-file <comment.md>
+```
+
+The script validates the parent, creates the issue, fetches the created leaf id,
+and registers it with:
 
 ```bash
 gh api repos/:owner/:repo/issues/<parent>/sub_issues -X POST -F sub_issue_id=<leaf_issue_id>
 ```
 
-7. Update the umbrella tracking surface.
-   - Add the leaf to the current sequence or add a new tracking comment.
-   - Include summary, bounded scope, non-scope, AC summary, and dependency notes.
+7. If `--parent-comment-file` was not used, update the umbrella tracking surface
+   manually and report the degraded reason.
 8. Report whether `task-intake` should run next.
 
 ## `--kind standalone`
@@ -134,10 +186,23 @@ Workflow:
 1. Confirm the requested work does not need umbrella sequencing, shared
    decisions, or parent closeout tracking.
 2. Build the standalone issue body around exactly one bounded outcome.
-3. Create the GitHub issue with `kind:standalone`.
-4. Add relationship notation:
+3. Add relationship notation:
    - `Related: #<issue>` for informational context only
-5. Do not add `Parent` or `Sub-issue of` notation.
+4. Do not add `Parent` or `Sub-issue of` notation.
+5. Create the GitHub issue through the script:
+
+```bash
+.codex/skills/task-add/scripts/create-issue.sh \
+  --kind standalone \
+  --title "<type>: <summary>" \
+  --body-file <body.md> \
+  --label type:<type> \
+  --label kind:standalone \
+  --label status:intake \
+  --label priority:<p0|p1|p2|p3> \
+  --label area:<area>
+```
+
 6. Do not register the issue as a GitHub sub-issue.
 7. Report whether `task-intake` should run next.
 
@@ -171,9 +236,21 @@ Workflow:
 - The requested leaf has no parent umbrella.
 - The requested leaf parent is closed.
 - The requested leaf parent is not labeled `kind:umbrella`.
+- The labels fail `.codex/skills/task-add/scripts/create-issue.sh` validation.
 - The requested leaf spans multiple executable outcomes. Split it first.
 - Scope, non-scope, acceptance criteria, or completion signal is missing.
 - The sub-issue registration fails and no fallback relationship note is recorded.
+
+## Verification
+
+Run the colocated script test after changing this skill:
+
+```bash
+bash .codex/skills/task-add/scripts/create-issue.test.sh
+```
+
+For command-shape checks without remote mutation, run the script with
+`--dry-run`.
 
 ## Output
 
