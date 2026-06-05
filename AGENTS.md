@@ -24,6 +24,13 @@ Do not start implementation before the source issue passes intake.
 
 Use these repo-local skills for task lifecycle work:
 
+- Use `task-add --kind umbrella` when creating a new umbrella issue for a
+  multi-leaf workstream, slice, or risk-resolution group.
+- Use `task-add --kind leaf --parent #<umbrella>` when creating a bounded leaf
+  issue under an existing umbrella and registering it as a GitHub sub-issue.
+- Use `task-add --kind standalone` when creating a bounded issue that can exist
+  without an umbrella parent and only needs related issue references.
+- `task-add` without `--kind` must fail.
 - Use `task-intake` before implementing a non-trivial issue or task.
 - Use `task-merge` when the user says a PR can be merged or landed.
 - Use `task-close` when the user asks for closeout, task cleanup, or workspace
