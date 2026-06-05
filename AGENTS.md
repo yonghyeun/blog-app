@@ -69,6 +69,15 @@ components, or component fixtures:
 - Do not import `src/app` route files or private content repository data into stories.
 - Run `npm run storybook:build` before review.
 
+Before creating or changing Markdown documents, issue handoffs, closeout receipts,
+repo operation notes, or skill docs:
+
+- Use `korean-doc-writer`.
+- Read `docs/operations/agent-writing-style.md` when writing style decisions matter.
+- Prefer Korean-first, structured, short-sentence Markdown.
+- Use bullets and compact endings such as `완료.`, `필요.`, `리스크 존재.`,
+  and `추가 확인 필요.` when they reduce reading effort.
+
 Before using Figma MCP:
 
 - Read `docs/design/figma-mcp-usage.md`.
