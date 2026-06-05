@@ -27,6 +27,12 @@ Use a local Figma REST API token with:
 file_comments:read
 ```
 
+When reading every branch with `--all-branches`, the token also needs:
+
+```text
+file_content:read
+```
+
 Store the token only in local environment, normally `.env.local`:
 
 ```text
@@ -100,6 +106,27 @@ For a branch key:
   --as-md
 ```
 
+To discover every branch from the main file and read comments from each target:
+
+```bash
+.codex/skills/figma-comments-rest/scripts/read-comments.sh \
+  --all-branches \
+  --as-md
+```
+
+`--all-branches` changes the output shape from the native Figma
+`{"comments":[]}` response to a repo-local aggregate:
+
+```text
+{
+  "summary": {
+    "targets_count": 0,
+    "comments_count": 0
+  },
+  "targets": []
+}
+```
+
 ## Handoff Recording
 
 Record the result on the source issue or handoff surface in this shape:
@@ -128,7 +155,8 @@ If the script fails:
 - `FIGMA_VERTICAL_SLICE_V1_FILE_KEY is not set`: load `.env.local`, pass
   `--file-key <key>`, or pass `--branch-key <key>`.
 - HTTP `403`: check that the token is valid, not expired, can access the file,
-  and includes `file_comments:read`.
+  and includes `file_comments:read`. For `--all-branches`, also check
+  `file_content:read`.
 - HTTP `404`: check that the file key or branch key is correct and visible to
   the token owner.
 - Empty comments array: confirm comments exist on the target file or branch, not
