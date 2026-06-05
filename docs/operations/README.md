@@ -5,6 +5,7 @@ Repo operating contracts.
 ## Contracts
 
 - [Issue System Contract](./issue-system.md)
+- [Agent Writing Style](./agent-writing-style.md)
 - [Local Git Hooks](./local-git-hooks.md)
 - [Repo-Local Skill Contract](./repo-local-skill-contract.md)
 - [Repo-Local Skill Script Contract](./repo-local-skill-script-contract.md)
@@ -13,6 +14,8 @@ Repo operating contracts.
 ## Entry Points
 
 - Use the issue system contract before creating or executing issues.
+- Use the agent writing style guide before creating or revising repo operation
+  Markdown that should be Korean-first, structured, and easy to scan.
 - Use the repo-local skill contract before creating or changing
   `.codex/skills/*`.
 - Use the repo-local skill script contract before creating or changing scripts

@@ -51,6 +51,7 @@ git diff --check
 ## Operations
 
 - [Issue System Contract](./docs/operations/issue-system.md)
+- [Agent Writing Style](./docs/operations/agent-writing-style.md)
 - [Local Git Hooks](./docs/operations/local-git-hooks.md)
 - [Repo-Local Skill Contract](./docs/operations/repo-local-skill-contract.md)
 - [Repo-Local Skill Script Contract](./docs/operations/repo-local-skill-script-contract.md)
