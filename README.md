@@ -41,6 +41,7 @@ npm run lint
 npm run format:check
 npm run typecheck
 npm test
+npm run validate:skills
 npm run build
 npm run storybook:build
 npm run test:storybook

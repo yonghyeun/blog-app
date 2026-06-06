@@ -25,8 +25,8 @@ It uses two job groups:
 - `standard-gate`
 - `playwright-e2e`
 
-`standard-gate` runs lint, formatting, typecheck, Vitest, Next build, Storybook build,
-and Storybook UI tests.
+`standard-gate` runs lint, formatting, typecheck, Vitest, repo-local skill
+validation, Next build, Storybook build, and Storybook UI tests.
 
 `playwright-e2e` runs a matrix of public-safe Playwright suites. Each matrix entry runs
 one suite script:
@@ -49,6 +49,7 @@ npm run lint
 npm run format:check
 npm run typecheck
 npm test
+npm run validate:skills
 npm run build
 npm run storybook:build
 npm run test:storybook
@@ -122,9 +123,14 @@ Allowed:
 - public app build checks
 - lint, format, and type checks
 - Vitest module tests
+- repo-local skill contract validation
 - Storybook production build
 - Storybook story smoke, interaction, and accessibility tests
 - Playwright Chromium smoke tests
+
+`npm test` already includes `scripts/validate-skills.test.mjs` through the unit
+Vitest project. CI does not run `npm run test:skills-validator` as a separate
+step to avoid duplicating the same validator test surface.
 
 Not allowed:
 
